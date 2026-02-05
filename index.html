@@ -6,52 +6,61 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="SESI is a public benchmark measuring stress regimes in the Spanish power market.">
 
-  <!-- Favicon -->
   <link rel="icon" href="assets/img/favicon.ico" type="image/x-icon">
-
   <link rel="stylesheet" href="assets/style.css">
 </head>
 
 <body>
-  <header>
-    <!-- Paragua logo-->
-    <img
-      src="assets/img/paragua-logo.png"
-      alt="Paragua Software"
-      class="brand-logo"
-    />
 
+  <div class="nav">
+    <div class="nav-left">
+      <img class="brand-mini" src="assets/img/paragua-logo_little.png" alt="Paragua Software">
+      <div class="brand-title">
+        <strong>Paragua Market Signals</strong>
+        <span>Independent research & benchmarks</span>
+      </div>
+    </div>
+
+    <div class="nav-links">
+      <a class="btn primary" href="index.html">Home</a>
+      <a class="btn" href="dashboard.html">Dashboard</a>
+      <a class="btn" href="methodology.html">Methodology</a>
+      <a class="btn" href="data-access.html">Data access</a>
+    </div>
+  </div>
+
+  <div class="hero">
     <h1>SESI</h1>
     <h2>Spain Energy Stress Index</h2>
     <p class="subtitle">
-      A public market stress benchmark for the Spanish power market.
+      A public market stress benchmark for the Spanish power market — designed for
+      <strong>risk communication</strong> and <strong>regime monitoring</strong>.
     </p>
-  </header>
+  </div>
 
   <section>
     <h3>What is SESI?</h3>
     <p>
-      SESI is an independent market signal designed to track stress regimes in the Spanish
-      electricity market. It combines realized spot stress, structural regime distance, and
-      forward-looking market expectations into a single, interpretable framework.
+      SESI is an independent market signal designed to track stress regimes in the Spanish electricity market.
+      It combines realized spot stress, structural regime distance, and forward-looking market expectations
+      into a single, interpretable framework.
     </p>
-    <p>
-      SESI is published daily and is intended for <strong>risk communication and regime monitoring</strong>,
-      not for short-term trading.
-    </p>
+
+    <div class="callout">
+      <p style="margin:0;">
+        SESI is <strong>not</strong> a trading signal and percentiles are <strong>not</strong> probabilities.
+      </p>
+    </div>
   </section>
 
   <section>
     <h3>Today’s Snapshot</h3>
-    <p class="muted">
-      Latest values reflect market conditions as of the most recent trading day.
-    </p>
+    <p class="muted">Latest values reflect market conditions as of the most recent trading day.</p>
 
-    <!-- Context badges (OMIE/OMIP/Structural) -->
     <p>
-      <span class="badge omie">OMIE (spot)</span>
-      <span class="badge omip">OMIP (forward)</span>
-      <span class="badge structural">Structural context</span>
+      <span class="badge omie"><span class="dot"></span>OMIE (spot)</span>
+      <span class="badge omip"><span class="dot"></span>OMIP (forward)</span>
+      <span class="badge structural"><span class="dot"></span>Structural context</span>
     </p>
 
     <div class="card">
@@ -85,34 +94,41 @@
       <p class="muted" style="margin-top:12px;">
         Values will be populated automatically via daily publishing.
       </p>
+
+      <p style="margin-top:12px;">
+        <a class="btn primary" href="dashboard.html">Open dashboard</a>
+        <a class="btn" href="methodology.html">Read methodology</a>
+      </p>
     </div>
   </section>
 
   <section>
     <h3>Charts</h3>
-    <p>
-      SESI is currently published as a <strong>visual benchmark</strong>.
-      Historical dynamics are shown through canonical charts:
+    <p class="muted">
+      SESI is currently published as a visual benchmark using a rolling historical window.
+      Canonical views:
     </p>
     <ul>
-      <li>SESI vs structural stress vs expected stress</li>
-      <li>Dislocation between forward expectations and structural regime</li>
+      <li><strong>Stress dashboard</strong>: SESI vs structural vs expected stress</li>
+      <li><strong>Dislocation</strong>: expectations gap vs structural regime</li>
     </ul>
 
-    <p class="muted">
-      Charts display a rolling historical window and are updated daily.
+    <p>
+      <a class="btn green" href="dashboard.html">Go to charts</a>
     </p>
   </section>
 
   <footer>
-    <p>
+    <div>
       Developed as an independent research project using publicly available market data.
-    </p>
-    <p class="links">
-      <a href="dashboard.html">Dashboard</a> ·
-      <a href="methodology.html">Methodology</a> ·
+      No proprietary or confidential data sources are used.
+    </div>
+    <div class="footer-links">
+      <a href="dashboard.html">Dashboard</a>
+      <a href="methodology.html">Methodology</a>
       <a href="data-access.html">Data access</a>
-    </p>
+    </div>
   </footer>
+
 </body>
 </html>
