@@ -2,91 +2,94 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>SESI — Methodology</title>
+  <title>SESI - Methodology</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="assets/img/favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="assets/style.css">
 </head>
 
 <body>
-  <header>
+
+  <div class="nav">
+    <div class="nav-left">
+      <img class="brand-mini" src="assets/img/paragua-logo_little.png" alt="Paragua Software">
+      <div class="brand-title">
+        <strong>Paragua Market Signals</strong>
+        <span>Independent research & benchmarks</span>
+      </div>
+    </div>
+
+    <div class="nav-links">
+      <a class="btn" href="index.html">Home</a>
+      <a class="btn" href="dashboard.html">Dashboard</a>
+      <a class="btn primary" href="methodology.html">Methodology</a>
+      <a class="btn" href="data-access.html">Data access</a>
+    </div>
+  </div>
+
+  <div class="hero">
     <h1>Methodology</h1>
-    <p class="subtitle">High-level overview (v0.1, frozen)</p>
-  </header>
+    <h2>High-level overview (v0.1, frozen)</h2>
+    <p class="subtitle">
+      This page describes the conceptual framework and interpretation rules.
+      It intentionally avoids model internals in v0.1.
+    </p>
+  </div>
 
   <section>
     <h3>Concept</h3>
     <p>
-      SESI (Spain Energy Stress Index) measures stress regimes in the Spanish power market
-      by combining three complementary dimensions:
+      SESI measures stress regimes in the Spanish power market by combining three complementary dimensions:
     </p>
     <ol>
       <li><strong>Price level</strong> — distance from long-term historical baselines</li>
       <li><strong>Short-term tension</strong> — unusual recent price movements</li>
       <li><strong>Market turbulence</strong> — intensity of recent volatility</li>
     </ol>
-    <p>
-      These dimensions are aggregated into a daily stress signal and mapped into
-      <strong>percentile space</strong> for intuitive interpretation.
-    </p>
   </section>
 
   <section>
     <h3>Percentile interpretation</h3>
-    <p>
-      SESI is expressed as a percentile relative to its own historical distribution.
-    </p>
     <blockquote>
-      A percentile of <em>p</em> indicates that the current level of stress is lower than
-      approximately <em>(100 − p)%</em> of days in the reference period.
+      A percentile of <em>p</em> indicates that the current level of stress is lower than approximately
+      <em>(100 − p)%</em> of days in the reference period.
     </blockquote>
-    <p class="muted">
-      Percentiles represent historical ranking, not probabilities.
-    </p>
+    <p class="muted">Percentiles represent historical ranking, not probabilities.</p>
   </section>
 
   <section>
     <h3>Realized vs structural vs expected stress</h3>
+    <p>
+      SESI is published through three aligned views:
+    </p>
     <ul>
-      <li><strong>SESI</strong>: realized (spot) market stress, updated daily</li>
-      <li><strong>SESI_structural</strong>: distance from the pre-2022 structural regime</li>
-      <li><strong>Expected stress</strong>: forward-looking expectations derived from OMIP futures</li>
+      <li><strong>SESI</strong>: realized (spot) stress</li>
+      <li><strong>SESI_structural</strong>: distance vs pre-2022 regime</li>
+      <li><strong>Expected stress</strong>: forward expectations derived from OMIP futures</li>
     </ul>
     <p>
-      Comparing these dimensions allows the identification of <strong>dislocations</strong>
-      between current stress conditions and how the market prices future risk.
+      Comparing expected vs structural stress helps identify <strong>dislocations</strong>
+      between today’s regime and how the market prices future risk.
     </p>
-  </section>
-
-  <section>
-    <h3>What SESI is — and what it is not</h3>
-    <ul>
-      <li>SESI is a <strong>market regime indicator</strong></li>
-      <li>SESI is designed for <strong>risk communication and monitoring</strong></li>
-      <li>SESI is <strong>not</strong> a trading signal</li>
-      <li>SESI is <strong>not</strong> a probabilistic forecast</li>
-    </ul>
   </section>
 
   <section>
     <h3>Data sources</h3>
-    <p>
-      SESI is built exclusively using publicly available market data:
-    </p>
     <ul>
-      <li>OMIE — Spanish day-ahead power market marginal prices</li>
+      <li>OMIE — Spanish day-ahead marginal prices</li>
       <li>OMIP — Iberian power futures settlement prices (Month contracts)</li>
       <li>Yahoo Finance — continuous TTF natural gas futures (TTF=F)</li>
     </ul>
-    <p class="muted">
-      No proprietary, internal, or confidential data sources are used.
-    </p>
+    <p class="muted">No proprietary, internal, or confidential data sources are used.</p>
   </section>
 
   <footer>
-    <p class="links">
-      <a href="index.html">Home</a> ·
+    <div class="footer-links">
+      <a href="index.html">Home</a>
       <a href="dashboard.html">Dashboard</a>
-    </p>
+      <a href="data-access.html">Data access</a>
+    </div>
   </footer>
+
 </body>
 </html>
