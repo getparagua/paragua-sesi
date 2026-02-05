@@ -2,14 +2,25 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>SESI — Spain Energy Stress Index</title>
+  <title>SESI - Spain Energy Stress Index</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="SESI is a public benchmark measuring stress regimes in the Spanish power market.">
+
+  <!-- Favicon -->
+  <link rel="icon" href="assets/img/favicon.ico" type="image/x-icon">
+
   <link rel="stylesheet" href="assets/style.css">
 </head>
 
 <body>
   <header>
+    <!-- Paragua logo (small) -->
+    <img
+      src="assets/img/paragua-logo_little.png"
+      alt="Paragua Software"
+      style="height:44px; margin-bottom:10px;"
+    />
+
     <h1>SESI</h1>
     <h2>Spain Energy Stress Index</h2>
     <p class="subtitle">
@@ -36,13 +47,45 @@
       Latest values reflect market conditions as of the most recent trading day.
     </p>
 
-    <!-- Placeholder: values will be filled visually via charts / text later -->
-    <ul>
-      <li><strong>SESI (realized stress)</strong>: published daily</li>
-      <li><strong>SESI_structural</strong>: distance vs pre-2022 regime</li>
-      <li><strong>OMIP expected stress</strong>: 1–3M forward percentile</li>
-      <li><strong>Dislocation</strong>: expectations vs structural regime</li>
-    </ul>
+    <!-- Context badges (OMIE/OMIP/Structural) -->
+    <p>
+      <span class="badge omie">OMIE (spot)</span>
+      <span class="badge omip">OMIP (forward)</span>
+      <span class="badge structural">Structural context</span>
+    </p>
+
+    <div class="card">
+      <div class="card-title">
+        <strong>Today’s Snapshot</strong>
+        <span class="muted">visual benchmark (v0.1)</span>
+      </div>
+
+      <div class="kpi-grid">
+        <div class="kpi omie">
+          <div class="label">SESI (realized)</div>
+          <div class="value">—</div>
+        </div>
+
+        <div class="kpi structural">
+          <div class="label">SESI_structural</div>
+          <div class="value">—</div>
+        </div>
+
+        <div class="kpi omip">
+          <div class="label">OMIP expected (pct)</div>
+          <div class="value">—</div>
+        </div>
+
+        <div class="kpi dislocation">
+          <div class="label">Dislocation D (pp)</div>
+          <div class="value">—</div>
+        </div>
+      </div>
+
+      <p class="muted" style="margin-top:12px;">
+        Values will be populated automatically via daily publishing.
+      </p>
+    </div>
   </section>
 
   <section>
