@@ -1,3 +1,10 @@
+:root{
+  --omie: #1f74c9;   /* blu Paragua / OMIE */
+  --omip: #86c440;   /* verde Paragua / OMIP */
+  --border: #eee;
+  --muted: #666;
+}
+
 body {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   max-width: 900px;
@@ -5,6 +12,16 @@ body {
   padding: 0 20px;
   line-height: 1.6;
   color: #111;
+}
+
+header{
+  text-align: center;
+}
+
+.brand-logo{
+  height: 78px;      /* prova 72–88 */
+  margin-bottom: 12px;
+  opacity: 0.95;
 }
 
 header h1 {
@@ -26,7 +43,7 @@ h3 {
 }
 
 .muted {
-  color: #666;
+  color: var(--muted);
   font-size: 0.9em;
 }
 
@@ -37,14 +54,74 @@ blockquote {
   color: #333;
 }
 
+/* --- Badges --- */
+.badge{
+  display: inline-block;
+  font-size: 0.82em;
+  padding: 3px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: #f8fafc;
+  margin-right: 8px;
+}
+.badge.omie{ border-color: rgba(31,116,201,0.35); }
+.badge.omip{ border-color: rgba(134,196,64,0.40); }
+.badge.structural{ border-color: #cbd5e1; }
+
+/* --- Card + KPIs --- */
+.card{
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 14px 16px;
+  background: #fff;
+}
+
+.card-title{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom: 10px;
+}
+
+.kpi-grid{
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.kpi{
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 10px 12px;
+}
+
+.kpi .label{
+  font-size: 0.85em;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+
+.kpi .value{
+  font-size: 1.35em;
+  font-weight: 700;
+}
+
+.kpi.omie .value{ color: var(--omie); }
+.kpi.omip .value{ color: var(--omip); }
+.kpi.structural .value{ color: #334155; }
+.kpi.dislocation .value{ color: #b45309; }
+
 footer {
   margin-top: 60px;
   padding-top: 20px;
-  border-top: 1px solid #eee;
+  border-top: 1px solid var(--border);
   font-size: 0.9em;
 }
 
 footer .links a {
   text-decoration: none;
   color: #444;
+}
+footer .links a:hover{
+  text-decoration: underline;
 }
