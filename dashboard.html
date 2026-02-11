@@ -4,10 +4,49 @@
   <meta charset="UTF-8">
   <title>SESI - Dashboard</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="SESI dashboard: stress and dislocation charts.">
+  <meta name="description" content="SESI dashboard: realized vs structural vs expected stress, and dislocation.">
 
   <link rel="icon" href="assets/img/favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="assets/style.css">
+
+  <style>
+    .frame-wrap{
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+    .chart-frame{
+      width: 100%;
+      height: 520px;
+      border: 0;
+      display: block;
+      background: white;
+    }
+    @media (max-width: 720px){
+      .chart-frame{ height: 460px; }
+    }
+    .chart-caption{
+      padding: 12px 14px;
+      border-top: 1px solid var(--border);
+      background: var(--surface);
+    }
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap: 8px;
+      font-size: 0.84em;
+      padding: 5px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: var(--surface-2);
+      margin-right: 8px;
+      margin-top: 6px;
+      flex-wrap: wrap;
+    }
+    .pill strong{ font-weight: 750; }
+  </style>
 </head>
 
 <body>
@@ -31,38 +70,69 @@
 
   <div class="hero">
     <h1>Dashboard</h1>
-    <h2>Canonical views (last 180 days)</h2>
+    <h2>Canonical views (v0.1, frozen)</h2>
     <p class="subtitle">
-      The charts below are published as static HTML artifacts (Plotly) generated daily by the private engine.
-      Use them for <strong>regime monitoring</strong>, not trading.
+      Realized stress (SESI), structural regime distance (SESI_structural), and forward expectations (OMIP expected percentile),
+      plus the expectations gap (“Dislocation”).
     </p>
+
+    <div class="pill" id="todayPill">Loading today…</div>
   </div>
 
   <section>
     <h3>Stress dashboard</h3>
     <p class="muted">
-      Realized stress (SESI), structural regime distance (SESI_structural), and expected stress (OMIP percentile).
+      Percentiles are historical rankings (0–100), not probabilities.
+      The key reading is the relative alignment of <strong>Realized</strong>, <strong>Structural</strong>, and <strong>Expected</strong>.
     </p>
-    <div class="card">
+
+    <div class="frame-wrap">
       <iframe
+        class="chart-frame"
         src="assets/charts/stress.html"
-        style="width:100%; height:560px; border:0; border-radius:12px;"
+        title="SESI stress chart"
         loading="lazy"
-        title="SESI Stress Chart"></iframe>
+      ></iframe>
+
+      <div class="chart-caption">
+        <div class="muted"><strong>How to read</strong></div>
+        <ul>
+          <li><strong>SESI (realized)</strong>: what is happening now in spot (daily stress percentile).</li>
+          <li><strong>SESI_structural</strong>: how far the system is from the pre-2022 regime (context, not a trading rule).</li>
+          <li><strong>OMIP expected (pct)</strong>: what the market is pricing for the next months (forward stress percentile vs pre-2022).</li>
+        </ul>
+        <p class="muted" style="margin-top:10px;">
+          When structural is high but expected is low, the market is <strong>discounting</strong> structural tightness (normalization priced).
+          The opposite is a <strong>risk bid</strong>.
+        </p>
+      </div>
     </div>
   </section>
 
   <section>
     <h3>Dislocation</h3>
     <p class="muted">
-      Dislocation is defined as <strong>OMIP expected percentile − SESI_structural</strong> (percentile points).
+      Dislocation is defined as:
+      <strong>D = OMIP_expected_percentile − SESI_structural</strong> (percentile points).
+      Positive = forward pricing above structural regime. Negative = forward pricing below it.
     </p>
-    <div class="card">
+
+    <div class="frame-wrap">
       <iframe
+        class="chart-frame"
         src="assets/charts/dislocation.html"
-        style="width:100%; height:560px; border:0; border-radius:12px;"
+        title="SESI dislocation chart"
         loading="lazy"
-        title="SESI Dislocation Chart"></iframe>
+      ></iframe>
+
+      <div class="chart-caption">
+        <div class="muted"><strong>How to read</strong></div>
+        <ul>
+          <li><strong>D ≤ −25</strong>: strong discounting (forward pricing normalization).</li>
+          <li><strong>D ≥ +25</strong>: risk bid (forward pricing additional stress vs structural).</li>
+          <li><strong>|D| ≥ 15</strong>: dislocated (signal is meaningfully away from “aligned”).</li>
+        </ul>
+      </div>
     </div>
   </section>
 
@@ -73,6 +143,45 @@
       <a href="data-access.html">Data access</a>
     </div>
   </footer>
+
+  <script>
+    function fmtNum(x, decimals){
+      if (x === null || x === undefined) return "-";
+      if (typeof x !== "number") return String(x);
+      return x.toFixed(decimals);
+    }
+
+    (async function(){
+      try{
+        const res = await fetch("assets/public/today.json", { cache: "no-store" });
+        if (!res.ok) throw new Error("today.json not found");
+        const d = await res.json();
+
+        const date = d.asof_date || d.date || "-";
+        const sesi = (typeof d.SESI === "number") ? d.SESI : null;
+        const structural = (typeof d.SESI_structural === "number") ? d.SESI_structural : null;
+
+        const omipPct = (d.OMIP && typeof d.OMIP.omip_exp_pct_pre2022 === "number")
+          ? d.OMIP.omip_exp_pct_pre2022 : null;
+
+        const disloc = (d.OMIP && typeof d.OMIP.dislocation_pct_pts === "number")
+          ? d.OMIP.dislocation_pct_pts : null;
+
+        const label = (d.OMIP && d.OMIP.decision_label) ? d.OMIP.decision_label : (d.regime || "");
+        const flags = (d.OMIP && Array.isArray(d.OMIP.regime_flags))
+          ? d.OMIP.regime_flags
+          : (Array.isArray(d.regime_flags) ? d.regime_flags : []);
+
+        let txt = `<strong>${date}</strong> · SESI ${fmtNum(sesi,1)} · Structural ${fmtNum(structural,1)} · OMIP ${fmtNum(omipPct,1)} · D ${(disloc===null)?"-":(disloc>=0?"+":"")+fmtNum(disloc,1)}`;
+        if (label) txt += ` · <strong>${label}</strong>`;
+        if (flags.length) txt += ` · ${flags.join(" | ")}`;
+
+        document.getElementById("todayPill").innerHTML = txt;
+      }catch(e){
+        document.getElementById("todayPill").textContent = "Today snapshot not available yet.";
+      }
+    })();
+  </script>
 
 </body>
 </html>
