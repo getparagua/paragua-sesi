@@ -59,7 +59,7 @@
 
     <p>
       <span class="badge omie"><span class="dot"></span>OMIE (spot)</span>
-      <span class="badge omip"><span class="dot"></span>OMIP (forward)</span>
+      <span class="badge omip"><span class="dot"></span>OMIP (fwd expectations)</span>
       <span class="badge structural"><span class="dot"></span>Structural context</span>
     </p>
 
@@ -71,22 +71,23 @@
 
       <div class="kpi-grid">
         <div class="kpi omie">
-          <div class="label">SESI (realized)</div>
+          <div class="label">SESI (realized, pct)</div>
           <div class="value" id="kpiSESI">-</div>
         </div>
 
         <div class="kpi structural">
-          <div class="label">SESI_structural</div>
+          <div class="label">SESI_structural (pct)</div>
           <div class="value" id="kpiStructural">-</div>
         </div>
 
         <div class="kpi omip">
-          <div class="label">OMIP expected (pct)</div>
+          <div class="label">Expected stress (OMIP, pct)</div>
           <div class="value" id="kpiOMIP">-</div>
+          <div class="muted" style="margin-top:6px;" id="omipLevel">—</div>
         </div>
 
         <div class="kpi dislocation">
-          <div class="label">Dislocation D (pp)</div>
+          <div class="label">Dislocation D (pct pts)</div>
           <div class="value" id="kpiD">-</div>
         </div>
       </div>
@@ -94,6 +95,20 @@
       <p class="muted" style="margin-top:12px;" id="snapshotStatus">
         Values will be populated automatically via daily publishing.
       </p>
+
+      <!-- Market note -->
+      <div style="margin-top:14px;">
+        <div class="muted" style="margin-bottom:6px;"><strong>Market note</strong></div>
+
+        <div class="callout">
+          <div id="noteShort" style="white-space:pre-wrap;">—</div>
+
+          <details style="margin-top:10px;">
+            <summary style="cursor:pointer;">Read the full note (verbose)</summary>
+            <div id="noteVerbose" class="muted" style="margin-top:10px; white-space:pre-wrap;">—</div>
+          </details>
+        </div>
+      </div>
 
       <p style="margin-top:12px;">
         <a class="btn primary" href="dashboard.html">Open dashboard</a>
@@ -143,27 +158,51 @@
         if (!res.ok) throw new Error("today.json not found");
         const d = await res.json();
 
-        // Values
         const sesi = (typeof d.SESI === "number") ? d.SESI : null;
         const structural = (typeof d.SESI_structural === "number") ? d.SESI_structural : null;
-        const omipPct = (d.OMIP && typeof d.OMIP.omip_exp_pct_pre2022 === "number") ? d.OMIP.omip_exp_pct_pre2022 : null;
-        const disloc = (d.OMIP && typeof d.OMIP.dislocation_pct_pts === "number") ? d.OMIP.dislocation_pct_pts : null;
+
+        const omipPct = (d.OMIP && typeof d.OMIP.omip_exp_pct_pre2022 === "number")
+          ? d.OMIP.omip_exp_pct_pre2022 : null;
+
+        const disloc = (d.OMIP && typeof d.OMIP.dislocation_pct_pts === "number")
+          ? d.OMIP.dislocation_pct_pts : null;
+
+        const omipAvg = (d.OMIP && typeof d.OMIP.omip_1_3m_avg === "number")
+          ? d.OMIP.omip_1_3m_avg : null;
+
+        const omipAsof = (d.OMIP && d.OMIP.asof) ? d.OMIP.asof : (d.omip_asof || null);
 
         document.getElementById("kpiSESI").textContent = fmtNum(sesi, 1);
         document.getElementById("kpiStructural").textContent = fmtNum(structural, 1);
         document.getElementById("kpiOMIP").textContent = fmtNum(omipPct, 1);
-        document.getElementById("kpiD").textContent = (disloc === null) ? "-" : (disloc >= 0 ? "+" : "") + fmtNum(disloc, 1);
+        document.getElementById("kpiD").textContent =
+          (disloc === null) ? "-" : (disloc >= 0 ? "+" : "") + fmtNum(disloc, 1);
+
+        // OMIP level line
+        if (omipAvg !== null && omipAsof) {
+          document.getElementById("omipLevel").textContent =
+            `OMIP 1–3M avg: ${fmtNum(omipAvg, 1)} €/MWh (as of ${omipAsof})`;
+        } else {
+          document.getElementById("omipLevel").textContent = "—";
+        }
 
         // As-of
-        const asof = d.date || d.asof_date || null;
+        const asof = d.asof_date || d.date || null;
         if (asof) {
           document.getElementById("asofText").textContent =
             `Latest values reflect market conditions as of ${asof}.`;
         }
 
-        // Status line (optional)
+        // Notes
+        if (d.note_short) document.getElementById("noteShort").textContent = d.note_short;
+        if (d.note_verbose) document.getElementById("noteVerbose").textContent = d.note_verbose;
+
+        // Status line
         const label = (d.OMIP && d.OMIP.decision_label) ? d.OMIP.decision_label : (d.regime || null);
-        const flags = (d.OMIP && Array.isArray(d.OMIP.regime_flags)) ? d.OMIP.regime_flags : (Array.isArray(d.regime_flags) ? d.regime_flags : []);
+        const flags = (d.OMIP && Array.isArray(d.OMIP.regime_flags))
+          ? d.OMIP.regime_flags
+          : (Array.isArray(d.regime_flags) ? d.regime_flags : []);
+
         let status = "Auto-updated daily.";
         if (label) {
           status = `Auto-updated daily. Regime: ${label}` + (flags.length ? ` | ${flags.join(" | ")}` : "");
@@ -172,7 +211,6 @@
 
       } catch (e) {
         console.log("Snapshot not available yet:", e);
-        // leave placeholders
       }
     })();
   </script>
