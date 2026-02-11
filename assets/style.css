@@ -258,3 +258,13 @@ footer{
   gap: 10px;
   flex-wrap: wrap;
 }
+
+details.verbose summary{
+  cursor:pointer;
+  user-select:none;
+  color: var(--paragua-blue-dark);
+  font-size: 0.95em;
+}
+details.verbose summary:hover{
+  text-decoration: underline;
+}
