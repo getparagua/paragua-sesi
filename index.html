@@ -59,7 +59,7 @@
 
     <p>
       <span class="badge omie"><span class="dot"></span>OMIE (spot)</span>
-      <span class="badge omip"><span class="dot"></span>OMIP (fwd expectations)</span>
+      <span class="badge omip"><span class="dot"></span>OMIP (expected, pct)</span>
       <span class="badge structural"><span class="dot"></span>Structural context</span>
     </p>
 
@@ -103,9 +103,10 @@
         <div class="callout">
           <div id="noteShort" style="white-space:pre-wrap;">—</div>
 
-          <details style="margin-top:10px;">
-            <summary style="cursor:pointer;">Read the full note (verbose)</summary>
-            <div id="noteVerbose" class="muted" style="margin-top:10px; white-space:pre-wrap;">—</div>
+          <details class="verbose" style="margin-top:10px;">
+            <summary>Read the full note (verbose)</summary>
+            <!-- we render HTML here -->
+            <div id="noteVerbose" class="muted" style="margin-top:10px; white-space:normal; line-height:1.7;">—</div>
           </details>
         </div>
       </div>
@@ -186,7 +187,7 @@
           document.getElementById("omipLevel").textContent = "—";
         }
 
-        // As-of
+        // As-of line
         const asof = d.asof_date || d.date || null;
         if (asof) {
           document.getElementById("asofText").textContent =
@@ -194,8 +195,27 @@
         }
 
         // Notes
-        if (d.note_short) document.getElementById("noteShort").textContent = d.note_short;
-        if (d.note_verbose) document.getElementById("noteVerbose").textContent = d.note_verbose;
+        // Short note: prefer note_short; fallback to a compact line we can build.
+        if (typeof d.note_short === "string" && d.note_short.trim()) {
+          document.getElementById("noteShort").textContent = d.note_short;
+        } else {
+          document.getElementById("noteShort").textContent = "—";
+        }
+
+        // Verbose note:
+        // Prefer HTML (note_verbose_html). Fallback to markdown/plain text.
+        const vHtml = (typeof d.note_verbose_html === "string") ? d.note_verbose_html : null;
+        const vMd = (typeof d.note_verbose_md === "string") ? d.note_verbose_md : (typeof d.note_verbose === "string" ? d.note_verbose : null);
+
+        const elVerbose = document.getElementById("noteVerbose");
+        if (vHtml && vHtml.trim()) {
+          elVerbose.innerHTML = vHtml;
+        } else if (vMd && vMd.trim()) {
+          elVerbose.textContent = vMd;
+          elVerbose.style.whiteSpace = "pre-wrap";
+        } else {
+          elVerbose.textContent = "—";
+        }
 
         // Status line
         const label = (d.OMIP && d.OMIP.decision_label) ? d.OMIP.decision_label : (d.regime || null);
