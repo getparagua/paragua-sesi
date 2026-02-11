@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <title>SESI - Dashboard</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="SESI dashboard: stress and dislocation charts.">
+
   <link rel="icon" href="assets/img/favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="assets/style.css">
 </head>
@@ -29,38 +31,38 @@
 
   <div class="hero">
     <h1>Dashboard</h1>
-    <h2>Canonical charts (rolling window)</h2>
+    <h2>Canonical views (last 180 days)</h2>
     <p class="subtitle">
-      Charts will be embedded here via daily publishing (Plotly HTML or static images).
-      No raw downloads in v0.1.
+      The charts below are published as static HTML artifacts (Plotly) generated daily by the private engine.
+      Use them for <strong>regime monitoring</strong>, not trading.
     </p>
   </div>
 
   <section>
     <h3>Stress dashboard</h3>
+    <p class="muted">
+      Realized stress (SESI), structural regime distance (SESI_structural), and expected stress (OMIP percentile).
+    </p>
     <div class="card">
-      <p class="muted" style="margin-top:0;">
-        SESI (spot) vs SESI_structural vs OMIP expected percentile.
-      </p>
-      <div class="callout">
-        <p style="margin:0;">
-          Placeholder: <strong>stress_chart.html</strong> will be embedded here.
-        </p>
-      </div>
+      <iframe
+        src="assets/charts/stress.html"
+        style="width:100%; height:560px; border:0; border-radius:12px;"
+        loading="lazy"
+        title="SESI Stress Chart"></iframe>
     </div>
   </section>
 
   <section>
     <h3>Dislocation</h3>
+    <p class="muted">
+      Dislocation is defined as <strong>OMIP expected percentile − SESI_structural</strong> (percentile points).
+    </p>
     <div class="card">
-      <p class="muted" style="margin-top:0;">
-        Dislocation D = OMIP percentile − SESI_structural (pp), with thresholds ±15 / ±25.
-      </p>
-      <div class="callout">
-        <p style="margin:0;">
-          Placeholder: <strong>dislocation_chart.html</strong> will be embedded here.
-        </p>
-      </div>
+      <iframe
+        src="assets/charts/dislocation.html"
+        style="width:100%; height:560px; border:0; border-radius:12px;"
+        loading="lazy"
+        title="SESI Dislocation Chart"></iframe>
     </div>
   </section>
 
