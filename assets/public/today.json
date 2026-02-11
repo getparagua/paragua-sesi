@@ -1,1 +1,28 @@
-today
+{
+  "date": "2026-02-12",
+  "SESI": 74.4,
+  "SESI_structural": 90.8,
+  "bucket": "elevated",
+  "structural_bucket": "very tight",
+  "regime": "ELEVATED",
+  "regime_flags": [
+    "STRUCTURALLY_TIGHT",
+    "DISLOCATED",
+    "DISCOUNTING"
+  ],
+  "OMIP": {
+    "asof": "2026-02-12",
+    "omip_1_3m_avg": 29.507,
+    "omip_exp_pct_pre2022": 3.29,
+    "omip_expected_bucket": "very low",
+    "dislocation_pct_pts": -87.511,
+    "dislocation_label": "Forward << Structural (strong discounting)",
+    "decision_label": "ELEVATED",
+    "regime_flags": [
+      "STRUCTURALLY_TIGHT",
+      "DISLOCATED",
+      "DISCOUNTING"
+    ],
+    "omip_curve_slope_1v3": -15.94
+  }
+}
