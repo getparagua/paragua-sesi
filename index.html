@@ -13,28 +13,27 @@
 <body>
 
   <div class="nav">
-   <div class="nav-left">
+    <div class="nav-left">
       <img class="brand-mini" src="assets/img/paragua-logo_little.png" alt="Paragua Software">
       <div class="brand-title">
-       <strong>Paragua Market Signals</strong>
-       <span>Independent research & benchmarks</span>
+        <strong>Paragua Market Signals</strong>
+        <span>Independent research & benchmarks</span>
       </div>
     </div>
 
-   <div class="nav-links">
+    <div class="nav-links">
       <a class="btn primary" href="index.html">Home</a>
-     <a class="btn" href="dashboard.html">Dashboard</a>
+      <a class="btn" href="dashboard.html">Dashboard</a>
       <a class="btn" href="methodology.html">Methodology</a>
       <a class="btn" href="data-access.html">Data access</a>
     </div>
   </div>
 
-
   <div class="hero">
     <h1>SESI</h1>
     <h2>Spain Energy Stress Index</h2>
     <p class="subtitle">
-      A public market stress benchmark for the Spanish power market — designed for
+      A public market stress benchmark for the Spanish power market, designed for
       <strong>risk communication</strong> and <strong>regime monitoring</strong>.
     </p>
   </div>
@@ -56,7 +55,7 @@
 
   <section>
     <h3>Today’s Snapshot</h3>
-    <p class="muted">Latest values reflect market conditions as of the most recent trading day.</p>
+    <p class="muted" id="asofText">Latest values reflect market conditions as of the most recent trading day.</p>
 
     <p>
       <span class="badge omie"><span class="dot"></span>OMIE (spot)</span>
@@ -73,26 +72,26 @@
       <div class="kpi-grid">
         <div class="kpi omie">
           <div class="label">SESI (realized)</div>
-          <div class="value">—</div>
+          <div class="value" id="kpiSESI">-</div>
         </div>
 
         <div class="kpi structural">
           <div class="label">SESI_structural</div>
-          <div class="value">—</div>
+          <div class="value" id="kpiStructural">-</div>
         </div>
 
         <div class="kpi omip">
           <div class="label">OMIP expected (pct)</div>
-          <div class="value">—</div>
+          <div class="value" id="kpiOMIP">-</div>
         </div>
 
         <div class="kpi dislocation">
           <div class="label">Dislocation D (pp)</div>
-          <div class="value">—</div>
+          <div class="value" id="kpiD">-</div>
         </div>
       </div>
 
-      <p class="muted" style="margin-top:12px;">
+      <p class="muted" style="margin-top:12px;" id="snapshotStatus">
         Values will be populated automatically via daily publishing.
       </p>
 
@@ -130,6 +129,53 @@
       <a href="data-access.html">Data access</a>
     </div>
   </footer>
+
+  <script>
+    function fmtNum(x, decimals) {
+      if (x === null || x === undefined) return "-";
+      if (typeof x !== "number") return String(x);
+      return x.toFixed(decimals);
+    }
+
+    (async function () {
+      try {
+        const res = await fetch("assets/public/today.json", { cache: "no-store" });
+        if (!res.ok) throw new Error("today.json not found");
+        const d = await res.json();
+
+        // Values
+        const sesi = (typeof d.SESI === "number") ? d.SESI : null;
+        const structural = (typeof d.SESI_structural === "number") ? d.SESI_structural : null;
+        const omipPct = (d.OMIP && typeof d.OMIP.omip_exp_pct_pre2022 === "number") ? d.OMIP.omip_exp_pct_pre2022 : null;
+        const disloc = (d.OMIP && typeof d.OMIP.dislocation_pct_pts === "number") ? d.OMIP.dislocation_pct_pts : null;
+
+        document.getElementById("kpiSESI").textContent = fmtNum(sesi, 1);
+        document.getElementById("kpiStructural").textContent = fmtNum(structural, 1);
+        document.getElementById("kpiOMIP").textContent = fmtNum(omipPct, 1);
+        document.getElementById("kpiD").textContent = (disloc === null) ? "-" : (disloc >= 0 ? "+" : "") + fmtNum(disloc, 1);
+
+        // As-of
+        const asof = d.date || d.asof_date || null;
+        if (asof) {
+          document.getElementById("asofText").textContent =
+            `Latest values reflect market conditions as of ${asof}.`;
+        }
+
+        // Status line (optional)
+        const label = (d.OMIP && d.OMIP.decision_label) ? d.OMIP.decision_label : (d.regime || null);
+        const flags = (d.OMIP && Array.isArray(d.OMIP.regime_flags)) ? d.OMIP.regime_flags : (Array.isArray(d.regime_flags) ? d.regime_flags : []);
+        let status = "Auto-updated daily.";
+        if (label) {
+          status = `Auto-updated daily. Regime: ${label}` + (flags.length ? ` | ${flags.join(" | ")}` : "");
+        }
+        document.getElementById("snapshotStatus").textContent = status;
+
+      } catch (e) {
+        console.log("Snapshot not available yet:", e);
+        // leave placeholders
+      }
+    })();
+  </script>
 
 </body>
 </html>
