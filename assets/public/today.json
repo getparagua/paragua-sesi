@@ -1,4 +1,5 @@
 {
+  "asof_date": "2026-02-12",
   "date": "2026-02-12",
   "SESI": 74.4,
   "SESI_structural": 90.8,
@@ -10,6 +11,8 @@
     "DISLOCATED",
     "DISCOUNTING"
   ],
+  "note_short": "2026-02-12 \u2014 SESI Update\n\nRealized (spot): SESI = 74 (elevated)\nStructural context: SESI_structural = 91 (very tight, vs pre-2022)\nRegime: ELEVATED | STRUCTURALLY_TIGHT | DISLOCATED | DISCOUNTING\n\nExpected stress (OMIP, 1\u20133M)\nAs of: 2026-02-12 | OMIP 1\u20133M avg: 29.5 \u20ac/MWh\nExpected stress percentile (vs pre-2022): 3 (very low)\nDislocation vs SESI_structural: -87.5 pct pts \u2014 Forward << Structural (strong discounting)\n",
+  "note_verbose": "2026-02-12 \u2014 SESI Market Note\n\nHere\u2019s the snapshot as of 2026-02-12.\n\n1) Realized stress (spot)\n- SESI (daily stress percentile) is 74 (elevated).\n- Structural context (vs pre-2022) is 91 (very tight).\n- Regime: ELEVATED | STRUCTURALLY_TIGHT | DISLOCATED | DISCOUNTING.\n\nHow to read it:\nSESI is a *historical percentile* (ranking), not a probability. A percentile of p means the current level is lower than roughly (100\u2212p)% of the days in the reference set.\nSESI tells you what\u2019s happening now in spot; SESI_structural tells you whether the background regime is still tight vs pre-2022.\n\n2) Expected stress (OMIP, forward 1\u20133M)\n- As of 2026-02-12, OMIP 1\u20133M average is 29.5 \u20ac/MWh.\n- Expected stress percentile (vs pre-2022): 3 (very low).\n  A percentile of 3 indicates that the current level of forward stress is lower than that observed on approximately 97% of the days in the pre-2022 reference period.\n- Dislocation (Expected \u2212 Structural): -87.5 pct points \u2192 Forward << Structural (strong discounting).\n- Decision-grade label: ELEVATED.\n\nWhy this matters:\nSESI is what\u2019s realized today; OMIP is what\u2019s priced for the next months. The insight is the gap between expected and structural.\n\nInterpretation: Forward is discounting structural tightness (D = -88 pct pts).\n",
   "OMIP": {
     "asof": "2026-02-12",
     "omip_1_3m_avg": 29.507,
@@ -24,5 +27,6 @@
       "DISCOUNTING"
     ],
     "omip_curve_slope_1v3": -15.94
-  }
+  },
+  "omip_asof": "2026-02-12"
 }
