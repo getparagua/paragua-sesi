@@ -1,1 +1,31 @@
-keep
+{
+  "thr": 80.0,
+  "rows": [
+    {
+      "Quadrant": "Calm",
+      "Days (N)": 891,
+      "Median 7D max move (\u20ac/MWh)": 11.428333333333327,
+      "Median 30D spike freq (|\u0394P|>20\u20ac/MWh)": 0.0
+    },
+    {
+      "Quadrant": "Latent risk",
+      "Days (N)": 1064,
+      "Median 7D max move (\u20ac/MWh)": 40.49968750000001,
+      "Median 30D spike freq (|\u0394P|>20\u20ac/MWh)": 0.3
+    },
+    {
+      "Quadrant": "Realized stress",
+      "Days (N)": 48,
+      "Median 7D max move (\u20ac/MWh)": 23.27416666666667,
+      "Median 30D spike freq (|\u0394P|>20\u20ac/MWh)": 0.1
+    },
+    {
+      "Quadrant": "Full crisis",
+      "Days (N)": 594,
+      "Median 7D max move (\u20ac/MWh)": 41.88166666666668,
+      "Median 30D spike freq (|\u0394P|>20\u20ac/MWh)": 0.3333333333333333
+    }
+  ],
+  "source": "data/validation/quadrants_summary.csv",
+  "note": "Historical conditional stats (descriptive, not forecasts)."
+}
