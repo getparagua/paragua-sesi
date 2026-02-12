@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <title>SESI - Data Access</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="SESI data access: what is public in v0.1 and what is not.">
   <link rel="icon" href="assets/img/favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="assets/style.css">
 </head>
@@ -29,26 +30,90 @@
 
   <div class="hero">
     <h1>Data Access</h1>
-    <h2>v0.1: visual benchmark only</h2>
+    <h2>v0.1: benchmark artifacts (no raw dataset)</h2>
     <p class="subtitle">
-      SESI is currently published as a visual market benchmark.
-      At this stage, SESI is not distributed as a downloadable dataset.
+      SESI is published as a <strong>visual market benchmark</strong> and a small set of
+      <strong>public benchmark artifacts</strong>. It is not distributed as a full historical dataset in v0.1.
     </p>
   </div>
 
   <section>
-    <h3>Why no CSV / API in v0.1?</h3>
+    <h3>What is public in v0.1?</h3>
     <p>
-      This is a deliberate product choice. SESI is designed as a
-      <strong>market signal and communication tool</strong>, not as a raw data dump.
+      v0.1 is intentionally lightweight. We publish a small set of artifacts that make SESI easy to read
+      and easy to reference without turning it into a raw data dump.
+    </p>
+
+    <div class="callout">
+      <p style="margin:0;">
+        These artifacts are meant for <strong>interpretation and communication</strong>.
+        They do not provide full time-series data.
+      </p>
+    </div>
+
+    <ul>
+      <li>
+        <strong>Today snapshot (JSON)</strong> —
+        current SESI, structural context, expected stress (OMIP), dislocation, and a human-readable note.
+        <div class="muted" style="margin-top:6px;">
+          File: <code>assets/public/today.json</code>
+        </div>
+      </li>
+
+      <li style="margin-top:12px;">
+        <strong>Validation summary (JSON)</strong> —
+        a small “what usually happens next” table by regime (medians + sample sizes).
+        <div class="muted" style="margin-top:6px;">
+          File: <code>assets/public/validation_summary.json</code>
+        </div>
+      </li>
+
+      <li style="margin-top:12px;">
+        <strong>Charts (HTML)</strong> —
+        canonical visual views for stress, dislocation, and validation.
+        <div class="muted" style="margin-top:6px;">
+          Files: <code>assets/charts/stress.html</code>, <code>assets/charts/dislocation.html</code>, <code>assets/charts/validation.html</code>
+        </div>
+      </li>
+
+      <li style="margin-top:12px;">
+        <strong>Optional: regime table (CSV, aggregated)</strong> —
+        a small summary table (not a time series) used to support the validation chart.
+        <div class="muted" style="margin-top:6px;">
+          File: <code>assets/public/quadrants_summary.csv</code> (if published)
+        </div>
+      </li>
+    </ul>
+
+    <p style="margin-top:12px;">
+      <a class="btn" href="assets/public/today.json">Open today.json</a>
+      <a class="btn" href="assets/public/validation_summary.json">Open validation_summary.json</a>
+      <a class="btn" href="dashboard.html#validation">See validation chart</a>
+    </p>
+  </section>
+
+  <section>
+    <h3>What is NOT public in v0.1?</h3>
+    <p>
+      SESI v0.1 does <strong>not</strong> provide:
+    </p>
+    <ul>
+      <li>full historical SESI time series for download</li>
+      <li>raw OMIE / OMIP curated datasets</li>
+      <li>an API or real-time feed</li>
+    </ul>
+
+    <p class="muted">
+      This is a deliberate product choice: SESI is designed as a benchmark and communication tool,
+      not as a raw market data distribution channel.
     </p>
   </section>
 
   <section>
     <h3>Future availability</h3>
     <p>
-      Historical datasets and programmatic access (API) may be introduced in a future release.
-      Extended history and feeds may be granted selectively for <strong>research or institutional use</strong>.
+      Historical datasets, higher-frequency updates, and programmatic access (API) may be introduced in a future release.
+      Extended access may be granted selectively for <strong>research or institutional use</strong>.
     </p>
     <p class="muted">
       If you are interested in early access, please get in touch.
