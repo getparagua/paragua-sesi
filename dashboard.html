@@ -37,7 +37,7 @@
       align-items:center;
       gap: 8px;
       font-size: 0.84em;
-      padding: 5px 10px;
+      padding: 6px 10px;
       border-radius: 999px;
       border: 1px solid var(--border);
       background: var(--surface-2);
@@ -168,8 +168,11 @@
         </p>
 
         <p style="margin-top:10px;">
-          <a class="btn" href="assets/validation/quadrants_summary.csv">Download regime table (CSV)</a>
-          <a class="btn" href="assets/public/validation_summary.json">Download summary (JSON)</a>
+          <a class="btn" href="assets/public/validation_summary.json">Open validation summary (JSON)</a>
+          <!-- Optional, only if you actually publish it:
+          <a class="btn" href="assets/public/quadrants_summary.csv">Open regime table (CSV, aggregated)</a>
+          -->
+          <a class="btn" href="data-access.html">What is public?</a>
         </p>
       </div>
     </div>
@@ -186,7 +189,7 @@
   <script>
     function fmtNum(x, decimals){
       if (x === null || x === undefined) return "-";
-      if (typeof x !== "number") return String(x);
+      if (typeof x !== "number" || Number.isNaN(x)) return "-";
       return x.toFixed(decimals);
     }
 
@@ -200,8 +203,24 @@
       return "Full crisis";
     }
 
+    function pickRowByQuadrant(v, quad){
+      if (!v || !Array.isArray(v.rows) || !quad) return null;
+      return v.rows.find(r => (r["Quadrant"] === quad) || (r["quadrant"] === quad)) || null;
+    }
+
+    function pickField(row, keys){
+      if (!row) return null;
+      for (const k of keys){
+        if (row[k] !== undefined && row[k] !== null) return row[k];
+      }
+      return null;
+    }
+
     (async function(){
       try{
+        // ----------------
+        // Today snapshot
+        // ----------------
         const res = await fetch("assets/public/today.json", { cache: "no-store" });
         if (!res.ok) throw new Error("today.json not found");
         const d = await res.json();
@@ -221,12 +240,21 @@
           ? d.OMIP.regime_flags
           : (Array.isArray(d.regime_flags) ? d.regime_flags : []);
 
-        let txt = `<strong>${date}</strong> · SESI ${fmtNum(sesi,1)} · Structural ${fmtNum(structural,1)} · OMIP ${fmtNum(omipPct,1)} · D ${(disloc===null)?"-":(disloc>=0?"+":"")+fmtNum(disloc,1)}`;
+        let txt =
+          `<strong>${date}</strong>` +
+          ` · SESI ${fmtNum(sesi,1)}` +
+          ` · Structural ${fmtNum(structural,1)}` +
+          ` · OMIP ${fmtNum(omipPct,1)}` +
+          ` · D ${(disloc===null)?"-":(disloc>=0?"+":"")+fmtNum(disloc,1)}`;
+
         if (label) txt += ` · <strong>${label}</strong>`;
         if (flags.length) txt += ` · ${flags.join(" | ")}`;
+
         document.getElementById("todayPill").innerHTML = txt;
 
-        // validation pill
+        // ----------------
+        // Validation pill
+        // ----------------
         const vres = await fetch("assets/public/validation_summary.json", { cache: "no-store" });
         if (!vres.ok) throw new Error("validation_summary.json not found");
         const v = await vres.json();
@@ -234,20 +262,40 @@
         const thr = (typeof v.thr === "number") ? v.thr : 80;
         const quad = classifyQuadrant(sesi, structural, thr);
 
-        if (quad && Array.isArray(v.rows)) {
-          const row = v.rows.find(r => r["Quadrant"] === quad);
-          if (row) {
-            const mv = row["Median 7D max move (€/MWh)"];
-            const sp = row["Median 30D spike freq (|ΔP|>20€/MWh)"];
-            const n = row["Days (N)"];
-            document.getElementById("valPill").innerHTML =
-              `In regime <strong>${quad}</strong> (thr=${int(thr)}), the market typically moved about <strong>${fmtNum(mv,1)} €/MWh</strong> within the next 7 days (median). ` +
-              `Spike-days median: <strong>${fmtNum(sp*100,0)}%</strong>. Sample: <strong>${n}</strong> days.`;
-          } else {
-            document.getElementById("valPill").textContent = "Validation summary not available for the current regime.";
-          }
+        const row = pickRowByQuadrant(v, quad);
+
+        // Support multiple possible field names (robust)
+        const mv = pickField(row, [
+          "Median 7D max move (€/MWh)",
+          "median_future_max_abs_move_7d",
+          "future_max_abs_move_7d__median"
+        ]);
+
+        const sp = pickField(row, [
+          "Median 30D spike freq (|ΔP|>20€/MWh)",
+          "median_spike_freq_30d_absdP_gt_20eur",
+          "spike_freq_30d_absdP_gt_20eur__median"
+        ]);
+
+        const n = pickField(row, [
+          "Days (N)",
+          "n",
+          "count",
+          "future_max_abs_move_7d__count"
+        ]);
+
+        if (quad && row && typeof mv === "number") {
+          const thrTxt = Math.round(thr);
+          const spTxt = (typeof sp === "number") ? `${Math.round(sp*100)}%` : "—";
+          const nTxt = (typeof n === "number") ? String(n) : "—";
+
+          document.getElementById("valPill").innerHTML =
+            `Validation (historical): in regime <strong>${quad}</strong> (thr=${thrTxt}), ` +
+            `the typical 7-day max move is <strong>${fmtNum(mv,1)} €/MWh</strong> (median). ` +
+            `Spike-days median: <strong>${spTxt}</strong>. Sample: <strong>${nTxt}</strong> days.`;
         } else {
-          document.getElementById("valPill").textContent = "Validation summary not available yet.";
+          document.getElementById("valPill").textContent =
+            "Validation summary is not available for the current regime (yet).";
         }
 
       }catch(e){
