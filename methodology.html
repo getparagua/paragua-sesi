@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <title>SESI - Methodology</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="SESI methodology: what the index measures, how to read percentiles, and how validation is computed.">
   <link rel="icon" href="assets/img/favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="assets/style.css">
 </head>
@@ -31,56 +32,174 @@
     <h1>Methodology</h1>
     <h2>High-level overview (v0.1, frozen)</h2>
     <p class="subtitle">
-      This page describes the conceptual framework and interpretation rules.
-      It intentionally avoids model internals in v0.1.
+      SESI is designed to be simple to read: a 0–100 historical ranking of stress.
+      This page explains what SESI measures, how to interpret it, and how the public validation is computed.
     </p>
   </div>
 
   <section>
     <h3>Concept</h3>
     <p>
-      SESI measures stress regimes in the Spanish power market by combining three complementary dimensions:
+      SESI measures <strong>stress regimes</strong> in the Spanish power market.
+      It is not trying to predict a specific price.
+      It is trying to answer:
+      <strong>“Are we in a calm regime, or in a regime where the market tends to move a lot?”</strong>
+    </p>
+
+    <p>
+      SESI combines three complementary dimensions:
     </p>
     <ol>
-      <li><strong>Price level</strong> - distance from long-term historical baselines</li>
-      <li><strong>Short-term tension</strong> - unusual recent price movements</li>
-      <li><strong>Market turbulence</strong> - intensity of recent volatility</li>
+      <li><strong>Price level</strong>: how far prices are from a long-term historical baseline</li>
+      <li><strong>Short-term tension</strong>: unusual recent price behavior</li>
+      <li><strong>Market turbulence</strong>: how intense recent volatility has been</li>
     </ol>
+
+    <div class="callout">
+      <p style="margin:0;">
+        SESI is a <strong>benchmark</strong> for risk communication and regime monitoring.
+        It is <strong>not</strong> a trading signal.
+      </p>
+    </div>
   </section>
 
   <section>
-    <h3>Percentile interpretation</h3>
+    <h3>How to read a percentile (12-year-old version)</h3>
+
+    <p>
+      SESI is published as a number from <strong>0 to 100</strong>.
+      Think of it like a <strong>ranking</strong>.
+    </p>
+
     <blockquote>
-      A percentile of <em>p</em> indicates that the current level of stress is lower than approximately
-      <em>(100 − p)%</em> of days in the reference period.
+      If SESI is <em>80</em>, it means today looks more stressed than about <em>80%</em> of historical days
+      (in the chosen reference set).
     </blockquote>
-    <p class="muted">Percentiles represent historical ranking, not probabilities.</p>
+
+    <p class="muted">
+      Percentiles are historical rankings, not probabilities.
+      A percentile does not mean “80% chance of something happening”.
+      It only means “this is high compared to history”.
+    </p>
   </section>
 
   <section>
-    <h3>Realized vs structural vs expected stress</h3>
+    <h3>Three views: Realized vs Structural vs Expected</h3>
     <p>
       SESI is published through three aligned views:
     </p>
     <ul>
-      <li><strong>SESI</strong>: realized (spot) stress</li>
-      <li><strong>SESI_structural</strong>: distance vs pre-2022 regime</li>
-      <li><strong>Expected stress</strong>: forward expectations derived from OMIP futures</li>
+      <li><strong>SESI (realized)</strong>: what is happening now in spot (OMIE day-ahead).</li>
+      <li><strong>SESI_structural</strong>: how tight the background regime is vs the pre-2022 reference period.</li>
+      <li><strong>Expected stress (OMIP)</strong>: what forward prices imply for the next months (rank vs pre-2022).</li>
     </ul>
+
     <p>
-      Comparing expected vs structural stress helps identify <strong>dislocations</strong>
-      between today’s regime and how the market prices future risk.
+      Comparing <strong>Expected</strong> vs <strong>Structural</strong> helps identify <strong>dislocations</strong>:
+      situations where forward prices look much calmer (or much more stressed) than the background regime.
+    </p>
+
+    <p class="muted">
+      Dislocation is expressed in percentile points:
+      <strong>D = Expected − Structural</strong>.
+    </p>
+  </section>
+
+  <section>
+    <h3>Regime map (quadrants)</h3>
+    <p>
+      SESI also supports a simple regime map using two axes:
+    </p>
+    <ul>
+      <li><strong>X-axis</strong>: SESI_structural (0–100)</li>
+      <li><strong>Y-axis</strong>: SESI (0–100)</li>
+    </ul>
+
+    <p>
+      Using a threshold (e.g. <strong>80</strong>), each day falls into one of four regimes:
+    </p>
+    <ul>
+      <li><strong>Calm</strong>: low realized, low structural</li>
+      <li><strong>Latent risk</strong>: low realized, high structural</li>
+      <li><strong>Realized stress</strong>: high realized, low structural</li>
+      <li><strong>Full crisis</strong>: high realized, high structural</li>
+    </ul>
+
+    <p class="muted">
+      The threshold is a practical way to separate “normal” from “high-stress” regimes.
+      It is not a rule and it is not a forecast.
+    </p>
+  </section>
+
+  <section>
+    <h3>Public validation: “what usually happens next”</h3>
+
+    <p>
+      SESI includes a public validation that answers a simple question:
+    </p>
+
+    <blockquote>
+      When SESI was high in the past, how much did the market typically move afterwards?
+    </blockquote>
+
+    <p>
+      This is computed using <strong>historical conditional outcomes</strong>.
+      That means:
+      we look at days matching a condition (example: <strong>SESI &gt; 80</strong>),
+      and then measure what happened in the next <strong>7 / 14 / 30</strong> days.
+    </p>
+
+    <div class="callout">
+      <p style="margin:0;">
+        Validation is <strong>descriptive</strong>, not predictive.
+        It summarizes history. It does not claim an edge or a trading rule.
+      </p>
+    </div>
+
+    <h4 style="margin-top:16px;">Outcome metrics (simple definitions)</h4>
+    <ul>
+      <li>
+        <strong>Future max absolute move (7D / 14D / 30D)</strong>:
+        in the next N days, what was the largest change from today’s price, regardless of direction.
+      </li>
+      <li>
+        <strong>Future max up move</strong>:
+        the largest increase from today’s price within the next N days.
+      </li>
+      <li>
+        <strong>Future max down move</strong>:
+        the largest decrease from today’s price within the next N days.
+      </li>
+      <li>
+        <strong>Volatility expansion (7D)</strong>:
+        how much 7-day volatility increased after today compared to the 7 days before today.
+      </li>
+      <li>
+        <strong>Spike frequency (next 30D)</strong>:
+        the share of days in the next 30 days where the daily move exceeded a fixed threshold
+        (e.g., <strong>20 €/MWh</strong>) or a volatility-scaled threshold.
+      </li>
+    </ul>
+
+    <p class="muted">
+      In the dashboard, we usually show medians (typical outcomes) and sample sizes (how many historical days were included).
+    </p>
+
+    <p style="margin-top:10px;">
+      <a class="btn" href="dashboard.html#validation">See the validation chart</a>
     </p>
   </section>
 
   <section>
     <h3>Data sources</h3>
     <ul>
-      <li>OMIE - Spanish day-ahead marginal prices</li>
-      <li>OMIP - Iberian power futures settlement prices (Month contracts)</li>
-      <li>Yahoo Finance - continuous TTF natural gas futures (TTF=F)</li>
+      <li><strong>OMIE</strong> — Spanish day-ahead marginal prices</li>
+      <li><strong>OMIP</strong> — Iberian power futures settlement prices (Month contracts)</li>
+      <li><strong>Yahoo Finance</strong> — continuous TTF natural gas futures (TTF=F)</li>
     </ul>
-    <p class="muted">No proprietary, internal, or confidential data sources are used.</p>
+    <p class="muted">
+      No proprietary, internal, or confidential data sources are used.
+    </p>
   </section>
 
   <footer>
