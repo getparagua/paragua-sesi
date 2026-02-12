@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <title>SESI - Dashboard</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="SESI dashboard: realized vs structural vs expected stress, and dislocation.">
+  <meta name="description" content="SESI dashboard: realized vs structural vs expected stress, dislocation, and validation.">
 
   <link rel="icon" href="assets/img/favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="assets/style.css">
@@ -46,6 +46,10 @@
       flex-wrap: wrap;
     }
     .pill strong{ font-weight: 750; }
+    .mini-note{
+      margin-top: 10px;
+      line-height: 1.6;
+    }
   </style>
 </head>
 
@@ -72,11 +76,12 @@
     <h1>Dashboard</h1>
     <h2>Canonical views (v0.1, frozen)</h2>
     <p class="subtitle">
-      Realized stress (SESI), structural regime distance (SESI_structural), and forward expectations (OMIP expected percentile),
-      plus the expectations gap (“Dislocation”).
+      SESI is a percentile benchmark (0–100). Think of it as a <strong>ranking</strong>:
+      higher = rarer and more stressed compared to history.
     </p>
 
     <div class="pill" id="todayPill">Loading today…</div>
+    <div class="muted mini-note" id="valPill">Loading validation…</div>
   </div>
 
   <section>
@@ -95,15 +100,15 @@
       ></iframe>
 
       <div class="chart-caption">
-        <div class="muted"><strong>How to read</strong></div>
+        <div class="muted"><strong>How to read (simple)</strong></div>
         <ul>
-          <li><strong>SESI (realized)</strong>: what is happening now in spot (daily stress percentile).</li>
-          <li><strong>SESI_structural</strong>: how far the system is from the pre-2022 regime (context, not a trading rule).</li>
-          <li><strong>OMIP expected (pct)</strong>: what the market is pricing for the next months (forward stress percentile vs pre-2022).</li>
+          <li><strong>SESI (realized)</strong>: what’s happening now in spot (stress rank).</li>
+          <li><strong>SESI_structural</strong>: how tight the background regime is vs pre-2022.</li>
+          <li><strong>OMIP expected (pct)</strong>: what forward prices imply for the next months (rank vs pre-2022).</li>
         </ul>
         <p class="muted" style="margin-top:10px;">
-          When structural is high but expected is low, the market is <strong>discounting</strong> structural tightness (normalization priced).
-          The opposite is a <strong>risk bid</strong>.
+          The useful insight is often the <strong>gap</strong> between expected and structural:
+          discounting (expected much lower) vs risk bid (expected higher).
         </p>
       </div>
     </div>
@@ -112,9 +117,9 @@
   <section>
     <h3>Dislocation</h3>
     <p class="muted">
-      Dislocation is defined as:
+      Dislocation is:
       <strong>D = OMIP_expected_percentile − SESI_structural</strong> (percentile points).
-      Positive = forward pricing above structural regime. Negative = forward pricing below it.
+      Positive = forward pricing above structural. Negative = forward pricing below it.
     </p>
 
     <div class="frame-wrap">
@@ -129,9 +134,43 @@
         <div class="muted"><strong>How to read</strong></div>
         <ul>
           <li><strong>D ≤ −25</strong>: strong discounting (forward pricing normalization).</li>
-          <li><strong>D ≥ +25</strong>: risk bid (forward pricing additional stress vs structural).</li>
-          <li><strong>|D| ≥ 15</strong>: dislocated (signal is meaningfully away from “aligned”).</li>
+          <li><strong>D ≥ +25</strong>: risk bid (forward pricing additional stress).</li>
+          <li><strong>|D| ≥ 15</strong>: meaningfully dislocated.</li>
         </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="validation">
+    <h3>Validation: “what usually happens next”</h3>
+    <p class="muted">
+      This is the simplest check: in the past, when SESI regimes looked like this, how much did prices typically move afterwards?
+      The chart below shows the <strong>median 7-day max move</strong> (€/MWh) by regime state (threshold = 80).
+    </p>
+
+    <div class="frame-wrap">
+      <iframe
+        class="chart-frame"
+        src="assets/charts/validation.html"
+        title="SESI validation chart"
+        loading="lazy"
+      ></iframe>
+
+      <div class="chart-caption">
+        <div class="muted"><strong>How to read (12-year-old version)</strong></div>
+        <ul>
+          <li>First we classify the day into a regime (Calm / Latent risk / Realized stress / Full crisis).</li>
+          <li>Then we look at the next 7 days and ask: <strong>what was the biggest move from today’s price?</strong></li>
+          <li>The bar shows the <strong>median</strong> of those “biggest moves” across history.</li>
+        </ul>
+        <p class="muted" style="margin-top:10px;">
+          These are historical conditional statistics: descriptive, not forecasts.
+        </p>
+
+        <p style="margin-top:10px;">
+          <a class="btn" href="assets/validation/quadrants_summary.csv">Download regime table (CSV)</a>
+          <a class="btn" href="assets/public/validation_summary.json">Download summary (JSON)</a>
+        </p>
       </div>
     </div>
   </section>
@@ -149,6 +188,16 @@
       if (x === null || x === undefined) return "-";
       if (typeof x !== "number") return String(x);
       return x.toFixed(decimals);
+    }
+
+    function classifyQuadrant(sesi, structural, thr) {
+      if (sesi === null || structural === null) return null;
+      const xHigh = structural >= thr;
+      const yHigh = sesi >= thr;
+      if (!yHigh && !xHigh) return "Calm";
+      if (!yHigh && xHigh) return "Latent risk";
+      if (yHigh && !xHigh) return "Realized stress";
+      return "Full crisis";
     }
 
     (async function(){
@@ -175,10 +224,35 @@
         let txt = `<strong>${date}</strong> · SESI ${fmtNum(sesi,1)} · Structural ${fmtNum(structural,1)} · OMIP ${fmtNum(omipPct,1)} · D ${(disloc===null)?"-":(disloc>=0?"+":"")+fmtNum(disloc,1)}`;
         if (label) txt += ` · <strong>${label}</strong>`;
         if (flags.length) txt += ` · ${flags.join(" | ")}`;
-
         document.getElementById("todayPill").innerHTML = txt;
+
+        // validation pill
+        const vres = await fetch("assets/public/validation_summary.json", { cache: "no-store" });
+        if (!vres.ok) throw new Error("validation_summary.json not found");
+        const v = await vres.json();
+
+        const thr = (typeof v.thr === "number") ? v.thr : 80;
+        const quad = classifyQuadrant(sesi, structural, thr);
+
+        if (quad && Array.isArray(v.rows)) {
+          const row = v.rows.find(r => r["Quadrant"] === quad);
+          if (row) {
+            const mv = row["Median 7D max move (€/MWh)"];
+            const sp = row["Median 30D spike freq (|ΔP|>20€/MWh)"];
+            const n = row["Days (N)"];
+            document.getElementById("valPill").innerHTML =
+              `In regime <strong>${quad}</strong> (thr=${int(thr)}), the market typically moved about <strong>${fmtNum(mv,1)} €/MWh</strong> within the next 7 days (median). ` +
+              `Spike-days median: <strong>${fmtNum(sp*100,0)}%</strong>. Sample: <strong>${n}</strong> days.`;
+          } else {
+            document.getElementById("valPill").textContent = "Validation summary not available for the current regime.";
+          }
+        } else {
+          document.getElementById("valPill").textContent = "Validation summary not available yet.";
+        }
+
       }catch(e){
         document.getElementById("todayPill").textContent = "Today snapshot not available yet.";
+        document.getElementById("valPill").textContent = "Validation summary not available yet.";
       }
     })();
   </script>
