@@ -34,21 +34,21 @@
     <h2>Spain Energy Stress Index</h2>
     <p class="subtitle">
       A public market stress benchmark for the Spanish power market, designed for
-      <strong>risk communication</strong> and <strong>regime monitoring</strong>.
+      <strong>clear risk communication</strong> and <strong>regime monitoring</strong>.
     </p>
   </div>
 
   <section>
     <h3>What is SESI?</h3>
     <p>
-      SESI is an independent market signal designed to track stress regimes in the Spanish electricity market.
-      It combines realized spot stress, structural regime distance, and forward-looking market expectations
-      into a single, interpretable framework.
+      SESI is an independent benchmark that tracks <strong>market stress regimes</strong> in Spanish electricity.
+      It helps answer one simple question:
+      <strong>“Are we in a calm regime, or in a regime where the market tends to move a lot?”</strong>
     </p>
 
     <div class="callout">
       <p style="margin:0;">
-        SESI is <strong>not</strong> a trading signal and percentiles are <strong>not</strong> probabilities.
+        SESI is <strong>not</strong> a trading signal. Percentiles are <strong>rankings</strong>, not probabilities.
       </p>
     </div>
   </section>
@@ -96,6 +96,47 @@
         Values will be populated automatically via daily publishing.
       </p>
 
+      <!-- ✅ Power metric (simple, public-friendly) -->
+      <div style="margin-top:14px;">
+        <div class="muted" style="margin-bottom:6px;"><strong>What SESI typically means next (historical)</strong></div>
+
+        <div class="callout">
+          <div id="valHeadline" style="font-weight:750;">—</div>
+          <div class="muted" id="valExplainer" style="margin-top:6px; line-height:1.6;">—</div>
+
+          <div class="kpi-grid" style="margin-top:12px;">
+            <div class="kpi">
+              <div class="label">Regime (map)</div>
+              <div class="value" id="valRegime">—</div>
+            </div>
+            <div class="kpi">
+              <div class="label">Typical 7D max move</div>
+              <div class="value" id="valMove7d">—</div>
+              <div class="muted" style="margin-top:6px;">Median, €/MWh</div>
+            </div>
+            <div class="kpi">
+              <div class="label">Spike days (next 30D)</div>
+              <div class="value" id="valSpike30d">—</div>
+              <div class="muted" style="margin-top:6px;">Median share of days</div>
+            </div>
+            <div class="kpi">
+              <div class="label">Sample size</div>
+              <div class="value" id="valN">—</div>
+              <div class="muted" style="margin-top:6px;">Historical days</div>
+            </div>
+          </div>
+
+          <p class="muted" style="margin-top:10px;">
+            These are <strong>historical conditional statistics</strong>: what happened after similar regime states in the past.
+            They are descriptive and do not imply a forecast.
+          </p>
+
+          <p style="margin-top:10px;">
+            <a class="btn" href="dashboard.html#validation">See the validation chart</a>
+          </p>
+        </div>
+      </div>
+
       <!-- Market note -->
       <div style="margin-top:14px;">
         <div class="muted" style="margin-bottom:6px;"><strong>Market note</strong></div>
@@ -105,7 +146,6 @@
 
           <details class="verbose" style="margin-top:10px;">
             <summary>Read the full note (verbose)</summary>
-            <!-- we render HTML here -->
             <div id="noteVerbose" class="muted" style="margin-top:10px; white-space:normal; line-height:1.7;">—</div>
           </details>
         </div>
@@ -121,12 +161,12 @@
   <section>
     <h3>Charts</h3>
     <p class="muted">
-      SESI is currently published as a visual benchmark using a rolling historical window.
       Canonical views:
     </p>
     <ul>
-      <li><strong>Stress dashboard</strong>: SESI vs structural vs expected stress</li>
+      <li><strong>Stress</strong>: SESI vs structural vs expected stress</li>
       <li><strong>Dislocation</strong>: expectations gap vs structural regime</li>
+      <li><strong>Validation</strong>: simple “what usually happens next” by regime</li>
     </ul>
 
     <p>
@@ -153,8 +193,19 @@
       return x.toFixed(decimals);
     }
 
+    function classifyQuadrant(sesi, structural, thr) {
+      if (sesi === null || structural === null) return "—";
+      const xHigh = structural >= thr;
+      const yHigh = sesi >= thr;
+      if (!yHigh && !xHigh) return "Calm";
+      if (!yHigh && xHigh) return "Latent risk";
+      if (yHigh && !xHigh) return "Realized stress";
+      return "Full crisis";
+    }
+
     (async function () {
       try {
+        // 1) today.json
         const res = await fetch("assets/public/today.json", { cache: "no-store" });
         if (!res.ok) throw new Error("today.json not found");
         const d = await res.json();
@@ -171,7 +222,7 @@
         const omipAvg = (d.OMIP && typeof d.OMIP.omip_1_3m_avg === "number")
           ? d.OMIP.omip_1_3m_avg : null;
 
-        const omipAsof = (d.OMIP && d.OMIP.asof) ? d.OMIP.asof : (d.omip_asof || null);
+        const omipAsof = (d.OMIP && d.OMIP.asof) ? d.OMIP.asof : null;
 
         document.getElementById("kpiSESI").textContent = fmtNum(sesi, 1);
         document.getElementById("kpiStructural").textContent = fmtNum(structural, 1);
@@ -179,7 +230,6 @@
         document.getElementById("kpiD").textContent =
           (disloc === null) ? "-" : (disloc >= 0 ? "+" : "") + fmtNum(disloc, 1);
 
-        // OMIP level line
         if (omipAvg !== null && omipAsof) {
           document.getElementById("omipLevel").textContent =
             `OMIP 1–3M avg: ${fmtNum(omipAvg, 1)} €/MWh (as of ${omipAsof})`;
@@ -187,7 +237,6 @@
           document.getElementById("omipLevel").textContent = "—";
         }
 
-        // As-of line
         const asof = d.asof_date || d.date || null;
         if (asof) {
           document.getElementById("asofText").textContent =
@@ -195,17 +244,14 @@
         }
 
         // Notes
-        // Short note: prefer note_short; fallback to a compact line we can build.
         if (typeof d.note_short === "string" && d.note_short.trim()) {
           document.getElementById("noteShort").textContent = d.note_short;
         } else {
           document.getElementById("noteShort").textContent = "—";
         }
 
-        // Verbose note:
-        // Prefer HTML (note_verbose_html). Fallback to markdown/plain text.
         const vHtml = (typeof d.note_verbose_html === "string") ? d.note_verbose_html : null;
-        const vMd = (typeof d.note_verbose_md === "string") ? d.note_verbose_md : (typeof d.note_verbose === "string" ? d.note_verbose : null);
+        const vMd = (typeof d.note_verbose_md === "string") ? d.note_verbose_md : null;
 
         const elVerbose = document.getElementById("noteVerbose");
         if (vHtml && vHtml.trim()) {
@@ -229,8 +275,42 @@
         }
         document.getElementById("snapshotStatus").textContent = status;
 
+        // 2) validation_summary.json (public)
+        // This file is generated daily by the engine and published to the public repo.
+        const vres = await fetch("assets/public/validation_summary.json", { cache: "no-store" });
+        if (!vres.ok) throw new Error("validation_summary.json not found");
+        const v = await vres.json();
+
+        const thr = (typeof v.thr === "number") ? v.thr : 80;
+        const quad = classifyQuadrant(sesi, structural, thr);
+        document.getElementById("valRegime").textContent = quad;
+
+        // Find row for current quadrant (if available)
+        const rows = Array.isArray(v.rows) ? v.rows : [];
+        const row = rows.find(r => (r["Quadrant"] === quad)) || null;
+
+        if (row) {
+          const mv = (typeof row["Median 7D max move (€/MWh)"] === "number") ? row["Median 7D max move (€/MWh)"] : null;
+          const sp = (typeof row["Median 30D spike freq (|ΔP|>20€/MWh)"] === "number") ? row["Median 30D spike freq (|ΔP|>20€/MWh)"] : null;
+          const n = (typeof row["Days (N)"] === "number") ? row["Days (N)"] : null;
+
+          document.getElementById("valMove7d").textContent = (mv===null) ? "-" : fmtNum(mv, 1);
+          document.getElementById("valSpike30d").textContent = (sp===null) ? "-" : fmtNum(sp * 100, 0) + "%";
+          document.getElementById("valN").textContent = (n===null) ? "-" : String(n);
+
+          // Headline: simple and punchy
+          document.getElementById("valHeadline").textContent =
+            `In this regime, the market has typically moved about ${fmtNum(mv,1)} €/MWh within the next 7 days (median).`;
+
+          document.getElementById("valExplainer").textContent =
+            `Regime map uses threshold ${thr}. “Typical” means: in the historical sample, half the times the 7-day max move was above this number and half below.`;
+        } else {
+          document.getElementById("valHeadline").textContent = "Validation snapshot not available for the current regime.";
+          document.getElementById("valExplainer").textContent = "—";
+        }
+
       } catch (e) {
-        console.log("Snapshot not available yet:", e);
+        console.log("Snapshot/validation not available yet:", e);
       }
     })();
   </script>
