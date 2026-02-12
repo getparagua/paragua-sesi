@@ -14,10 +14,10 @@
   "note_verbose_html": "<strong>2026-02-12 \u2014 SESI Market Note</strong><br><br>Here\u2019s the snapshot as of <strong>2026-02-12</strong>.<br><br><strong>1) Realized stress (spot)</strong><br>- <strong>SESI</strong> (daily stress percentile): <strong>75</strong> (*elevated*).<br>- <strong>Structural context</strong> (vs pre-2022): <strong>91</strong> (*very tight*).<br>- <strong>Regime:</strong> ELEVATED | STRUCTURALLY_TIGHT | DISLOCATED | DISCOUNTING.<br><br><strong>How to read it</strong><br>- SESI is a <strong>historical percentile</strong> (a ranking), <strong>not</strong> a probability.<br>- A percentile of <strong>75</strong> means the current level is lower than roughly <strong>25%</strong> of days in the <strong>full-history (expanding)</strong> reference set.<br>- SESI tells you what\u2019s happening <strong>now</strong> in spot; <strong>SESI_structural</strong> tells you whether the background regime is still tight vs pre-2022.<br><br><br><strong>2) Expected stress (OMIP, forward 1\u20133M)</strong><br>- As of <strong>2026-02-12</strong>, OMIP 1\u20133M average is <strong>28.2 \u20ac/MWh</strong>.<br>- Expected stress percentile (vs pre-2022): <strong>1</strong> (*very low*).<br>- A percentile of <strong>1</strong> means the current level is lower than roughly <strong>99%</strong> of days in the <strong>pre-2022 (\u2264 2021-12-31)</strong> reference set.<br>- <strong>Dislocation</strong> (Expected \u2212 Structural): <strong>-89.4</strong> percentile points \u2192 <strong>Forward &lt;&lt; Structural (strong discounting)</strong>.<br><br><strong>Why this matters</strong><br>SESI is what\u2019s realized today; OMIP is what\u2019s priced for the next months. The insight is the <strong>gap</strong> between expected and structural.<br><br><strong>Interpretation:</strong> Forward is <strong>discounting</strong> structural tightness (D = <strong>-89</strong> pp).<br>",
   "OMIP": {
     "asof": "2026-02-12",
-    "omip_1_3m_avg": 28.177,
-    "omip_exp_pct_pre2022": 1.439,
+    "omip_1_3m_avg": 28.16,
+    "omip_exp_pct_pre2022": 1.371,
     "omip_expected_bucket": "very low",
-    "dislocation_pct_pts": -89.361,
+    "dislocation_pct_pts": -89.43,
     "dislocation_label": "Forward << Structural (strong discounting)",
     "decision_label": "ELEVATED",
     "regime_flags": [
@@ -25,6 +25,6 @@
       "DISLOCATED",
       "DISCOUNTING"
     ],
-    "omip_curve_slope_1v3": -15.92
+    "omip_curve_slope_1v3": -16.02
   }
 }
