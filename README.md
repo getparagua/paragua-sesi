@@ -8,13 +8,17 @@
 
 SESI, the Spain Energy Stress Index, is a percentile-based regime benchmark designed to measure and contextualize stress conditions in the Spanish day-ahead electricity market.
 
-The framework decomposes market conditions into three complementary layers: realized stress, structural regime distance, and forward expectations.
+The framework decomposes market conditions into three complementary layers:
+
+- Realized stress  
+- Structural regime distance  
+- Forward expectations alignment  
 
 SESI is not a trading signal.  
-It is not a probability model.  
-It is a reproducible stress classification framework.
+SESI is not a probability model.  
+SESI is a reproducible stress classification framework.
 
-The objective is to provide a structured way to interpret power market regimes using transparent methodology and publicly available data.
+Its objective is to provide a structured, transparent way to interpret power market regimes using publicly available data.
 
 ---
 
@@ -26,13 +30,11 @@ A higher percentile indicates that current conditions are more extreme relative 
 
 The index separates:
 
-Realized cyclical stress based on short-term price dislocation and volatility.
+- Realized cyclical stress based on short-term price dislocation and volatility  
+- Structural regime distance measured relative to the 2018 to 2020 baseline  
+- Forward expectations alignment using OMIP futures percentiles  
 
-Structural regime distance measured relative to the 2018 to 2020 baseline.
-
-Forward expectations alignment using OMIP futures percentiles.
-
-This decomposition allows regime identification without relying on discretionary narrative.
+This decomposition enables regime identification without discretionary narrative.
 
 ---
 
@@ -40,14 +42,19 @@ This decomposition allows regime identification without relying on discretionary
 
 SESI is built exclusively on publicly accessible data.
 
-Spot market data  
-OMIE day-ahead marginal prices, daily frequency, from 2018 to present.
+**Spot market data**
+- OMIE day-ahead marginal prices  
+- Daily frequency  
+- 2018 to present  
 
-Gas proxy  
-TTF continuous futures, used to measure structural gas regime distance relative to the 2018 to 2020 reference period.
+**Gas proxy**
+- TTF continuous futures  
+- Structural z-score relative to 2018 to 2020 baseline  
 
-Futures overlay  
-OMIP month base contracts, aggregated as 1 to 3 month average and converted into percentile rankings versus the pre-2022 distribution.
+**Futures overlay**
+- OMIP month base contracts  
+- 1 to 3 month average settlement  
+- Percentile versus pre-2022 distribution  
 
 No proprietary data feeds are required.
 
@@ -57,21 +64,26 @@ No proprietary data feeds are required.
 
 The core model is frozen and versioned.
 
-Features include short-term price z-score versus trailing 30-day distribution, structural price z-score versus 2018 to 2020 baseline, normalized 7-day volatility, and structural gas z-score.
+**Feature set**
 
-The model is trained using ridge regression on the period 2018-01-01 to 2021-12-31.
+- Short-term price z-score versus trailing 30-day distribution  
+- Structural price z-score versus 2018 to 2020 baseline  
+- Normalized 7-day volatility  
+- Structural gas z-score  
 
-The training target is the maximum absolute price move over the following seven days.
+**Training design**
 
-The full 2022 crisis period is excluded from training and used strictly for out-of-sample validation.
+- Ridge regression  
+- Training window: 2018-01-01 to 2021-12-31  
+- Target: maximum absolute price move over the following 7 days  
+- 2022 fully excluded from training  
 
-The raw model output is transformed into percentile rankings.
+**Score construction**
 
-SESI is defined as the expanding percentile of the raw score relative to historical observations up to time t.
-
-SESI_structural is defined as the percentile of the raw score relative only to the fixed pre-2022 reference distribution.
-
-There is no look-ahead bias in feature construction, model training, or percentile computation.
+- Raw model output transformed into percentile rankings  
+- SESI defined as expanding percentile of raw score up to time t  
+- SESI_structural defined as percentile relative to fixed pre-2022 reference distribution  
+- No look-ahead bias  
 
 ---
 
@@ -79,22 +91,20 @@ There is no look-ahead bias in feature construction, model training, or percenti
 
 SESI values range from 0 to 100.
 
-A value of 80 means that current stress is higher than 80 percent of historical observations.
+- A value of 80 means stress is higher than 80 percent of historical observations  
+- It does not imply probability of crisis  
+- It does not imply price direction  
 
-It does not imply an 80 percent probability of crisis.  
-It does not imply expected return direction.
+Joint interpretation:
 
-Structural and realized layers are interpreted jointly.
+- High SESI and high SESI_structural indicate structurally tight regime  
+- High SESI with moderate structural suggests short-term shock  
+- Forward dislocation defined as OMIP percentile minus SESI_structural  
 
-When both SESI and SESI_structural are elevated, the system is in a structurally tight regime.
+Dislocation interpretation:
 
-When SESI is high but structural is moderate, the regime reflects short-term shock dynamics.
-
-Forward dislocation is defined as the difference between OMIP forward percentile and SESI_structural percentile.
-
-Large negative values indicate forward discounting relative to structural stress.
-
-Large positive values indicate forward risk premium above structural stress.
+- D ≤ -25 indicates forward discounting  
+- D ≥ +25 indicates forward risk premium  
 
 ---
 
@@ -102,44 +112,54 @@ Large positive values indicate forward risk premium above structural stress.
 
 SESI has been evaluated on the 2021 to 2022 energy crisis as a strictly out-of-sample case study.
 
-The index entered extreme percentile regimes during late 2021 and remained elevated throughout 2022.
+Key observations:
 
-Structural percentiles reached the upper historical boundary during the crisis plateau.
-
-Forward percentiles remained broadly aligned with structural stress during peak periods.
+- Extreme percentile entry during late 2021  
+- Sustained structural elevation throughout 2022  
+- Forward percentiles broadly aligned with structural stress  
+- Plateau behavior rather than isolated spikes  
 
 Validation is descriptive and conditional.  
-It does not establish causality and does not claim forecasting power.
+No forecasting claim is made.
 
 ---
 
 ## Use Cases
 
-SESI is designed for regime awareness and structured stress monitoring.
+SESI supports:
 
-Potential applications include risk monitoring, energy procurement planning, macro regime communication, stress event identification, and forward dislocation analysis.
+- Risk monitoring  
+- Regime communication  
+- Energy procurement planning  
+- Stress awareness  
+- Forward dislocation analysis  
+- Integration into analytics platforms  
 
-The framework is suitable for integration into analytics platforms, risk dashboards, and macro research workflows.
+It is designed as a regime benchmark layer within broader energy analytics systems.
 
 ---
 
 ## Versioning
 
-The SESI core specification is frozen and version-controlled.
-
-Changes to methodology, reference windows, or feature construction are documented and versioned explicitly.
-
-Reproducibility is a primary design principle.
+- Core specification frozen  
+- Explicit version control  
+- Documented methodological changes  
+- Reproducibility prioritized  
 
 ---
 
 ## Monetization and Integration
 
-SESI is designed to be API-ready.
+SESI is API-ready.
 
-Structured endpoints can provide current regime state, historical stress series, threshold events, and quadrant classification.
+Potential structured endpoints include:
 
-The framework is suitable for integration into broader energy analytics ecosystems as a regime benchmark layer.
+- Current regime state  
+- Historical stress series  
+- Threshold crossing events  
+- Quadrant classification  
+
+Designed for integration into energy analytics platforms, risk systems, and macro dashboards.
 
 ---
 
