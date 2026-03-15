@@ -349,29 +349,18 @@ details.verbose summary:hover{
   margin: 0 auto 18px;
   max-width: 580px;
 }
-.v2-gauge-bar{
-  position: relative;
+.v2-gauge-track{
   height: 20px;
   border-radius: 999px;
-  background: linear-gradient(to right,
-    #3b82f6 0%,   #3b82f6 20%,
-    #84cc16 20%,  #84cc16 40%,
-    #f59e0b 40%,  #f59e0b 60%,
-    #f97316 60%,  #f97316 80%,
-    #ef4444 80%,  #ef4444 100%
-  );
+  background: #e2e8f0;
+  overflow: hidden;
   margin-bottom: 10px;
 }
-.v2-gauge-pointer{
-  position: absolute;
-  top: -7px;
-  transform: translateX(-50%);
-  width: 6px;
-  height: 34px;
-  background: #0f172a;
-  border-radius: 3px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.35);
-  transition: left 0.7s cubic-bezier(.4,0,.2,1), background 0.4s;
+.v2-gauge-fill{
+  height: 100%;
+  border-radius: 999px;
+  width: 0%;
+  transition: width 0.7s cubic-bezier(.4,0,.2,1), background 0.4s;
 }
 .v2-gauge-labels{
   display: flex;
@@ -390,6 +379,18 @@ details.verbose summary:hover{
 }
 .v2-as-of{
   font-size: 0.88em;
+}
+.v2-meta-row{
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+  font-size: 0.9em;
+  margin-top: 10px;
+  color: var(--muted);
+}
+.v2-meta-row strong{
+  color: var(--text);
 }
 
 /* ─── SESI CARD ─── */
