@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <title>SESI — Spain Energy Stress Index</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="SESI is a public thermometer for the Spanish power market — 0 to 100, from FROZEN to MELTDOWN. Updated daily.">
+  <meta name="description" content="SESI is a public macro indicator measuring stress in the Spanish electricity system — 0 to 100, from SLACK to CRITICAL. Updated daily.">
 
   <link rel="icon" href="assets/img/favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="assets/style.css">
@@ -33,7 +33,7 @@
     <div class="v2-hero-eyebrow">Spain Energy Stress Index</div>
     <h1>SESI</h1>
     <p class="v2-hero-sub">
-      A public thermometer for the Spanish power market — updated daily.
+      A composite macro indicator for the Spanish electricity system — updated daily.
       Think Big Mac Index, but for energy stress.
     </p>
   </div>
@@ -42,7 +42,6 @@
   <section class="v2-state-section">
 
     <div class="v2-state-badge" id="v2StateBadge">
-      <span class="v2-state-emoji" id="v2StateEmoji">—</span>
       <span id="v2StateName">Loading…</span>
     </div>
 
@@ -56,11 +55,11 @@
         <div class="v2-gauge-fill" id="v2GaugeFill"></div>
       </div>
       <div class="v2-gauge-labels">
-        <span style="color:#4FC3F7">❄️ FROZEN</span>
-        <span style="color:#f59e0b">WARM</span>
-        <span style="color:#FF7043">HOT</span>
-        <span style="color:#B71C1C">MELTDOWN</span>
-        <span style="color:#7B1FA2">STORM ⚡</span>
+        <span style="color:#4A90D9">SLACK</span>
+        <span style="color:#6BCB8B">NORMAL</span>
+        <span style="color:#E8C547">ELEVATED</span>
+        <span style="color:#E07B3F">STRESSED</span>
+        <span style="color:#C94040">CRITICAL</span>
       </div>
     </div>
 
@@ -68,7 +67,8 @@
 
     <div class="v2-meta-row" id="v2MetaRow" style="display:none;">
       <span>Structural: <strong id="v2Structural">—</strong>/100</span>
-      <span id="v2OmipSpan" style="display:none;">OMIP: <strong id="v2OmipPct">—</strong>/100 · <strong id="v2OmipEur">—</strong> €/MWh</span>
+      <span id="v2MarketSpan" style="display:none;">Market: <strong id="v2Market">—</strong>/100</span>
+      <span id="v2OmieSpan" style="display:none;">OMIE: <strong id="v2OmiePrice">—</strong> €/MWh (<strong id="v2OmieVs30d">—</strong> vs 30d)</span>
     </div>
 
     <div class="v2-as-of muted" id="v2AsOf"></div>
@@ -109,16 +109,23 @@
           <span class="inst-tight" id="instTight" style="display:none;">▲ TIGHT</span>
         </div>
 
-        <div class="inst-omip" id="instOmipRow" style="display:none;">
-          OMIP Forward 1–3M:&nbsp;
-          <strong id="instOmipPct">—</strong> pct-rank
-          &nbsp;·&nbsp;<strong id="instOmipEur">—</strong> €/MWh
+        <div class="inst-metric-lbl">Market Signal</div>
+        <div class="inst-metric-row">
+          <div class="inst-metric-track">
+            <div class="inst-metric-fill" id="instMarketBar"></div>
+          </div>
+          <span class="inst-metric-num" id="instMarketNum">—</span>
+        </div>
+
+        <div class="inst-omip" id="instOmieRow" style="display:none;">
+          OMIE Day-Ahead:&nbsp;
+          <strong id="instOmiePrice">—</strong> €/MWh
+          &nbsp;·&nbsp;<strong id="instOmieVs30d">—</strong> vs 30d avg
         </div>
 
         <div class="inst-divider"></div>
 
         <p class="inst-headline" id="instHeadline">—</p>
-        <p class="inst-subline" id="instSubline" style="display:none;">—</p>
 
         <div class="inst-actions">
           <button class="btn" id="copyBtn" onclick="copyCard()">📋 Copy card</button>
@@ -145,12 +152,12 @@
             <div class="value" id="kpiStructural">-</div>
           </div>
           <div class="kpi omip">
-            <div class="label">Expected stress (OMIP)</div>
+            <div class="label">Market signal</div>
             <div class="value" id="kpiOMIP">-</div>
             <div class="muted" style="margin-top:6px;" id="omipLevel">—</div>
           </div>
           <div class="kpi dislocation">
-            <div class="label">Dislocation D (pct pts)</div>
+            <div class="label">OMIE vs 30d avg</div>
             <div class="value" id="kpiD">-</div>
           </div>
         </div>
@@ -207,6 +214,18 @@
       } catch { return str; }
     }
 
+    // Regime → color map (derived locally, not from JSON)
+    const REGIME_COLORS = {
+      SLACK:    "#4A90D9",
+      NORMAL:   "#6BCB8B",
+      ELEVATED: "#E8C547",
+      STRESSED: "#E07B3F",
+      CRITICAL: "#C94040",
+    };
+    function regimeColor(regime) {
+      return REGIME_COLORS[regime] || "#64748b";
+    }
+
     // Derive a light background from the accent color (hex → rgba)
     function accentBg(hex) {
       const r = parseInt(hex.slice(1,3),16);
@@ -239,29 +258,28 @@
         if (!res.ok) throw new Error("sesi_today.json not found");
         const d = await res.json();
 
-        const score      = typeof d.score === "number" ? d.score : null;
+        const score      = typeof d.score      === "number" ? d.score      : null;
         const structural = typeof d.structural === "number" ? d.structural : null;
-        const omipPct    = typeof d.omip_pct === "number" ? d.omip_pct : null;
-        const omipEur    = typeof d.omip_avg_eur_mwh === "number" ? d.omip_avg_eur_mwh : null;
-        const color      = typeof d.color === "string" ? d.color : "#64748b";
-        const emoji      = typeof d.emoji === "string" ? d.emoji : "📊";
-        const label      = typeof d.label_vivid === "string" ? d.label_vivid : "—";
-        const headline   = typeof d.headline === "string" ? d.headline : "";
+        const market     = typeof d.market     === "number" ? d.market     : null;
+        const omiePrice  = typeof d.omie_price === "number" ? d.omie_price : null;
+        const omieVs30d  = typeof d.omie_vs_30d === "number" ? d.omie_vs_30d : null;
+        const regime     = typeof d.regime     === "string" ? d.regime     : "—";
+        const headline   = typeof d.headline   === "string" ? d.headline   : "";
         const date       = d.date || null;
+        const color      = regimeColor(regime);
 
         // ── State badge ──
         const badge = document.getElementById("v2StateBadge");
         badge.style.background = accentBg(color);
         badge.style.color = color;
-        document.getElementById("v2StateEmoji").textContent = emoji;
-        document.getElementById("v2StateName").textContent = label;
+        document.getElementById("v2StateName").textContent = regime;
 
         // ── Big score ──
         const scoreEl = document.getElementById("v2ScoreNum");
         scoreEl.textContent = score !== null ? fmtNum(score, 1) : "—";
         scoreEl.style.color = color;
 
-        // ── Thermometer bar (width = score%, background = color) ──
+        // ── Index bar (width = score%, background = color) ──
         if (score !== null) {
           const fill = document.getElementById("v2GaugeFill");
           fill.style.width = Math.min(100, Math.max(0, score)) + "%";
@@ -271,24 +289,28 @@
         // ── Headline ──
         document.getElementById("v2StateDesc").textContent = headline;
 
-        // ── Structural + OMIP row ──
+        // ── Meta row: Structural · Market · OMIE ──
         if (structural !== null) {
           document.getElementById("v2Structural").textContent = fmtNum(structural, 0);
           document.getElementById("v2MetaRow").style.display = "";
         }
-        if (omipPct !== null) {
-          document.getElementById("v2OmipPct").textContent = fmtNum(omipPct, 0);
-          document.getElementById("v2OmipEur").textContent = omipEur !== null ? fmtNum(omipEur, 1) : "—";
-          document.getElementById("v2OmipSpan").style.display = "";
+        if (market !== null) {
+          document.getElementById("v2Market").textContent = fmtNum(market, 0);
+          document.getElementById("v2MarketSpan").style.display = "";
+        }
+        if (omiePrice !== null) {
+          document.getElementById("v2OmiePrice").textContent = fmtNum(omiePrice, 1);
+          const vs30dText = omieVs30d !== null
+            ? (omieVs30d >= 0 ? "+" : "") + fmtNum(omieVs30d, 1) + "%"
+            : "—";
+          document.getElementById("v2OmieVs30d").textContent = vs30dText;
+          document.getElementById("v2OmieSpan").style.display = "";
         }
 
         // ── Date ──
-        if (date) document.getElementById("v2AsOf").textContent = "📅 " + fmtDate(date);
+        if (date) document.getElementById("v2AsOf").textContent = fmtDate(date);
 
         // ── Institutional Card ──
-        const regime = typeof d.label_technical === "string" ? d.label_technical : label;
-        const subline = typeof d.subline === "string" ? d.subline : null;
-
         document.getElementById("instBar").style.background = color;
         document.getElementById("instDate").textContent = date || "—";
 
@@ -311,74 +333,52 @@
           if (structural >= 80) document.getElementById("instTight").style.display = "";
         }
 
-        // OMIP row
-        if (omipPct !== null) {
-          document.getElementById("instOmipPct").textContent = fmtNum(omipPct, 0);
-          document.getElementById("instOmipEur").textContent = omipEur !== null ? fmtNum(omipEur, 1) : "—";
-          document.getElementById("instOmipRow").style.display = "";
+        // Market bar
+        if (market !== null) {
+          document.getElementById("instMarketBar").style.width = Math.min(100, market) + "%";
+          document.getElementById("instMarketBar").style.background = color;
+          document.getElementById("instMarketNum").textContent = fmtNum(market, 1) + " / 100";
         }
 
-        // Headline + subline
+        // OMIE row
+        if (omiePrice !== null) {
+          document.getElementById("instOmiePrice").textContent = fmtNum(omiePrice, 1);
+          const vs30dText = omieVs30d !== null
+            ? (omieVs30d >= 0 ? "+" : "") + fmtNum(omieVs30d, 1) + "%"
+            : "—";
+          document.getElementById("instOmieVs30d").textContent = vs30dText;
+          document.getElementById("instOmieRow").style.display = "";
+        }
+
+        // Headline
         if (headline) document.getElementById("instHeadline").textContent = headline;
-        if (subline) {
-          document.getElementById("instSubline").textContent = subline;
-          document.getElementById("instSubline").style.display = "";
+
+        // ── Technical KPIs ──
+        document.getElementById("kpiSESI").textContent       = fmtNum(score, 1);
+        document.getElementById("kpiStructural").textContent  = fmtNum(structural, 1);
+        document.getElementById("kpiOMIP").textContent        = market !== null ? fmtNum(market, 1) : "—";
+        document.getElementById("kpiD").textContent           = omieVs30d !== null
+          ? (omieVs30d >= 0 ? "+" : "") + fmtNum(omieVs30d, 1) + "%"
+          : "—";
+        if (omiePrice !== null) {
+          document.getElementById("omipLevel").textContent =
+            `OMIE day-ahead: ${fmtNum(omiePrice, 1)} €/MWh`;
         }
 
         // ── Clipboard text ──
-        const metaParts = [];
-        if (structural !== null) metaParts.push(`Structural: ${fmtNum(structural, 0)}/100`);
-        if (omipPct !== null)    metaParts.push(`OMIP: ${fmtNum(omipPct, 0)}/100`);
-        if (omipEur !== null)    metaParts.push(`${fmtNum(omipEur, 1)} €/MWh`);
-
         document.getElementById("_cardText").value = [
           "SESI — Spain Energy Stress Index",
           "─────────────────────────────────",
-          `Date:    ${date || "—"}`,
-          `Regime:  ${regime}`,
-          `SESI:    ${fmtNum(score, 1)} / 100`,
-          `Struct:  ${fmtNum(structural, 1)} / 100${structural >= 80 ? "  ▲ TIGHT" : ""}`,
-          omipPct !== null ? `OMIP:    ${fmtNum(omipPct, 0)} pct-rank · ${fmtNum(omipEur, 1)} €/MWh` : "",
-          "",
-          headline,
-          subline || "",
+          `Date:       ${date || "—"}`,
+          `Regime:     ${regime}`,
+          `SESI:       ${fmtNum(score, 1)} / 100`,
+          `Structural: ${fmtNum(structural, 1)} / 100${structural >= 80 ? "  ▲ TIGHT" : ""}`,
+          market !== null ? `Market:     ${fmtNum(market, 1)} / 100` : "",
+          omiePrice !== null ? `OMIE:       ${fmtNum(omiePrice, 1)} €/MWh (${omieVs30d !== null ? (omieVs30d >= 0 ? "+" : "") + fmtNum(omieVs30d, 1) + "% vs 30d" : ""})` : "",
+          headline ? `\n${headline}` : "",
           "",
           "→ paragua.io/sesi",
-        ].filter(l => l !== undefined).join("\n");
-
-        // ── Technical KPIs (from today.json if available) ──
-        try {
-          const r2 = await fetch("assets/public/today.json", { cache: "no-store" });
-          if (r2.ok) {
-            const t = await r2.json();
-            const sesi2   = typeof t.SESI === "number" ? t.SESI : null;
-            const str2    = typeof t.SESI_structural === "number" ? t.SESI_structural : null;
-            const omip2   = t.OMIP && typeof t.OMIP.omip_exp_pct_pre2022 === "number" ? t.OMIP.omip_exp_pct_pre2022 : null;
-            const dis2    = t.OMIP && typeof t.OMIP.dislocation_pct_pts === "number" ? t.OMIP.dislocation_pct_pts : null;
-            const omipAvg = t.OMIP && typeof t.OMIP.omip_1_3m_avg === "number" ? t.OMIP.omip_1_3m_avg : null;
-            const omipAsof= t.OMIP && t.OMIP.asof ? t.OMIP.asof : null;
-
-            document.getElementById("kpiSESI").textContent      = fmtNum(sesi2, 1);
-            document.getElementById("kpiStructural").textContent = fmtNum(str2, 1);
-            document.getElementById("kpiOMIP").textContent       = fmtNum(omip2, 1);
-            document.getElementById("kpiD").textContent          =
-              dis2 !== null ? (dis2 >= 0 ? "+" : "") + fmtNum(dis2, 1) : "—";
-            if (omipAvg !== null && omipAsof) {
-              document.getElementById("omipLevel").textContent =
-                `OMIP 1–3M avg: ${fmtNum(omipAvg, 1)} €/MWh (as of ${omipAsof})`;
-            }
-            const elV = document.getElementById("noteVerbose");
-            if (typeof t.note_short === "string" && t.note_short.trim()) {
-              document.getElementById("noteShort").textContent = t.note_short;
-            }
-            if (typeof t.note_verbose_html === "string" && t.note_verbose_html.trim()) {
-              elV.innerHTML = t.note_verbose_html;
-            } else if (typeof t.note_verbose_md === "string" && t.note_verbose_md.trim()) {
-              elV.textContent = t.note_verbose_md;
-              elV.style.whiteSpace = "pre-wrap";
-            }
-          }
-        } catch (_) { /* today.json is optional */ }
+        ].filter(Boolean).join("\n");
 
       } catch (e) {
         console.error("SESI data error:", e);
