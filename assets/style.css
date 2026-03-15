@@ -463,6 +463,116 @@ details.verbose summary:hover{
 }
 .v2-details-summary:hover{ text-decoration: underline; }
 
+/* ─── INSTITUTIONAL CARD ─── */
+.inst-card{
+  border: 1px solid #E0E0E0;
+  border-radius: 4px;
+  background: #fff;
+  overflow: hidden;
+  max-width: 600px;
+}
+.inst-card-bar{
+  height: 4px;
+  background: #64748b;
+}
+.inst-card-body{
+  padding: 20px;
+}
+.inst-row{
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  padding: 5px 0;
+  border-bottom: 1px solid #F5F5F5;
+}
+.inst-row:last-of-type{ border-bottom: none; }
+.inst-lbl{
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #757575;
+  min-width: 110px;
+  flex-shrink: 0;
+}
+.inst-val{
+  font-size: 13px;
+  font-weight: 600;
+  color: #1A1A1A;
+}
+.inst-val.regime{ font-weight: 700; }
+.inst-divider{
+  height: 1px;
+  background: #EEEEEE;
+  margin: 14px 0;
+}
+.inst-metric-lbl{
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #757575;
+  margin-bottom: 6px;
+}
+.inst-metric-row{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+.inst-metric-track{
+  flex: 1;
+  height: 8px;
+  background: #EEEEEE;
+  border-radius: 2px;
+  overflow: hidden;
+}
+.inst-metric-fill{
+  height: 100%;
+  border-radius: 2px;
+  background: #64748b;
+}
+.inst-metric-num{
+  font-size: 12px;
+  font-weight: 700;
+  color: #1A1A1A;
+  white-space: nowrap;
+  min-width: 72px;
+  text-align: right;
+}
+.inst-tight{
+  font-size: 11px;
+  font-weight: 600;
+  color: #F59E0B;
+  white-space: nowrap;
+}
+.inst-omip{
+  font-size: 12px;
+  color: #757575;
+  margin-bottom: 14px;
+}
+.inst-omip strong{ color: #1A1A1A; }
+.inst-headline{
+  font-size: 14px;
+  line-height: 1.6;
+  color: #1A1A1A;
+  max-width: 480px;
+  margin: 0 0 6px 0;
+}
+.inst-subline{
+  font-size: 12px;
+  color: #757575;
+  line-height: 1.5;
+  margin: 0;
+}
+.inst-actions{
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid #EEEEEE;
+}
+
 /* ─── RESPONSIVE ─── */
 @media (max-width: 480px){
   .v2-score-num{ font-size: 4em; }
