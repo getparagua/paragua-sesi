@@ -77,26 +77,54 @@
 
   <!-- SESI CARD -->
   <section>
-    <h3>Today's card</h3>
-    <p class="muted">Snapshot of the current SESI state — copy and share it.</p>
+    <div class="inst-card">
+      <div class="inst-card-bar" id="instBar"></div>
+      <div class="inst-card-body">
 
-    <div class="v2-card" id="v2Card">
-      <div class="v2-card-top">
-        <div class="v2-card-brand">🌡️ SESI — Spain Energy Stress Index</div>
-        <div class="v2-card-date muted" id="v2CardDate">—</div>
-      </div>
-      <div class="v2-card-state-row">
-        <span class="v2-card-emoji" id="v2CardEmoji">—</span>
-        <div>
-          <div class="v2-card-state-name" id="v2CardStateName">—</div>
-          <div class="v2-card-score-line" id="v2CardScoreLine">— / 100</div>
+        <div class="inst-row">
+          <span class="inst-lbl">Date</span>
+          <span class="inst-val" id="instDate">—</span>
         </div>
-      </div>
-      <div class="v2-card-note" id="v2CardNote">—</div>
-      <div class="v2-card-meta" id="v2CardMeta">—</div>
-      <div class="v2-card-actions">
-        <button class="btn" id="copyBtn" onclick="copyCard()">📋 Copy card</button>
-        <span class="muted" style="font-size:0.84em;">paragua.io/sesi</span>
+        <div class="inst-row">
+          <span class="inst-lbl">Regime</span>
+          <span class="inst-val regime" id="instRegime">—</span>
+        </div>
+
+        <div class="inst-divider"></div>
+
+        <div class="inst-metric-lbl">Realized Stress</div>
+        <div class="inst-metric-row">
+          <div class="inst-metric-track">
+            <div class="inst-metric-fill" id="instSesiBar"></div>
+          </div>
+          <span class="inst-metric-num" id="instSesiNum">—</span>
+        </div>
+
+        <div class="inst-metric-lbl">Structural Backdrop</div>
+        <div class="inst-metric-row">
+          <div class="inst-metric-track">
+            <div class="inst-metric-fill" id="instStructBar"></div>
+          </div>
+          <span class="inst-metric-num" id="instStructNum">—</span>
+          <span class="inst-tight" id="instTight" style="display:none;">▲ TIGHT</span>
+        </div>
+
+        <div class="inst-omip" id="instOmipRow" style="display:none;">
+          OMIP Forward 1–3M:&nbsp;
+          <strong id="instOmipPct">—</strong> pct-rank
+          &nbsp;·&nbsp;<strong id="instOmipEur">—</strong> €/MWh
+        </div>
+
+        <div class="inst-divider"></div>
+
+        <p class="inst-headline" id="instHeadline">—</p>
+        <p class="inst-subline" id="instSubline" style="display:none;">—</p>
+
+        <div class="inst-actions">
+          <button class="btn" id="copyBtn" onclick="copyCard()">📋 Copy card</button>
+          <span class="muted" style="font-size:0.84em;">paragua.io/sesi</span>
+        </div>
+
       </div>
     </div>
   </section>
@@ -257,36 +285,66 @@
         // ── Date ──
         if (date) document.getElementById("v2AsOf").textContent = "📅 " + fmtDate(date);
 
-        // ── SESI Card ──
-        document.getElementById("v2CardDate").textContent = date ? fmtDate(date) : "—";
-        document.getElementById("v2CardEmoji").textContent = emoji;
-        const nameEl = document.getElementById("v2CardStateName");
-        nameEl.textContent = label;
-        nameEl.style.color = color;
-        document.getElementById("v2CardScoreLine").textContent =
-          score !== null ? fmtNum(score, 1) + " / 100" : "— / 100";
-        document.getElementById("v2CardNote").textContent = headline;
+        // ── Institutional Card ──
+        const regime = typeof d.label_technical === "string" ? d.label_technical : label;
+        const subline = typeof d.subline === "string" ? d.subline : null;
 
+        document.getElementById("instBar").style.background = color;
+        document.getElementById("instDate").textContent = date || "—";
+
+        const regimeEl = document.getElementById("instRegime");
+        regimeEl.textContent = regime;
+        regimeEl.style.color = color;
+
+        // Realized stress bar
+        if (score !== null) {
+          document.getElementById("instSesiBar").style.width = Math.min(100, score) + "%";
+          document.getElementById("instSesiBar").style.background = color;
+          document.getElementById("instSesiNum").textContent = fmtNum(score, 1) + " / 100";
+        }
+
+        // Structural bar + TIGHT badge
+        if (structural !== null) {
+          document.getElementById("instStructBar").style.width = Math.min(100, structural) + "%";
+          document.getElementById("instStructBar").style.background = color;
+          document.getElementById("instStructNum").textContent = fmtNum(structural, 1) + " / 100";
+          if (structural >= 80) document.getElementById("instTight").style.display = "";
+        }
+
+        // OMIP row
+        if (omipPct !== null) {
+          document.getElementById("instOmipPct").textContent = fmtNum(omipPct, 0);
+          document.getElementById("instOmipEur").textContent = omipEur !== null ? fmtNum(omipEur, 1) : "—";
+          document.getElementById("instOmipRow").style.display = "";
+        }
+
+        // Headline + subline
+        if (headline) document.getElementById("instHeadline").textContent = headline;
+        if (subline) {
+          document.getElementById("instSubline").textContent = subline;
+          document.getElementById("instSubline").style.display = "";
+        }
+
+        // ── Clipboard text ──
         const metaParts = [];
         if (structural !== null) metaParts.push(`Structural: ${fmtNum(structural, 0)}/100`);
         if (omipPct !== null)    metaParts.push(`OMIP: ${fmtNum(omipPct, 0)}/100`);
         if (omipEur !== null)    metaParts.push(`${fmtNum(omipEur, 1)} €/MWh`);
-        document.getElementById("v2CardMeta").textContent = metaParts.join(" · ");
 
-        // ── Clipboard text ──
         document.getElementById("_cardText").value = [
-          "🌡️ SESI — Spain Energy Stress Index",
-          "━━━━━━━━━━━━━━━━━━━━━",
-          date ? "📅 " + fmtDate(date) : "",
-          "",
-          `${emoji} ${label} — ${fmtNum(score, 1)} / 100`,
+          "SESI — Spain Energy Stress Index",
+          "─────────────────────────────────",
+          `Date:    ${date || "—"}`,
+          `Regime:  ${regime}`,
+          `SESI:    ${fmtNum(score, 1)} / 100`,
+          `Struct:  ${fmtNum(structural, 1)} / 100${structural >= 80 ? "  ▲ TIGHT" : ""}`,
+          omipPct !== null ? `OMIP:    ${fmtNum(omipPct, 0)} pct-rank · ${fmtNum(omipEur, 1)} €/MWh` : "",
           "",
           headline,
-          "",
-          metaParts.length ? "─ " + metaParts.join(" · ") : "",
+          subline || "",
           "",
           "→ paragua.io/sesi",
-        ].join("\n");
+        ].filter(l => l !== undefined).join("\n");
 
         // ── Technical KPIs (from today.json if available) ──
         try {
