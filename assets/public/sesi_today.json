@@ -1,0 +1,13 @@
+{
+  "date": "2025-03-15",
+  "score": 67.0,
+  "structural": 82.0,
+  "label_technical": "STRESSED",
+  "label_vivid": "HOT",
+  "emoji": "🔥",
+  "color": "#FF7043",
+  "thermometer_bar": "[====================        ] 67",
+  "headline": "Spain's electricity market is running hot — stress at 67/100.",
+  "omip_pct": 54.0,
+  "omip_avg_eur_mwh": 48.3
+}
