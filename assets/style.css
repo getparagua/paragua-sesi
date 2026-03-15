@@ -268,3 +268,203 @@ details.verbose summary{
 details.verbose summary:hover{
   text-decoration: underline;
 }
+
+/* ─── V2 STATE COLORS ─── */
+:root{
+  --frozen:   #3b82f6;
+  --warm:     #65a30d;
+  --hot:      #d97706;
+  --burning:  #ea580c;
+  --meltdown: #dc2626;
+}
+
+/* ─── V2 HERO ─── */
+.v2-hero{
+  text-align: center;
+  padding: 28px 18px 22px;
+}
+.v2-hero-eyebrow{
+  font-size: 0.82em;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+.v2-hero h1{
+  font-size: 3.6em;
+  font-weight: 900;
+  letter-spacing: -3px;
+  margin: 0 0 8px 0;
+  line-height: 1;
+}
+.v2-hero-sub{
+  color: var(--muted);
+  max-width: 54ch;
+  margin: 0 auto;
+  font-size: 1em;
+}
+
+/* ─── V2 STATE SECTION ─── */
+.v2-state-section{
+  text-align: center;
+  padding: 10px 0 28px;
+}
+.v2-state-badge{
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 24px;
+  border-radius: 999px;
+  font-weight: 800;
+  font-size: 1.05em;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+  transition: background 0.4s, color 0.4s;
+}
+.v2-state-emoji{ font-size: 1.5em; }
+
+.v2-score-row{
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 6px;
+  margin-bottom: 22px;
+}
+.v2-score-num{
+  font-size: 5.2em;
+  font-weight: 900;
+  letter-spacing: -4px;
+  line-height: 1;
+  transition: color 0.4s;
+}
+.v2-score-max{
+  font-size: 1.6em;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+/* ─── GAUGE BAR ─── */
+.v2-gauge-wrap{
+  margin: 0 auto 18px;
+  max-width: 580px;
+}
+.v2-gauge-bar{
+  position: relative;
+  height: 20px;
+  border-radius: 999px;
+  background: linear-gradient(to right,
+    #3b82f6 0%,   #3b82f6 20%,
+    #84cc16 20%,  #84cc16 40%,
+    #f59e0b 40%,  #f59e0b 60%,
+    #f97316 60%,  #f97316 80%,
+    #ef4444 80%,  #ef4444 100%
+  );
+  margin-bottom: 10px;
+}
+.v2-gauge-pointer{
+  position: absolute;
+  top: -7px;
+  transform: translateX(-50%);
+  width: 6px;
+  height: 34px;
+  background: #0f172a;
+  border-radius: 3px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.35);
+  transition: left 0.7s cubic-bezier(.4,0,.2,1), background 0.4s;
+}
+.v2-gauge-labels{
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.76em;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  padding: 0 2px;
+}
+.v2-state-desc{
+  font-size: 1.05em;
+  max-width: 52ch;
+  margin: 0 auto 8px;
+  line-height: 1.65;
+  font-weight: 500;
+}
+.v2-as-of{
+  font-size: 0.88em;
+}
+
+/* ─── SESI CARD ─── */
+.v2-card{
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px 20px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+  max-width: 480px;
+}
+.v2-card-top{
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 14px;
+}
+.v2-card-brand{
+  font-weight: 700;
+  font-size: 0.93em;
+}
+.v2-card-state-row{
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+.v2-card-emoji{
+  font-size: 2.8em;
+  line-height: 1;
+}
+.v2-card-state-name{
+  font-size: 1.65em;
+  font-weight: 900;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+.v2-card-score-line{
+  font-size: 1.1em;
+  color: var(--muted);
+  font-weight: 600;
+}
+.v2-card-note{
+  font-size: 0.9em;
+  line-height: 1.55;
+  white-space: pre-wrap;
+  margin-bottom: 8px;
+}
+.v2-card-meta{
+  font-size: 0.82em;
+  color: var(--muted);
+  margin-bottom: 14px;
+}
+.v2-card-actions{
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+/* ─── V2 DETAILS SUMMARY ─── */
+.v2-details-summary{
+  cursor: pointer;
+  user-select: none;
+  font-weight: 600;
+  font-size: 0.95em;
+  color: var(--paragua-blue-dark);
+  padding: 8px 0;
+  list-style: none;
+}
+.v2-details-summary:hover{ text-decoration: underline; }
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 480px){
+  .v2-score-num{ font-size: 4em; }
+  .v2-hero h1{ font-size: 2.8em; }
+  .v2-gauge-labels{ font-size: 0.68em; }
+}

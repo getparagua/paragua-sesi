@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>SESI - Spain Energy Stress Index</title>
+  <title>SESI — Spain Energy Stress Index</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="SESI is a public benchmark measuring stress regimes in the Spanish power market.">
+  <meta name="description" content="SESI is a public thermometer for the Spanish power market — 0 to 100, from FROZEN to MELTDOWN. Updated daily.">
 
   <link rel="icon" href="assets/img/favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="assets/style.css">
@@ -20,7 +20,6 @@
         <span>Independent research & benchmarks</span>
       </div>
     </div>
-
     <div class="nav-links">
       <a class="btn primary" href="index.html">Home</a>
       <a class="btn" href="dashboard.html">Dashboard</a>
@@ -29,149 +28,120 @@
     </div>
   </div>
 
-  <div class="hero">
+  <!-- HERO -->
+  <div class="hero v2-hero">
+    <div class="v2-hero-eyebrow">Spain Energy Stress Index</div>
     <h1>SESI</h1>
-    <h2>Spain Energy Stress Index</h2>
-    <p class="subtitle">
-      A public market stress benchmark for the Spanish power market, designed for
-      <strong>clear risk communication</strong> and <strong>regime monitoring</strong>.
+    <p class="v2-hero-sub">
+      A public thermometer for the Spanish power market — updated daily.
+      Think Big Mac Index, but for energy stress.
     </p>
   </div>
 
-  <section>
-    <h3>What is SESI?</h3>
-    <p>
-      SESI is an independent benchmark that tracks <strong>market stress regimes</strong> in Spanish electricity.
-      It helps answer one simple question:
-      <strong>“Are we in a calm regime, or in a regime where the market tends to move a lot?”</strong>
-    </p>
+  <!-- STATE DISPLAY -->
+  <section class="v2-state-section">
 
-    <div class="callout">
-      <p style="margin:0;">
-        SESI is <strong>not</strong> a trading signal. Percentiles are <strong>rankings</strong>, not probabilities.
-      </p>
+    <div class="v2-state-badge" id="v2StateBadge">
+      <span class="v2-state-emoji" id="v2StateEmoji">—</span>
+      <span id="v2StateName">Loading…</span>
+    </div>
+
+    <div class="v2-score-row">
+      <span class="v2-score-num" id="v2ScoreNum">—</span>
+      <span class="v2-score-max">/100</span>
+    </div>
+
+    <div class="v2-gauge-wrap">
+      <div class="v2-gauge-bar">
+        <div class="v2-gauge-pointer" id="v2Pointer" style="left:50%"></div>
+      </div>
+      <div class="v2-gauge-labels">
+        <span style="color:#3b82f6">❄️ FROZEN</span>
+        <span style="color:#65a30d">WARM</span>
+        <span style="color:#d97706">HOT</span>
+        <span style="color:#ea580c">BURNING</span>
+        <span style="color:#dc2626">MELTDOWN 🔥</span>
+      </div>
+    </div>
+
+    <div class="v2-state-desc" id="v2StateDesc">—</div>
+    <div class="v2-as-of muted" id="v2AsOf"></div>
+
+  </section>
+
+  <!-- SESI CARD -->
+  <section>
+    <h3>Today's card</h3>
+    <p class="muted">Snapshot of the current SESI state — copy and share it.</p>
+
+    <div class="v2-card" id="v2Card">
+      <div class="v2-card-top">
+        <div class="v2-card-brand">🌡️ SESI — Spain Energy Stress Index</div>
+        <div class="v2-card-date muted" id="v2CardDate">—</div>
+      </div>
+      <div class="v2-card-state-row">
+        <span class="v2-card-emoji" id="v2CardEmoji">—</span>
+        <div>
+          <div class="v2-card-state-name" id="v2CardStateName">—</div>
+          <div class="v2-card-score-line" id="v2CardScoreLine">— / 100</div>
+        </div>
+      </div>
+      <div class="v2-card-note" id="v2CardNote">—</div>
+      <div class="v2-card-meta" id="v2CardMeta">—</div>
+      <div class="v2-card-actions">
+        <button class="btn" id="copyBtn" onclick="copyCard()">📋 Copy card</button>
+        <span class="muted" style="font-size:0.84em;">paragua.io/sesi</span>
+      </div>
     </div>
   </section>
 
+  <!-- TECHNICAL DETAILS -->
   <section>
-    <h3>Today’s Snapshot</h3>
-    <p class="muted" id="asofText">Latest values reflect market conditions as of the most recent trading day.</p>
+    <details>
+      <summary class="v2-details-summary">Technical details ↓</summary>
+      <div style="margin-top:12px;">
 
-    <p>
-      <span class="badge omie"><span class="dot"></span>OMIE (spot)</span>
-      <span class="badge omip"><span class="dot"></span>OMIP (expected, pct)</span>
-      <span class="badge structural"><span class="dot"></span>Structural context</span>
-    </p>
-
-    <div class="card">
-      <div class="card-title">
-        <strong>Today’s Snapshot</strong>
-        <span class="muted">visual benchmark (v0.1)</span>
-      </div>
-
-      <div class="kpi-grid">
-        <div class="kpi omie">
-          <div class="label">SESI (realized, pct)</div>
-          <div class="value" id="kpiSESI">-</div>
-        </div>
-
-        <div class="kpi structural">
-          <div class="label">SESI_structural (pct)</div>
-          <div class="value" id="kpiStructural">-</div>
-        </div>
-
-        <div class="kpi omip">
-          <div class="label">Expected stress (OMIP, pct)</div>
-          <div class="value" id="kpiOMIP">-</div>
-          <div class="muted" style="margin-top:6px;" id="omipLevel">—</div>
-        </div>
-
-        <div class="kpi dislocation">
-          <div class="label">Dislocation D (pct pts)</div>
-          <div class="value" id="kpiD">-</div>
-        </div>
-      </div>
-
-      <p class="muted" style="margin-top:12px;" id="snapshotStatus">
-        Values will be populated automatically via daily publishing.
-      </p>
-
-      <!-- ✅ Power metric (simple, public-friendly) -->
-      <div style="margin-top:14px;">
-        <div class="muted" style="margin-bottom:6px;"><strong>What SESI typically means next (historical)</strong></div>
-
-        <div class="callout">
-          <div id="valHeadline" style="font-weight:750;">—</div>
-          <div class="muted" id="valExplainer" style="margin-top:6px; line-height:1.6;">—</div>
-
-          <div class="kpi-grid" style="margin-top:12px;">
-            <div class="kpi">
-              <div class="label">Regime (map)</div>
-              <div class="value" id="valRegime">—</div>
-            </div>
-            <div class="kpi">
-              <div class="label">Typical 7D max move</div>
-              <div class="value" id="valMove7d">—</div>
-              <div class="muted" style="margin-top:6px;">Median, €/MWh</div>
-            </div>
-            <div class="kpi">
-              <div class="label">Spike days (next 30D)</div>
-              <div class="value" id="valSpike30d">—</div>
-              <div class="muted" style="margin-top:6px;">Median share of days</div>
-            </div>
-            <div class="kpi">
-              <div class="label">Sample size</div>
-              <div class="value" id="valN">—</div>
-              <div class="muted" style="margin-top:6px;">Historical days</div>
-            </div>
+        <div class="kpi-grid">
+          <div class="kpi omie">
+            <div class="label">SESI (realized, pct)</div>
+            <div class="value" id="kpiSESI">-</div>
           </div>
-
-          <p class="muted" style="margin-top:10px;">
-            These are <strong>historical conditional statistics</strong>: what happened after similar regime states in the past.
-            They are descriptive and do not imply a forecast.
-          </p>
-
-          <p style="margin-top:10px;">
-            <a class="btn" href="dashboard.html#validation">See the validation chart</a>
-          </p>
+          <div class="kpi structural">
+            <div class="label">SESI_structural (pct)</div>
+            <div class="value" id="kpiStructural">-</div>
+          </div>
+          <div class="kpi omip">
+            <div class="label">Expected stress (OMIP)</div>
+            <div class="value" id="kpiOMIP">-</div>
+            <div class="muted" style="margin-top:6px;" id="omipLevel">—</div>
+          </div>
+          <div class="kpi dislocation">
+            <div class="label">Dislocation D (pct pts)</div>
+            <div class="value" id="kpiD">-</div>
+          </div>
         </div>
-      </div>
 
-      <!-- Market note -->
-      <div style="margin-top:14px;">
-        <div class="muted" style="margin-bottom:6px;"><strong>Market note</strong></div>
-
-        <div class="callout">
-          <div id="noteShort" style="white-space:pre-wrap;">—</div>
-
+        <div class="callout" style="margin-top:12px;">
+          <div id="noteShort" style="white-space:pre-wrap; font-size:0.95em;">—</div>
           <details class="verbose" style="margin-top:10px;">
-            <summary>Read the full note (verbose)</summary>
-            <div id="noteVerbose" class="muted" style="margin-top:10px; white-space:normal; line-height:1.7;">—</div>
+            <summary>Full market note</summary>
+            <div id="noteVerbose" class="muted" style="margin-top:10px; line-height:1.7;">—</div>
           </details>
         </div>
-      </div>
 
-      <p style="margin-top:12px;">
-        <a class="btn primary" href="dashboard.html">Open dashboard</a>
-        <a class="btn" href="methodology.html">Read methodology</a>
-      </p>
-    </div>
+        <div class="callout" style="margin-top:10px;">
+          <p style="margin:0; font-size:0.9em;">
+            SESI is <strong>not</strong> a trading signal. Percentiles are <strong>rankings</strong>, not probabilities.
+          </p>
+        </div>
+
+      </div>
+    </details>
   </section>
 
-  <section>
-    <h3>Charts</h3>
-    <p class="muted">
-      Canonical views:
-    </p>
-    <ul>
-      <li><strong>Stress</strong>: SESI vs structural vs expected stress</li>
-      <li><strong>Dislocation</strong>: expectations gap vs structural regime</li>
-      <li><strong>Validation</strong>: simple “what usually happens next” by regime</li>
-    </ul>
-
-    <p>
-      <a class="btn green" href="dashboard.html">Go to charts</a>
-    </p>
+  <section style="margin: 24px 0 32px;">
+    <a class="btn primary" href="dashboard.html">Open dashboard →</a>
+    <a class="btn" style="margin-left:8px;" href="methodology.html">How it works</a>
   </section>
 
   <footer>
@@ -186,131 +156,178 @@
     </div>
   </footer>
 
+  <!-- Hidden textarea for clipboard -->
+  <textarea id="_cardText" style="position:absolute;left:-9999px;top:-9999px;" aria-hidden="true"></textarea>
+
   <script>
-    function fmtNum(x, decimals) {
-      if (x === null || x === undefined) return "-";
-      if (typeof x !== "number") return String(x);
-      return x.toFixed(decimals);
+    const STATES = [
+      {
+        name: "FROZEN",   emoji: "❄️",  min: 0,  max: 20,
+        color: "#3b82f6", bg: "#eff6ff",
+        desc: "Ice cold. The market is barely stressed — historically one of the calmest periods on record."
+      },
+      {
+        name: "WARM",     emoji: "🌤️", min: 20, max: 40,
+        color: "#65a30d", bg: "#f7fee7",
+        desc: "Mild warmth. Below-average stress — the market is calm but not at record lows."
+      },
+      {
+        name: "HOT",      emoji: "🌡️", min: 40, max: 60,
+        color: "#d97706", bg: "#fffbeb",
+        desc: "Running hot. Above-average stress — volatility is picking up, worth watching."
+      },
+      {
+        name: "BURNING",  emoji: "🔥",  min: 60, max: 80,
+        color: "#ea580c", bg: "#fff7ed",
+        desc: "High stress. The market is in a historically tense regime — significant price moves are common."
+      },
+      {
+        name: "MELTDOWN", emoji: "💥",  min: 80, max: 101,
+        color: "#dc2626", bg: "#fef2f2",
+        desc: "Extreme stress. Top historical territory — the Spanish power market is under severe pressure."
+      },
+    ];
+
+    function getState(sesi) {
+      if (sesi === null || sesi === undefined) return STATES[2];
+      return STATES.find(s => sesi >= s.min && sesi < s.max) || STATES[STATES.length - 1];
     }
 
-    function classifyQuadrant(sesi, structural, thr) {
-      if (sesi === null || structural === null) return "—";
-      const xHigh = structural >= thr;
-      const yHigh = sesi >= thr;
-      if (!yHigh && !xHigh) return "Calm";
-      if (!yHigh && xHigh) return "Latent risk";
-      if (yHigh && !xHigh) return "Realized stress";
-      return "Full crisis";
+    function fmtNum(x, d) {
+      if (x === null || x === undefined || typeof x !== "number" || isNaN(x)) return "—";
+      return x.toFixed(d);
+    }
+
+    function fmtDate(str) {
+      if (!str) return "—";
+      try {
+        const d = new Date(str + "T12:00:00Z");
+        return d.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+      } catch { return str; }
+    }
+
+    function copyCard() {
+      const text = document.getElementById("_cardText").value;
+      if (!text) return;
+      const btn = document.getElementById("copyBtn");
+      const orig = btn.textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        btn.textContent = "✅ Copied!";
+        setTimeout(() => btn.textContent = orig, 2200);
+      }).catch(() => {
+        const ta = document.getElementById("_cardText");
+        ta.select();
+        document.execCommand("copy");
+        btn.textContent = "✅ Copied!";
+        setTimeout(() => btn.textContent = orig, 2200);
+      });
     }
 
     (async function () {
       try {
-        // 1) today.json
         const res = await fetch("assets/public/today.json", { cache: "no-store" });
         if (!res.ok) throw new Error("today.json not found");
         const d = await res.json();
 
-        const sesi = (typeof d.SESI === "number") ? d.SESI : null;
-        const structural = (typeof d.SESI_structural === "number") ? d.SESI_structural : null;
+        const sesi       = typeof d.SESI === "number" ? d.SESI : null;
+        const structural = typeof d.SESI_structural === "number" ? d.SESI_structural : null;
+        const omipPct    = d.OMIP && typeof d.OMIP.omip_exp_pct_pre2022 === "number" ? d.OMIP.omip_exp_pct_pre2022 : null;
+        const disloc     = d.OMIP && typeof d.OMIP.dislocation_pct_pts === "number" ? d.OMIP.dislocation_pct_pts : null;
+        const omipAvg    = d.OMIP && typeof d.OMIP.omip_1_3m_avg === "number" ? d.OMIP.omip_1_3m_avg : null;
+        const omipAsof   = d.OMIP && d.OMIP.asof ? d.OMIP.asof : null;
+        const date       = d.date || d.asof_date || null;
 
-        const omipPct = (d.OMIP && typeof d.OMIP.omip_exp_pct_pre2022 === "number")
-          ? d.OMIP.omip_exp_pct_pre2022 : null;
+        const state = getState(sesi);
 
-        const disloc = (d.OMIP && typeof d.OMIP.dislocation_pct_pts === "number")
-          ? d.OMIP.dislocation_pct_pts : null;
+        // ── State badge ──
+        const badge = document.getElementById("v2StateBadge");
+        badge.style.background = state.bg;
+        badge.style.color = state.color;
+        document.getElementById("v2StateEmoji").textContent = state.emoji;
+        document.getElementById("v2StateName").textContent = state.name;
 
-        const omipAvg = (d.OMIP && typeof d.OMIP.omip_1_3m_avg === "number")
-          ? d.OMIP.omip_1_3m_avg : null;
+        // ── Big score ──
+        const scoreEl = document.getElementById("v2ScoreNum");
+        scoreEl.textContent = sesi !== null ? fmtNum(sesi, 1) : "—";
+        scoreEl.style.color = state.color;
 
-        const omipAsof = (d.OMIP && d.OMIP.asof) ? d.OMIP.asof : null;
+        // ── Gauge pointer ──
+        if (sesi !== null) {
+          const pct = Math.min(99, Math.max(1, sesi));
+          const ptr = document.getElementById("v2Pointer");
+          ptr.style.left = pct + "%";
+          ptr.style.background = state.color;
+        }
 
-        document.getElementById("kpiSESI").textContent = fmtNum(sesi, 1);
-        document.getElementById("kpiStructural").textContent = fmtNum(structural, 1);
-        document.getElementById("kpiOMIP").textContent = fmtNum(omipPct, 1);
-        document.getElementById("kpiD").textContent =
-          (disloc === null) ? "-" : (disloc >= 0 ? "+" : "") + fmtNum(disloc, 1);
+        // ── Description & date ──
+        document.getElementById("v2StateDesc").textContent = state.desc;
+        if (date) document.getElementById("v2AsOf").textContent = "📅 " + fmtDate(date);
 
+        // ── SESI Card ──
+        document.getElementById("v2CardDate").textContent = date ? fmtDate(date) : "—";
+        document.getElementById("v2CardEmoji").textContent = state.emoji;
+        const nameEl = document.getElementById("v2CardStateName");
+        nameEl.textContent = state.name;
+        nameEl.style.color = state.color;
+        document.getElementById("v2CardScoreLine").textContent =
+          sesi !== null ? fmtNum(sesi, 1) + " / 100" : "— / 100";
+        document.getElementById("v2CardNote").textContent = d.note_short || "—";
+
+        const regime = (d.OMIP && d.OMIP.decision_label) ? d.OMIP.decision_label : (d.regime || "");
+        const flags  = (d.OMIP && Array.isArray(d.OMIP.regime_flags))
+          ? d.OMIP.regime_flags : (Array.isArray(d.regime_flags) ? d.regime_flags : []);
+        const metaParts = [];
+        if (structural !== null) metaParts.push(`Structural: ${fmtNum(structural, 0)}`);
+        if (omipPct !== null)    metaParts.push(`OMIP exp: ${fmtNum(omipPct, 0)}`);
+        if (disloc !== null)     metaParts.push(`D: ${disloc >= 0 ? "+" : ""}${fmtNum(disloc, 0)}`);
+        if (regime)              metaParts.push(regime);
+        if (flags.length)        metaParts.push(flags.join(" | "));
+        document.getElementById("v2CardMeta").textContent = metaParts.join(" · ");
+
+        // ── Clipboard text ──
+        const pctInv = sesi !== null ? Math.round(100 - sesi) : null;
+        document.getElementById("_cardText").value = [
+          "🌡️ SESI — Spain Energy Stress Index",
+          "━━━━━━━━━━━━━━━━━━━━━",
+          date ? "📅 " + fmtDate(date) : "",
+          "",
+          `${state.emoji} ${state.name} — ${fmtNum(sesi, 1)} / 100`,
+          "",
+          state.desc,
+          pctInv !== null ? `Top ${pctInv}% rarest stress days historically.` : "",
+          "",
+          metaParts.length ? "─ " + metaParts.join(" · ") : "",
+          "",
+          "→ paragua.io/sesi",
+        ].join("\n");
+
+        // ── Technical KPIs ──
+        document.getElementById("kpiSESI").textContent       = fmtNum(sesi, 1);
+        document.getElementById("kpiStructural").textContent  = fmtNum(structural, 1);
+        document.getElementById("kpiOMIP").textContent        = fmtNum(omipPct, 1);
+        document.getElementById("kpiD").textContent           =
+          disloc !== null ? (disloc >= 0 ? "+" : "") + fmtNum(disloc, 1) : "—";
         if (omipAvg !== null && omipAsof) {
           document.getElementById("omipLevel").textContent =
             `OMIP 1–3M avg: ${fmtNum(omipAvg, 1)} €/MWh (as of ${omipAsof})`;
-        } else {
-          document.getElementById("omipLevel").textContent = "—";
         }
 
-        const asof = d.asof_date || d.date || null;
-        if (asof) {
-          document.getElementById("asofText").textContent =
-            `Latest values reflect market conditions as of ${asof}.`;
-        }
-
-        // Notes
+        // ── Notes ──
         if (typeof d.note_short === "string" && d.note_short.trim()) {
           document.getElementById("noteShort").textContent = d.note_short;
-        } else {
-          document.getElementById("noteShort").textContent = "—";
         }
-
-        const vHtml = (typeof d.note_verbose_html === "string") ? d.note_verbose_html : null;
-        const vMd = (typeof d.note_verbose_md === "string") ? d.note_verbose_md : null;
-
-        const elVerbose = document.getElementById("noteVerbose");
-        if (vHtml && vHtml.trim()) {
-          elVerbose.innerHTML = vHtml;
-        } else if (vMd && vMd.trim()) {
-          elVerbose.textContent = vMd;
-          elVerbose.style.whiteSpace = "pre-wrap";
-        } else {
-          elVerbose.textContent = "—";
-        }
-
-        // Status line
-        const label = (d.OMIP && d.OMIP.decision_label) ? d.OMIP.decision_label : (d.regime || null);
-        const flags = (d.OMIP && Array.isArray(d.OMIP.regime_flags))
-          ? d.OMIP.regime_flags
-          : (Array.isArray(d.regime_flags) ? d.regime_flags : []);
-
-        let status = "Auto-updated daily.";
-        if (label) {
-          status = `Auto-updated daily. Regime: ${label}` + (flags.length ? ` | ${flags.join(" | ")}` : "");
-        }
-        document.getElementById("snapshotStatus").textContent = status;
-
-        // 2) validation_summary.json (public)
-        // This file is generated daily by the engine and published to the public repo.
-        const vres = await fetch("assets/public/validation_summary.json", { cache: "no-store" });
-        if (!vres.ok) throw new Error("validation_summary.json not found");
-        const v = await vres.json();
-
-        const thr = (typeof v.thr === "number") ? v.thr : 80;
-        const quad = classifyQuadrant(sesi, structural, thr);
-        document.getElementById("valRegime").textContent = quad;
-
-        // Find row for current quadrant (if available)
-        const rows = Array.isArray(v.rows) ? v.rows : [];
-        const row = rows.find(r => (r["Quadrant"] === quad)) || null;
-
-        if (row) {
-          const mv = (typeof row["Median 7D max move (€/MWh)"] === "number") ? row["Median 7D max move (€/MWh)"] : null;
-          const sp = (typeof row["Median 30D spike freq (|ΔP|>20€/MWh)"] === "number") ? row["Median 30D spike freq (|ΔP|>20€/MWh)"] : null;
-          const n = (typeof row["Days (N)"] === "number") ? row["Days (N)"] : null;
-
-          document.getElementById("valMove7d").textContent = (mv===null) ? "-" : fmtNum(mv, 1);
-          document.getElementById("valSpike30d").textContent = (sp===null) ? "-" : fmtNum(sp * 100, 0) + "%";
-          document.getElementById("valN").textContent = (n===null) ? "-" : String(n);
-
-          // Headline: simple and punchy
-          document.getElementById("valHeadline").textContent =
-            `In this regime, the market has typically moved about ${fmtNum(mv,1)} €/MWh within the next 7 days (median).`;
-
-          document.getElementById("valExplainer").textContent =
-            `Regime map uses threshold ${thr}. “Typical” means: in the historical sample, half the times the 7-day max move was above this number and half below.`;
-        } else {
-          document.getElementById("valHeadline").textContent = "Validation snapshot not available for the current regime.";
-          document.getElementById("valExplainer").textContent = "—";
+        const elV = document.getElementById("noteVerbose");
+        if (typeof d.note_verbose_html === "string" && d.note_verbose_html.trim()) {
+          elV.innerHTML = d.note_verbose_html;
+        } else if (typeof d.note_verbose_md === "string" && d.note_verbose_md.trim()) {
+          elV.textContent = d.note_verbose_md;
+          elV.style.whiteSpace = "pre-wrap";
         }
 
       } catch (e) {
-        console.log("Snapshot/validation not available yet:", e);
+        console.error("SESI data error:", e);
+        document.getElementById("v2StateName").textContent = "Data unavailable";
+        document.getElementById("v2StateDesc").textContent = "Could not load today's market data. Try again later.";
       }
     })();
   </script>
