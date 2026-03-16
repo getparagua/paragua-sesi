@@ -68,7 +68,7 @@
     <div class="v2-meta-row" id="v2MetaRow" style="display:none;">
       <span>Structural: <strong id="v2Structural">—</strong>/100</span>
       <span id="v2MarketSpan" style="display:none;">Market: <strong id="v2Market">—</strong>/100</span>
-      <span id="v2OmieSpan" style="display:none;">OMIE: <strong id="v2OmiePrice">—</strong> €/MWh (<strong id="v2OmieVs30d">—</strong> vs 30d)</span>
+      <span id="v2OmieSpan" style="display:none;">OMIE: <strong id="v2OmiePrice">—</strong> €/MWh (<strong id="v2OmieVs30d">—</strong> €/MWh vs 30d avg)</span>
     </div>
 
     <div class="v2-as-of muted" id="v2AsOf"></div>
@@ -120,7 +120,7 @@
         <div class="inst-omip" id="instOmieRow" style="display:none;">
           OMIE Day-Ahead:&nbsp;
           <strong id="instOmiePrice">—</strong> €/MWh
-          &nbsp;·&nbsp;<strong id="instOmieVs30d">—</strong> vs 30d avg
+          &nbsp;·&nbsp;<strong id="instOmieVs30d">—</strong> €/MWh vs 30d avg
         </div>
 
         <div class="inst-divider"></div>
@@ -157,7 +157,7 @@
             <div class="muted" style="margin-top:6px;" id="omipLevel">—</div>
           </div>
           <div class="kpi dislocation">
-            <div class="label">OMIE vs 30d avg</div>
+            <div class="label">delta 30d (€/MWh)</div>
             <div class="value" id="kpiD">-</div>
           </div>
         </div>
@@ -312,7 +312,7 @@
         if (omiePrice !== null) {
           document.getElementById("v2OmiePrice").textContent = fmtNum(omiePrice, 1);
           const vs30dText = omieVs30d !== null
-            ? (omieVs30d >= 0 ? "+" : "") + fmtNum(omieVs30d, 1) + "%"
+            ? (omieVs30d >= 0 ? "+" : "") + fmtNum(omieVs30d, 1)
             : "—";
           document.getElementById("v2OmieVs30d").textContent = vs30dText;
           document.getElementById("v2OmieSpan").style.display = "";
@@ -355,7 +355,7 @@
         if (omiePrice !== null) {
           document.getElementById("instOmiePrice").textContent = fmtNum(omiePrice, 1);
           const vs30dText = omieVs30d !== null
-            ? (omieVs30d >= 0 ? "+" : "") + fmtNum(omieVs30d, 1) + "%"
+            ? (omieVs30d >= 0 ? "+" : "") + fmtNum(omieVs30d, 1)
             : "—";
           document.getElementById("instOmieVs30d").textContent = vs30dText;
           document.getElementById("instOmieRow").style.display = "";
@@ -369,7 +369,7 @@
         document.getElementById("kpiStructural").textContent  = fmtNum(structural, 1);
         document.getElementById("kpiOMIP").textContent        = market !== null ? fmtNum(market, 1) : "—";
         document.getElementById("kpiD").textContent           = omieVs30d !== null
-          ? (omieVs30d >= 0 ? "+" : "") + fmtNum(omieVs30d, 1) + "%"
+          ? (omieVs30d >= 0 ? "+" : "") + fmtNum(omieVs30d, 1)
           : "—";
         if (omiePrice !== null) {
           document.getElementById("omipLevel").textContent =
@@ -415,7 +415,7 @@
           `SESI:       ${fmtNum(score, 1)} / 100`,
           `Structural: ${fmtNum(structural, 1)} / 100${structural >= 80 ? "  ▲ TIGHT" : ""}`,
           market !== null ? `Market:     ${fmtNum(market, 1)} / 100` : "",
-          omiePrice !== null ? `OMIE:       ${fmtNum(omiePrice, 1)} €/MWh (${omieVs30d !== null ? (omieVs30d >= 0 ? "+" : "") + fmtNum(omieVs30d, 1) + "% vs 30d" : ""})` : "",
+          omiePrice !== null ? `OMIE:       ${fmtNum(omiePrice, 1)} €/MWh (${omieVs30d !== null ? (omieVs30d >= 0 ? "+" : "") + fmtNum(omieVs30d, 1) + " €/MWh vs 30d avg" : ""})` : "",
           headline ? `\n${headline}` : "",
           "",
           "→ paragua.io/sesi",
