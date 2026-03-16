@@ -3,26 +3,26 @@
   "rows": [
     {
       "Quadrant": "Calm",
-      "Days (N)": 891,
-      "Median 7D max move (\u20ac/MWh)": 11.428333333333327,
+      "Days (N)": 858,
+      "Median 7D max move (\u20ac/MWh)": 11.58520833333334,
       "Median 30D spike freq (|\u0394P|>20\u20ac/MWh)": 0.0
     },
     {
       "Quadrant": "Latent risk",
-      "Days (N)": 1065,
-      "Median 7D max move (\u20ac/MWh)": 40.962083333333325,
+      "Days (N)": 1068,
+      "Median 7D max move (\u20ac/MWh)": 40.99602355072463,
       "Median 30D spike freq (|\u0394P|>20\u20ac/MWh)": 0.3
     },
     {
       "Quadrant": "Realized stress",
-      "Days (N)": 48,
-      "Median 7D max move (\u20ac/MWh)": 23.27416666666667,
+      "Days (N)": 47,
+      "Median 7D max move (\u20ac/MWh)": 24.003333333333337,
       "Median 30D spike freq (|\u0394P|>20\u20ac/MWh)": 0.1
     },
     {
       "Quadrant": "Full crisis",
-      "Days (N)": 601,
-      "Median 7D max move (\u20ac/MWh)": 41.92416666666665,
+      "Days (N)": 596,
+      "Median 7D max move (\u20ac/MWh)": 41.88166666666668,
       "Median 30D spike freq (|\u0394P|>20\u20ac/MWh)": 0.3333333333333333
     }
   ],
