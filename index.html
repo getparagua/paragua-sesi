@@ -260,19 +260,30 @@
 
         const score      = typeof d.score      === "number" ? d.score      : null;
         const structural = typeof d.structural === "number" ? d.structural : null;
-        const market     = typeof d.market     === "number" ? d.market     : null;
-        const omiePrice  = typeof d.omie_price === "number" ? d.omie_price : null;
+        // Backward compat: new engine → `market`, old engine → `omip_pct`
+        const market     = typeof d.market   === "number" ? d.market   :
+                           typeof d.omip_pct === "number" ? d.omip_pct : null;
+        // Backward compat: new engine → `omie_price`, old engine → `omip_avg_eur_mwh`
+        const omiePrice  = typeof d.omie_price       === "number" ? d.omie_price       :
+                           typeof d.omip_avg_eur_mwh === "number" ? d.omip_avg_eur_mwh : null;
         const omieVs30d  = typeof d.omie_vs_30d === "number" ? d.omie_vs_30d : null;
-        const regime     = typeof d.regime     === "string" ? d.regime     : "—";
-        const headline   = typeof d.headline   === "string" ? d.headline   : "";
+        // Backward compat: new engine → `regime`, old engine → `label_technical`
+        const regime     = typeof d.regime          === "string" ? d.regime          :
+                           typeof d.label_technical === "string" ? d.label_technical : "—";
+        const headline   = typeof d.headline === "string" ? d.headline : "";
         const date       = d.date || null;
-        const color      = regimeColor(regime);
+        // Prefer regime-derived color, fall back to explicit `d.color` (old engine)
+        const color      = REGIME_COLORS[regime] || (typeof d.color === "string" ? d.color : "#64748b");
+
+        // Emoji: derive from regime, fall back to `d.emoji` (old engine)
+        const REGIME_EMOJI = { SLACK:"❄️", NORMAL:"🟢", ELEVATED:"🌡️", STRESSED:"🔥", CRITICAL:"⚡" };
+        const emoji = REGIME_EMOJI[regime] || (typeof d.emoji === "string" ? d.emoji : "📊");
 
         // ── State badge ──
         const badge = document.getElementById("v2StateBadge");
         badge.style.background = accentBg(color);
         badge.style.color = color;
-        document.getElementById("v2StateName").textContent = regime;
+        document.getElementById("v2StateName").textContent = emoji + " " + regime;
 
         // ── Big score ──
         const scoreEl = document.getElementById("v2ScoreNum");
