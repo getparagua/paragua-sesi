@@ -283,7 +283,7 @@
         const badge = document.getElementById("v2StateBadge");
         badge.style.background = accentBg(color);
         badge.style.color = color;
-        document.getElementById("v2StateName").textContent = emoji + " " + regime;
+        document.getElementById("v2StateName").textContent = regime;
 
         // ── Big score ──
         const scoreEl = document.getElementById("v2ScoreNum");
@@ -375,6 +375,36 @@
           document.getElementById("omipLevel").textContent =
             `OMIE day-ahead: ${fmtNum(omiePrice, 1)} €/MWh`;
         }
+
+        // ── today.json: KPI overrides + Full market note ──
+        try {
+          const r2 = await fetch("assets/public/today.json", { cache: "no-store" });
+          if (r2.ok) {
+            const t = await r2.json();
+            const omip   = t.OMIP;
+            const omip2  = omip && typeof omip.omip_exp_pct_pre2022 === "number" ? omip.omip_exp_pct_pre2022 : null;
+            const dis2   = omip && typeof omip.dislocation_pct_pts  === "number" ? omip.dislocation_pct_pts  : null;
+            const omipAvg = omip && typeof omip.omip_1_3m_avg === "number" ? omip.omip_1_3m_avg : null;
+            const omipAsof = omip && omip.asof ? omip.asof : null;
+
+            if (omip2  !== null) document.getElementById("kpiOMIP").textContent = fmtNum(omip2, 1);
+            if (dis2   !== null) document.getElementById("kpiD").textContent =
+              (dis2 >= 0 ? "+" : "") + fmtNum(dis2, 1);
+            if (omipAvg !== null && omipAsof)
+              document.getElementById("omipLevel").textContent =
+                `OMIP 1–3M avg: ${fmtNum(omipAvg, 1)} €/MWh (as of ${omipAsof})`;
+
+            if (typeof t.note_short === "string" && t.note_short.trim())
+              document.getElementById("noteShort").textContent = t.note_short;
+            const elV = document.getElementById("noteVerbose");
+            if (typeof t.note_verbose_html === "string" && t.note_verbose_html.trim())
+              elV.innerHTML = t.note_verbose_html;
+            else if (typeof t.note_verbose_md === "string" && t.note_verbose_md.trim()) {
+              elV.textContent = t.note_verbose_md;
+              elV.style.whiteSpace = "pre-wrap";
+            }
+          }
+        } catch (_) { /* today.json optional */ }
 
         // ── Clipboard text ──
         document.getElementById("_cardText").value = [
