@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>html,body{margin:0;padding:0;background:#0d1117;}</style>
+</head>
+<body>
+  <div id="chart" style="width:100%;height:330px;"></div>
+  <script src="https://cdn.plot.ly/plotly-3.4.0.min.js" crossorigin="anonymous"></script>
+  <script>
+  (function(){
+    // deterministic pseudo-random
+    let _s = 137;
+    function rand(){ _s = (_s * 1664525 + 1013904223) & 0xffffffff; return (_s >>> 0) / 0xffffffff; }
+
+    // synthetic SESI for a given date (sine-based seasonal pattern)
+    function sesiFor(d){
+      const doy = Math.floor((d - new Date(d.getFullYear(),0,0)) / 86400000);
+      const seasonal = 55 + 30 * Math.cos((doy - 355) / 365 * 2 * Math.PI);
+      const noise = (rand()-0.5) * 20;
+      return Math.max(2, Math.min(99, seasonal + noise));
+    }
+
+    // Build week × DOW grid (2 years back from 2026-03-13)
+    const endDate   = new Date('2026-03-13');
+    const startDate = new Date('2024-03-11'); // Mon 2 years back
+    const days = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+
+    // align cursor to Monday of startDate's week
+    const cur = new Date(startDate);
+    const offset = (cur.getDay() + 6) % 7;
+    cur.setDate(cur.getDate() - offset);
+
+    const maxWeeks = Math.ceil((endDate - cur) / (7 * 86400000)) + 1;
+    const z        = Array.from({length:7}, () => new Array(maxWeeks).fill(null));
+    const xLabels  = [];
+
+    const weekCur = new Date(cur);
+    for (let w = 0; w < maxWeeks; w++){
+      xLabels.push(weekCur.toISOString().slice(0,10));
+      for (let d = 0; d < 7; d++){
+        const dd = new Date(weekCur);
+        dd.setDate(dd.getDate() + d);
+        if (dd >= startDate && dd <= endDate){
+          z[d][w] = Math.round(sesiFor(dd) * 10) / 10;
+        }
+      }
+      weekCur.setDate(weekCur.getDate() + 7);
+    }
+
+    // SESI regime colorscale
+    const colorscale = [
+      [0.00, '#22d3ee'],
+      [0.40, '#22c55e'],
+      [0.60, '#fbbf24'],
+      [0.80, '#f97316'],
+      [0.95, '#b91c1c'],
+      [1.00, '#7f1d1d'],
+    ];
+
+    Plotly.newPlot('chart', [{
+      type:'heatmap',
+      x:xLabels, y:days, z:z,
+      colorscale:colorscale, zmin:0, zmax:100,
+      showscale:true,
+      colorbar:{
+        title:{ text:'SESI', side:'right', font:{color:'#c9d1d9',size:11} },
+        tickfont:{color:'#c9d1d9'}, bgcolor:'#0d1117', bordercolor:'#30363d', thickness:10,
+      },
+      hoverongaps:false, xgap:1, ygap:1,
+    }], {
+      paper_bgcolor:'#0d1117', plot_bgcolor:'#161b22',
+      font:{ color:'#c9d1d9', family:'system-ui,sans-serif', size:11 },
+      title:{ text:'SESI regime — 2-year calendar heatmap', x:0.5, xanchor:'center', font:{size:13} },
+      xaxis:{ title:{text:'Week starting'}, gridcolor:'#30363d', linecolor:'#30363d', tickangle:-45, nticks:14, type:'category' },
+      yaxis:{ gridcolor:'#30363d', linecolor:'#30363d', autorange:'reversed' },
+      height:330,
+      margin:{ l:48, r:72, t:52, b:80 },
+    }, {responsive:true});
+  })();
+  </script>
+</body>
+</html>

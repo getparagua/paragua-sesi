@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>html,body{margin:0;padding:0;background:#0d1117;}</style>
+</head>
+<body>
+  <div id="chart" style="width:100%;height:520px;"></div>
+  <script src="https://cdn.plot.ly/plotly-3.4.0.min.js" crossorigin="anonymous"></script>
+  <script>
+  (function(){
+    // last 90 daily dates ending 2026-03-13
+    const end = new Date('2026-03-13');
+    const dates = [];
+    for (let i = 89; i >= 0; i--){
+      const d = new Date(end); d.setDate(d.getDate() - i);
+      dates.push(d.toISOString().slice(0,10));
+    }
+
+    const n = dates.length;
+
+    // deterministic driver weights using sine combos (vary day-to-day)
+    const pShort=[], pLong=[], vol=[], gLong=[];
+    for (let i = 0; i < n; i++){
+      const a = 0.32 + 0.12 * Math.sin(i * 0.19 + 1.1);
+      const b = 0.27 + 0.09 * Math.sin(i * 0.23 + 2.4);
+      const c = 0.22 + 0.07 * Math.sin(i * 0.31 + 0.7);
+      const d = Math.max(0.05, 1 - a - b - c);
+      const sum = a + b + c + d;
+      pShort.push( Math.round(a/sum*1000)/10 );
+      pLong.push(  Math.round(b/sum*1000)/10 );
+      vol.push(    Math.round(c/sum*1000)/10 );
+      gLong.push(  Math.round(d/sum*1000)/10 );
+    }
+
+    Plotly.newPlot('chart', [
+      { type:'bar', name:'P_short (spot)',       x:dates, y:pShort, marker:{color:'#f97316'} },
+      { type:'bar', name:'P_long (structural)',   x:dates, y:pLong,  marker:{color:'#fbbf24'} },
+      { type:'bar', name:'V (volatility)',        x:dates, y:vol,    marker:{color:'#a78bfa'} },
+      { type:'bar', name:'G_long (grid)',         x:dates, y:gLong,  marker:{color:'#38bdf8'} },
+    ], {
+      paper_bgcolor:'#0d1117', plot_bgcolor:'#161b22',
+      font:{ color:'#c9d1d9', family:'system-ui,sans-serif', size:12 },
+      title:{ text:'Feature decomposition — driver share (%), last 90 days', x:0.5, xanchor:'center' },
+      barmode:'stack',
+      xaxis:{ title:{text:'Date'}, gridcolor:'#30363d', linecolor:'#30363d' },
+      yaxis:{ title:{text:'Relative contribution (%)'}, gridcolor:'#30363d', linecolor:'#30363d', range:[0,104], zerolinecolor:'#484f58' },
+      legend:{ orientation:'h', x:0.5, xanchor:'center', y:-0.20, yanchor:'top' },
+      height:520,
+      margin:{ l:55, r:20, t:80, b:90 },
+      hovermode:'x unified',
+    }, {responsive:true});
+  })();
+  </script>
+</body>
+</html>
