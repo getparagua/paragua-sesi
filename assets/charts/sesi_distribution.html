@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>html,body{margin:0;padding:0;background:#0d1117;}</style>
+</head>
+<body>
+  <div id="chart" style="width:100%;height:520px;"></div>
+  <script src="https://cdn.plot.ly/plotly-3.4.0.min.js" crossorigin="anonymous"></script>
+  <script>
+  (function(){
+    const currentSESI = 81.9;
+
+    // Box-Muller with seeded LCG
+    let _s = 271;
+    function rnd(){ _s = (_s * 1664525 + 1013904223) & 0xffffffff; return (_s >>> 0)/0xffffffff; }
+    function gauss(mu, sigma){
+      let u, v;
+      do { u = rnd(); } while(u === 0);
+      do { v = rnd(); } while(v === 0);
+      return mu + sigma * Math.sqrt(-2*Math.log(u)) * Math.cos(2*Math.PI*v);
+    }
+
+    // Yearly reference params (median, std)
+    const yearParams = {
+      2018:{med:36, std:16}, 2019:{med:33, std:15}, 2020:{med:41, std:17},
+      2021:{med:44, std:18}, 2022:{med:67, std:16}, 2023:{med:61, std:17},
+      2024:{med:57, std:17}, 2025:{med:64, std:16}, 2026:{med:76, std:13},
+    };
+    const years = Object.keys(yearParams).map(Number);
+
+    function samples(yr){
+      const {med, std} = yearParams[yr];
+      const n = yr === 2026 ? 73 : 365;
+      const arr = [];
+      for (let i = 0; i < n; i++)
+        arr.push(Math.max(1, Math.min(99, gauss(med, std))));
+      return arr;
+    }
+
+    const crisis = new Set([2022,2023,2024,2025,2026]);
+    const traces = years.map(yr => ({
+      type:'box', name:String(yr),
+      y: samples(yr),
+      notched:true,
+      marker:{ color: crisis.has(yr)?'#f97316':'#38bdf8', size:3, opacity:0.4 },
+      line:{ color: crisis.has(yr)?'#f97316':'#38bdf8', width:1.5 },
+      fillcolor: crisis.has(yr)?'rgba(249,115,22,0.2)':'rgba(56,189,248,0.2)',
+    }));
+
+    Plotly.newPlot('chart', traces, {
+      paper_bgcolor:'#0d1117', plot_bgcolor:'#161b22',
+      font:{ color:'#c9d1d9', family:'system-ui,sans-serif', size:12 },
+      title:{ text:'SESI annual distribution (2018–2026)', x:0.5, xanchor:'center' },
+      xaxis:{ title:{text:'Year'}, gridcolor:'#30363d', linecolor:'#30363d' },
+      yaxis:{ title:{text:'SESI (0–100)'}, range:[0,105], gridcolor:'#30363d', linecolor:'#30363d', zerolinecolor:'#484f58' },
+      shapes:[{
+        type:'line', xref:'paper', yref:'y',
+        x0:0, x1:1, y0:currentSESI, y1:currentSESI,
+        line:{ color:'#ef4444', width:2, dash:'dash' },
+      }],
+      annotations:[{
+        xref:'paper', yref:'y', x:1.01, y:currentSESI,
+        text:`Today: ${currentSESI}`, showarrow:false,
+        font:{ color:'#ef4444', size:11 }, xanchor:'left',
+      }],
+      showlegend:false,
+      height:520,
+      margin:{ l:55, r:65, t:80, b:65 },
+      hovermode:'closest',
+    }, {responsive:true});
+  })();
+  </script>
+</body>
+</html>
