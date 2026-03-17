@@ -68,7 +68,7 @@
     <div class="v2-meta-row" id="v2MetaRow" style="display:none;">
       <span>Structural: <strong id="v2Structural">—</strong>/100</span>
       <span id="v2MarketSpan" style="display:none;">Market: <strong id="v2Market">—</strong>/100</span>
-      <span id="v2OmieSpan" style="display:none;">OMIE: <strong id="v2OmiePrice">—</strong> €/MWh (<strong id="v2OmieVs30d">—</strong> €/MWh vs 30d avg)</span>
+      <span id="v2OmieSpan" style="display:none;">OMIE: <strong id="v2OmiePrice">—</strong> €/MWh (<strong id="v2OmieVs30d">—</strong> €/MWh vs 30d avg<span id="v2OmieContext"></span>)</span>
     </div>
 
     <div class="v2-as-of muted" id="v2AsOf"></div>
@@ -120,7 +120,7 @@
         <div class="inst-omip" id="instOmieRow" style="display:none;">
           OMIE Day-Ahead:&nbsp;
           <strong id="instOmiePrice">—</strong> €/MWh
-          &nbsp;·&nbsp;<strong id="instOmieVs30d">—</strong> €/MWh vs 30d avg
+          &nbsp;·&nbsp;<strong id="instOmieVs30d">—</strong> €/MWh vs 30d avg<span id="instOmieContext"></span>
         </div>
 
         <div class="inst-divider"></div>
@@ -157,8 +157,9 @@
             <div class="muted" style="margin-top:6px;" id="omipLevel">—</div>
           </div>
           <div class="kpi dislocation">
-            <div class="label">delta 30d (€/MWh)</div>
+            <div class="label">Dislocation (pct pts)</div>
             <div class="value" id="kpiD">-</div>
+            <div class="muted" style="margin-top:6px;" id="kpiDContext"></div>
           </div>
         </div>
 
@@ -267,6 +268,9 @@
         const omiePrice  = typeof d.omie_price       === "number" ? d.omie_price       :
                            typeof d.omip_avg_eur_mwh === "number" ? d.omip_avg_eur_mwh : null;
         const omieVs30d  = typeof d.omie_vs_30d === "number" ? d.omie_vs_30d : null;
+        const omieVs30dCtx = typeof d.omie_vs_30d_context === "string" ? d.omie_vs_30d_context : null;
+        const dislocPctSelf = typeof d.dislocation_pct_self === "number" ? d.dislocation_pct_self : null;
+        const curveShape = typeof d.curve_shape === "string" ? d.curve_shape : null;
         // Backward compat: new engine → `regime`, old engine → `label_technical`
         const regime     = typeof d.regime          === "string" ? d.regime          :
                            typeof d.label_technical === "string" ? d.label_technical : "—";
@@ -315,6 +319,10 @@
             ? (omieVs30d >= 0 ? "+" : "") + fmtNum(omieVs30d, 1)
             : "—";
           document.getElementById("v2OmieVs30d").textContent = vs30dText;
+          if (omieVs30dCtx) {
+            document.getElementById("v2OmieContext").textContent = " · " + omieVs30dCtx;
+            document.getElementById("instOmieContext").textContent = " · " + omieVs30dCtx;
+          }
           document.getElementById("v2OmieSpan").style.display = "";
         }
 
@@ -361,6 +369,15 @@
           document.getElementById("instOmieRow").style.display = "";
         }
 
+        // Dislocation context from sesi_today.json (top-level)
+        if (dislocPctSelf !== null) {
+          const pct = dislocPctSelf;
+          const ctxLabel = pct < 50
+            ? `bottom ${Math.round(pct)}% historically`
+            : `top ${Math.round(100 - pct)}% historically`;
+          document.getElementById("kpiDContext").textContent = ctxLabel;
+        }
+
         // Headline
         if (headline) document.getElementById("instHeadline").textContent = headline;
 
@@ -386,13 +403,38 @@
             const dis2   = omip && typeof omip.dislocation_pct_pts  === "number" ? omip.dislocation_pct_pts  : null;
             const omipAvg = omip && typeof omip.omip_1_3m_avg === "number" ? omip.omip_1_3m_avg : null;
             const omipAsof = omip && omip.asof ? omip.asof : null;
+            const dislocPctSelf2 = omip && typeof omip.dislocation_pct_self === "number" ? omip.dislocation_pct_self : null;
+            const curveShape2 = omip && typeof omip.omip_curve_shape === "string" ? omip.omip_curve_shape : null;
+            const omieCtx2 = typeof t.omie_vs_30d_context === "string" ? t.omie_vs_30d_context : null;
 
             if (omip2  !== null) document.getElementById("kpiOMIP").textContent = fmtNum(omip2, 1);
             if (dis2   !== null) document.getElementById("kpiD").textContent =
               (dis2 >= 0 ? "+" : "") + fmtNum(dis2, 1);
-            if (omipAvg !== null && omipAsof)
-              document.getElementById("omipLevel").textContent =
-                `OMIP 1–3M avg: ${fmtNum(omipAvg, 1)} €/MWh (as of ${omipAsof})`;
+
+            // Dislocation context (today.json overrides sesi_today.json)
+            const dPctSelf = dislocPctSelf2 !== null ? dislocPctSelf2 : dislocPctSelf;
+            if (dPctSelf !== null) {
+              const ctxLabel = dPctSelf < 50
+                ? `bottom ${Math.round(dPctSelf)}% historically`
+                : `top ${Math.round(100 - dPctSelf)}% historically`;
+              document.getElementById("kpiDContext").textContent = ctxLabel;
+            }
+
+            // OMIP level line with curve shape
+            if (omipAvg !== null) {
+              let omipLevelText = `OMIP 1–3M avg: ${fmtNum(omipAvg, 1)} €/MWh`;
+              const shape = curveShape2 || curveShape;
+              if (shape) omipLevelText += ` · ${shape}`;
+              document.getElementById("omipLevel").textContent = omipLevelText;
+            }
+
+            // OMIE context (today.json overrides sesi_today.json)
+            const ctx = omieCtx2 || omieVs30dCtx;
+            if (ctx) {
+              const ctxTxt = " · " + ctx;
+              document.getElementById("v2OmieContext").textContent = ctxTxt;
+              document.getElementById("instOmieContext").textContent = ctxTxt;
+            }
 
             if (typeof t.note_short === "string" && t.note_short.trim())
               document.getElementById("noteShort").textContent = t.note_short;
