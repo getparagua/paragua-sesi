@@ -63,8 +63,6 @@
       </div>
     </div>
 
-    <div class="v2-state-desc" id="v2StateDesc">—</div>
-
     <div class="v2-meta-row" id="v2MetaRow" style="display:none;">
       <span>Structural: <strong id="v2Structural">—</strong>/100</span>
       <span id="v2MarketSpan" style="display:none;">Market: <strong id="v2Market">—</strong>/100</span>
@@ -217,14 +215,24 @@
 
     // Regime → color map (derived locally, not from JSON)
     const REGIME_COLORS = {
-      SLACK:    "#86c440",
-      NORMAL:   "#2e8b57",
-      ELEVATED: "#1f74c9",
-      STRESSED: "#0b5fae",
-      CRITICAL: "#05316b",
+      SLACK:        "#86c440",
+      NORMAL:       "#2e8b57",
+      ELEVATED:     "#1f74c9",
+      STRESSED:     "#0b5fae",
+      CRITICAL:     "#05316b",
+      RELIEF_RALLY: "#16a34a",
     };
     function regimeColor(regime) {
       return REGIME_COLORS[regime] || "#64748b";
+    }
+    // Color for gauge/progress bars based on realized score (not regime)
+    function scoreColor(s) {
+      if (s === null || s === undefined) return "#64748b";
+      if (s >= 80) return REGIME_COLORS.CRITICAL;
+      if (s >= 60) return REGIME_COLORS.STRESSED;
+      if (s >= 40) return REGIME_COLORS.ELEVATED;
+      if (s >= 20) return REGIME_COLORS.NORMAL;
+      return REGIME_COLORS.SLACK;
     }
 
     // Derive a light background from the accent color (hex → rgba)
@@ -280,7 +288,7 @@
         const color      = REGIME_COLORS[regime] || (typeof d.color === "string" ? d.color : "#64748b");
 
         // Emoji: derive from regime, fall back to `d.emoji` (old engine)
-        const REGIME_EMOJI = { SLACK:"❄️", NORMAL:"🟢", ELEVATED:"🌡️", STRESSED:"🔥", CRITICAL:"⚡" };
+        const REGIME_EMOJI = { SLACK:"❄️", NORMAL:"🟢", ELEVATED:"🌡️", STRESSED:"🔥", CRITICAL:"⚡", RELIEF_RALLY:"🌿" };
         const emoji = REGIME_EMOJI[regime] || (typeof d.emoji === "string" ? d.emoji : "📊");
 
         // ── State badge ──
@@ -294,15 +302,14 @@
         scoreEl.textContent = score !== null ? fmtNum(score, 1) : "—";
         scoreEl.style.color = color;
 
-        // ── Index bar (width = score%, background = color) ──
+        // ── Index bar (width = score%, background = realized-stress color) ──
         if (score !== null) {
           const fill = document.getElementById("v2GaugeFill");
           fill.style.width = Math.min(100, Math.max(0, score)) + "%";
-          fill.style.background = color;
+          fill.style.background = scoreColor(score);
         }
 
-        // ── Headline ──
-        document.getElementById("v2StateDesc").textContent = headline;
+        // ── Headline (shown only in inst-card below) ──
 
         // ── Meta row: Structural · Market · OMIE ──
         if (structural !== null) {
@@ -340,14 +347,14 @@
         // Realized stress bar
         if (score !== null) {
           document.getElementById("instSesiBar").style.width = Math.min(100, score) + "%";
-          document.getElementById("instSesiBar").style.background = color;
+          document.getElementById("instSesiBar").style.background = scoreColor(score);
           document.getElementById("instSesiNum").textContent = fmtNum(score, 1) + " / 100";
         }
 
         // Structural bar + TIGHT badge
         if (structural !== null) {
           document.getElementById("instStructBar").style.width = Math.min(100, structural) + "%";
-          document.getElementById("instStructBar").style.background = color;
+          document.getElementById("instStructBar").style.background = scoreColor(structural);
           document.getElementById("instStructNum").textContent = fmtNum(structural, 1) + " / 100";
           if (structural >= 80) document.getElementById("instTight").style.display = "";
         }
@@ -355,7 +362,7 @@
         // Market bar
         if (market !== null) {
           document.getElementById("instMarketBar").style.width = Math.min(100, market) + "%";
-          document.getElementById("instMarketBar").style.background = color;
+          document.getElementById("instMarketBar").style.background = scoreColor(market);
           document.getElementById("instMarketNum").textContent = fmtNum(market, 1) + " / 100";
         }
 
@@ -466,7 +473,7 @@
       } catch (e) {
         console.error("SESI data error:", e);
         document.getElementById("v2StateName").textContent = "Data unavailable";
-        document.getElementById("v2StateDesc").textContent = "Could not load today's market data. Try again later.";
+        document.getElementById("instHeadline").textContent = "Could not load today's market data. Try again later.";
       }
     })();
   </script>
