@@ -44,6 +44,7 @@
     <div class="v2-state-badge" id="v2StateBadge">
       <span id="v2StateName">Loading…</span>
     </div>
+    <div class="v2-regime-note" id="v2RegimeNote" style="display:none;"></div>
 
     <div class="v2-score-row">
       <span class="v2-score-num" id="v2ScoreNum">—</span>
@@ -292,15 +293,27 @@
         const emoji = REGIME_EMOJI[regime] || (typeof d.emoji === "string" ? d.emoji : "📊");
 
         // ── State badge ──
+        // "Special" regimes (not on the linear stress scale) get a neutral pearl style
+        const SPECIAL_REGIMES = { RELIEF_RALLY: "Realized stress is high but forward signals point to easing — markets are pricing in improvement." };
+        const isSpecial = regime in SPECIAL_REGIMES;
+        const badgeColor  = isSpecial ? "#64748b" : color;       // pearl-gray for special
+        const badgeBg     = isSpecial ? "#f1f5f9" : accentBg(color);
         const badge = document.getElementById("v2StateBadge");
-        badge.style.background = accentBg(color);
-        badge.style.color = color;
+        badge.style.background = badgeBg;
+        badge.style.color = badgeColor;
         document.getElementById("v2StateName").textContent = regime;
+        const noteEl = document.getElementById("v2RegimeNote");
+        if (isSpecial) {
+          noteEl.textContent = SPECIAL_REGIMES[regime];
+          noteEl.style.display = "";
+        } else {
+          noteEl.style.display = "none";
+        }
 
-        // ── Big score ──
+        // ── Big score (always reflects realized stress → scoreColor) ──
         const scoreEl = document.getElementById("v2ScoreNum");
         scoreEl.textContent = score !== null ? fmtNum(score, 1) : "—";
-        scoreEl.style.color = color;
+        scoreEl.style.color = scoreColor(score);
 
         // ── Index bar (width = score%, background = realized-stress color) ──
         if (score !== null) {
