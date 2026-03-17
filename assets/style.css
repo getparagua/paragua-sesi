@@ -370,12 +370,13 @@ details.verbose summary:hover{
   letter-spacing: 0.5px;
   padding: 0 2px;
 }
-.v2-state-desc{
-  font-size: 1.05em;
-  max-width: 52ch;
-  margin: 0 auto 8px;
-  line-height: 1.65;
-  font-weight: 500;
+.v2-regime-note{
+  font-size: 0.82em;
+  color: #64748b;
+  max-width: 46ch;
+  margin: 4px auto 0;
+  line-height: 1.5;
+  font-style: italic;
 }
 .v2-as-of{
   font-size: 0.88em;
