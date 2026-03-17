@@ -271,11 +271,11 @@ details.verbose summary:hover{
 
 /* ─── V2 STATE COLORS ─── */
 :root{
-  --frozen:   #0b5fae;
-  --warm:     #286b30;
-  --hot:      #7c5b0a;
-  --burning:  #b03a14;
-  --meltdown: #8b1515;
+  --frozen:   #86c440;
+  --warm:     #2e8b57;
+  --hot:      #1f74c9;
+  --burning:  #0b5fae;
+  --meltdown: #05316b;
 }
 
 /* ─── V2 HERO ─── */

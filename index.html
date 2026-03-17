@@ -55,11 +55,11 @@
         <div class="v2-gauge-fill" id="v2GaugeFill"></div>
       </div>
       <div class="v2-gauge-labels">
-        <span style="color:#0b5fae">SLACK</span>
-        <span style="color:#286b30">NORMAL</span>
-        <span style="color:#7c5b0a">ELEVATED</span>
-        <span style="color:#b03a14">STRESSED</span>
-        <span style="color:#8b1515">CRITICAL</span>
+        <span style="color:#86c440">SLACK</span>
+        <span style="color:#2e8b57">NORMAL</span>
+        <span style="color:#1f74c9">ELEVATED</span>
+        <span style="color:#0b5fae">STRESSED</span>
+        <span style="color:#05316b">CRITICAL</span>
       </div>
     </div>
 
@@ -217,11 +217,11 @@
 
     // Regime → color map (derived locally, not from JSON)
     const REGIME_COLORS = {
-      SLACK:    "#0b5fae",
-      NORMAL:   "#286b30",
-      ELEVATED: "#7c5b0a",
-      STRESSED: "#b03a14",
-      CRITICAL: "#8b1515",
+      SLACK:    "#86c440",
+      NORMAL:   "#2e8b57",
+      ELEVATED: "#1f74c9",
+      STRESSED: "#0b5fae",
+      CRITICAL: "#05316b",
     };
     function regimeColor(regime) {
       return REGIME_COLORS[regime] || "#64748b";
