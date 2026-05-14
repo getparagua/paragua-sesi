@@ -1,13 +1,13 @@
 {
-  "date": "2026-05-13",
-  "SESI": 80.7,
+  "date": "2026-05-14",
+  "SESI": 80.6,
   "SESI_structural": 92.3,
-  "score": 80.7,
+  "score": 80.6,
   "structural": 92.3,
-  "market": 83.5,
-  "omie_price": 48.83,
-  "omie_vs_30d": 17.33,
-  "omie_vs_30d_zscore": 0.66,
+  "market": 83.3,
+  "omie_price": 53.34,
+  "omie_vs_30d": 21.18,
+  "omie_vs_30d_zscore": 0.8,
   "omie_vs_30d_context": "slightly outside normal",
   "bucket": "stressed",
   "structural_bucket": "very tight",
@@ -17,22 +17,22 @@
   "regime_flags": [
     "STRUCTURALLY_TIGHT"
   ],
-  "note_short": "2026-05-13 \u00b7 SESI 81 \u00b7 Structural 92 \u00b7 OMIP 83 \u00b7 D -9",
-  "note_verbose_md": "**2026-05-13 \u2014 SESI Market Note**\n\n**What SESI is**\nSESI is a **0\u2013100 historical ranking**. Higher = rarer and more stressed compared to history.\n\n**1) Realized stress (spot)**\n- **SESI**: **81** (*stressed*).\n- **Structural context** (vs pre-2022): **92** (*very tight*).\n- **Regime label:** STRESSED | STRUCTURALLY_TIGHT.\n\n**How to read (super simple)**\n- Percentile **81** means: compared to the **full history (expanding)** reference set, today is in the **top 81% most stressed** days.\n- SESI tells you what\u2019s happening **now** in spot.\n- SESI_structural tells you if the **background regime** is still tight vs pre-2022.\n\n\n**3) Expected stress (OMIP, forward 1\u20133M)**\n- OMIP 1\u20133M average is **74.8 \u20ac/MWh** (as of **2026-05-13**).\n- Expected stress percentile (vs pre-2022): **83** (*high*).\n- Dislocation **D = Expected \u2212 Structural** = **-9** percentile points \u2192 **Aligned**.\n\n**Plain meaning**\nOMIP is what\u2019s priced for the next months. If expected is much lower than structural, the market is pricing normalization.\n\n\n**Important**\n- These are **descriptive** statistics. They do not imply a forecast or trading signal.\n",
-  "note_verbose_html": "<strong>2026-05-13 \u2014 SESI Market Note</strong><br><br><strong>What SESI is</strong><br>SESI is a <strong>0\u2013100 historical ranking</strong>. Higher = rarer and more stressed compared to history.<br><br><strong>1) Realized stress (spot)</strong><br>- <strong>SESI</strong>: <strong>81</strong> (*stressed*).<br>- <strong>Structural context</strong> (vs pre-2022): <strong>92</strong> (*very tight*).<br>- <strong>Regime label:</strong> STRESSED | STRUCTURALLY_TIGHT.<br><br><strong>How to read (super simple)</strong><br>- Percentile <strong>81</strong> means: compared to the <strong>full history (expanding)</strong> reference set, today is in the <strong>top 81% most stressed</strong> days.<br>- SESI tells you what\u2019s happening <strong>now</strong> in spot.<br>- SESI_structural tells you if the <strong>background regime</strong> is still tight vs pre-2022.<br><br><br><strong>3) Expected stress (OMIP, forward 1\u20133M)</strong><br>- OMIP 1\u20133M average is <strong>74.8 \u20ac/MWh</strong> (as of <strong>2026-05-13</strong>).<br>- Expected stress percentile (vs pre-2022): <strong>83</strong> (*high*).<br>- Dislocation <strong>D = Expected \u2212 Structural</strong> = <strong>-9</strong> percentile points \u2192 <strong>Aligned</strong>.<br><br><strong>Plain meaning</strong><br>OMIP is what\u2019s priced for the next months. If expected is much lower than structural, the market is pricing normalization.<br><br><br><strong>Important</strong><br>- These are <strong>descriptive</strong> statistics. They do not imply a forecast or trading signal.<br>",
+  "note_short": "2026-05-14 \u00b7 SESI 81 \u00b7 Structural 92 \u00b7 OMIP 83 \u00b7 D -9",
+  "note_verbose_md": "**2026-05-14 \u2014 SESI Market Note**\n\n**What SESI is**\nSESI is a **0\u2013100 historical ranking**. Higher = rarer and more stressed compared to history.\n\n**1) Realized stress (spot)**\n- **SESI**: **81** (*stressed*).\n- **Structural context** (vs pre-2022): **92** (*very tight*).\n- **Regime label:** STRESSED | STRUCTURALLY_TIGHT.\n\n**How to read (super simple)**\n- Percentile **81** means: compared to the **full history (expanding)** reference set, today is in the **top 81% most stressed** days.\n- SESI tells you what\u2019s happening **now** in spot.\n- SESI_structural tells you if the **background regime** is still tight vs pre-2022.\n\n\n**3) Expected stress (OMIP, forward 1\u20133M)**\n- OMIP 1\u20133M average is **74.2 \u20ac/MWh** (as of **2026-05-14**).\n- Expected stress percentile (vs pre-2022): **83** (*high*).\n- Dislocation **D = Expected \u2212 Structural** = **-9** percentile points \u2192 **Aligned**.\n\n**Plain meaning**\nOMIP is what\u2019s priced for the next months. If expected is much lower than structural, the market is pricing normalization.\n\n\n**Important**\n- These are **descriptive** statistics. They do not imply a forecast or trading signal.\n",
+  "note_verbose_html": "<strong>2026-05-14 \u2014 SESI Market Note</strong><br><br><strong>What SESI is</strong><br>SESI is a <strong>0\u2013100 historical ranking</strong>. Higher = rarer and more stressed compared to history.<br><br><strong>1) Realized stress (spot)</strong><br>- <strong>SESI</strong>: <strong>81</strong> (*stressed*).<br>- <strong>Structural context</strong> (vs pre-2022): <strong>92</strong> (*very tight*).<br>- <strong>Regime label:</strong> STRESSED | STRUCTURALLY_TIGHT.<br><br><strong>How to read (super simple)</strong><br>- Percentile <strong>81</strong> means: compared to the <strong>full history (expanding)</strong> reference set, today is in the <strong>top 81% most stressed</strong> days.<br>- SESI tells you what\u2019s happening <strong>now</strong> in spot.<br>- SESI_structural tells you if the <strong>background regime</strong> is still tight vs pre-2022.<br><br><br><strong>3) Expected stress (OMIP, forward 1\u20133M)</strong><br>- OMIP 1\u20133M average is <strong>74.2 \u20ac/MWh</strong> (as of <strong>2026-05-14</strong>).<br>- Expected stress percentile (vs pre-2022): <strong>83</strong> (*high*).<br>- Dislocation <strong>D = Expected \u2212 Structural</strong> = <strong>-9</strong> percentile points \u2192 <strong>Aligned</strong>.<br><br><strong>Plain meaning</strong><br>OMIP is what\u2019s priced for the next months. If expected is much lower than structural, the market is pricing normalization.<br><br><br><strong>Important</strong><br>- These are <strong>descriptive</strong> statistics. They do not imply a forecast or trading signal.<br>",
   "OMIP": {
-    "asof": "2026-05-13",
-    "omip_1_3m_avg": 74.837,
-    "omip_exp_pct_pre2022": 83.482,
+    "asof": "2026-05-14",
+    "omip_1_3m_avg": 74.247,
+    "omip_exp_pct_pre2022": 83.276,
     "omip_expected_bucket": "high",
-    "dislocation_pct_pts": -8.864,
-    "dislocation_pct_self": 23.3,
+    "dislocation_pct_pts": -9.069,
+    "dislocation_pct_self": 23.1,
     "dislocation_label": "Aligned",
     "decision_label": "STRESSED",
     "regime_flags": [
       "STRUCTURALLY_TIGHT"
     ],
-    "omip_curve_slope_1v3": 21.16,
+    "omip_curve_slope_1v3": 21.24,
     "omip_curve_shape": "contango"
   }
 }
