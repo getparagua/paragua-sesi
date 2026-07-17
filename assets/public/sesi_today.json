@@ -21,13 +21,11 @@
   "curve_shape": "flat",
   "dislocation_pct_self": 51.7,
   "meta": {
-    "generated_at": "2026-07-17T22:25:58+00:00",
+    "generated_at": "2026-07-17T22:47:42+00:00",
     "asof": "2026-07-18",
     "asof_age_days": -1,
-    "status": "stale",
-    "warnings": [
-      "source_omip_futures_stale"
-    ],
+    "status": "ok",
+    "warnings": [],
     "sources": {
       "omie_spot": {
         "label": "OMIE day-ahead price",
@@ -52,12 +50,12 @@
       "omip_futures": {
         "label": "OMIP monthly futures",
         "first": "2018-01-01",
-        "last": "2026-02-11",
-        "n_obs": 2122,
+        "last": "2026-07-17",
+        "n_obs": 2234,
         "gaps": [],
-        "last_date": "2026-02-11",
-        "age_days": 156,
-        "status": "stale"
+        "last_date": "2026-07-17",
+        "age_days": 0,
+        "status": "ok"
       },
       "sesi_index": {
         "label": "SESI computed index",

@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-07-17T22:23:29+00:00",
-  "status": "stale",
+  "generated_at": "2026-07-17T22:47:41+00:00",
+  "status": "ok",
   "sources": {
     "omie_spot": {
       "label": "OMIE day-ahead price",
@@ -25,12 +25,12 @@
     "omip_futures": {
       "label": "OMIP monthly futures",
       "first": "2018-01-01",
-      "last": "2026-02-11",
-      "n_obs": 2122,
+      "last": "2026-07-17",
+      "n_obs": 2234,
       "gaps": [],
-      "last_date": "2026-02-11",
-      "age_days": 156,
-      "status": "stale"
+      "last_date": "2026-07-17",
+      "age_days": 0,
+      "status": "ok"
     },
     "sesi_index": {
       "label": "SESI computed index",
@@ -43,7 +43,5 @@
       "status": "ok"
     }
   },
-  "warnings": [
-    "source_omip_futures_stale"
-  ]
+  "warnings": []
 }
