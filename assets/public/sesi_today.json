@@ -1,23 +1,79 @@
 {
-  "date": "2026-07-17",
-  "score": 79.8,
+  "date": "2026-02-11",
+  "score": 72.2,
   "regime": "ELEVATED",
-  "structural": 92.2,
-  "market": 89.5,
-  "omie_price": 137.53,
-  "omie_vs_30d": 91.5,
-  "omie_vs_30d_zscore": 3.41,
-  "omie_vs_30d_context": "extreme move",
+  "structural": 90.4,
+  "market": 3.3,
+  "omie_price": 0.34,
+  "omie_vs_30d": -42.5,
+  "omie_vs_30d_zscore": -1.57,
+  "omie_vs_30d_context": "notable move",
   "label_technical": "ELEVATED",
   "label_vivid": "WARM",
   "emoji": "\ud83c\udf21\ufe0f",
   "color": "#FFD54F",
-  "thermometer_bar": "|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2591\u2591\u2591\u2591\u2591\u2591|  79.8",
-  "headline": "Stress conditions in the Iberian power market are building. SESI reaches 80/100, exceeding 80% of daily readings since 2018, as tighter supply margins and residual load volatility lift realized stress above seasonal norms.",
+  "thermometer_bar": "|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591|  72.2",
+  "headline": "Stress conditions in the Iberian power market are building. SESI reaches 72/100, exceeding 72% of daily readings since 2018, as tighter supply margins and residual load volatility lift realized stress above seasonal norms.",
   "subline": "Conditions: Watchful. Monitor gas-to-power spread and hydro balance.",
-  "omip_pct": 89.5,
-  "omip_avg_eur_mwh": 101.93,
-  "curve_slope_1v3": -1.85,
-  "curve_shape": "flat",
-  "dislocation_pct_self": 50.9
+  "omip_pct": 3.3,
+  "omip_avg_eur_mwh": 29.51,
+  "curve_slope_1v3": -15.94,
+  "curve_shape": "backwardation",
+  "dislocation_pct_self": 0.1,
+  "meta": {
+    "generated_at": "2026-07-17T17:06:19+00:00",
+    "asof": "2026-02-11",
+    "asof_age_days": 156,
+    "status": "stale",
+    "warnings": [
+      "snapshot_asof_stale_156d_old",
+      "source_omie_spot_stale",
+      "source_omip_futures_stale",
+      "source_sesi_index_stale",
+      "source_ttf_gas_stale",
+      "ttf_download_failed_fell_back_to_curated"
+    ],
+    "sources": {
+      "omie_spot": {
+        "label": "OMIE day-ahead price",
+        "first": "2018-01-01",
+        "last": "2026-02-11",
+        "n_obs": 2960,
+        "gaps": [],
+        "last_date": "2026-02-11",
+        "age_days": 156,
+        "status": "stale"
+      },
+      "ttf_gas": {
+        "label": "TTF gas futures (Yahoo)",
+        "first": "2018-01-02",
+        "last": "2026-02-11",
+        "n_obs": 2959,
+        "gaps": [],
+        "last_date": "2026-02-11",
+        "age_days": 156,
+        "status": "stale"
+      },
+      "omip_futures": {
+        "label": "OMIP monthly futures",
+        "first": "2018-01-01",
+        "last": "2026-02-11",
+        "n_obs": 2122,
+        "gaps": [],
+        "last_date": "2026-02-11",
+        "age_days": 156,
+        "status": "stale"
+      },
+      "sesi_index": {
+        "label": "SESI computed index",
+        "first": "2019-01-29",
+        "last": "2026-02-11",
+        "n_obs": 2567,
+        "gaps": [],
+        "last_date": "2026-02-11",
+        "age_days": 156,
+        "status": "stale"
+      }
+    }
+  }
 }

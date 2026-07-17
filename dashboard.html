@@ -2,182 +2,133 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>SESI - Dashboard</title>
+  <title>SESI — Analytics Dashboard</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="SESI dashboard: realized vs structural vs expected stress, dislocation, and validation.">
+  <meta name="description" content="SESI analytics: realized vs structural vs expected stress, dislocation, drivers, distribution and validation.">
 
   <link rel="icon" href="assets/img/favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="assets/style.css">
-
-  <style>
-    /* ── chart card ──────────────────────────────────── */
-    .frame-wrap{
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      background: var(--surface);
-      box-shadow: var(--shadow);
-      overflow: hidden;
-    }
-    .chart-frame{
-      width: 100%;
-      border: 0;
-      display: block;
-      background: #0d1117;
-    }
-    .chart-caption{
-      padding: 12px 14px;
-      border-top: 1px solid var(--border);
-      background: var(--surface);
-    }
-
-    /* ── 2-column dashboard grid ─────────────────────── */
-    .dash-grid{
-      display: grid;
-      grid-template-columns: 60fr 40fr;
-      gap: 24px;
-      align-items: start;
-    }
-    @media (max-width: 960px){
-      .dash-grid{ grid-template-columns: 1fr; }
-    }
-    .dash-col{ display: flex; flex-direction: column; gap: 24px; }
-
-    /* ── pill + mini-note ───────────────────────────── */
-    .pill{
-      display:inline-flex; align-items:center; gap:8px;
-      font-size:0.84em; padding:6px 10px;
-      border-radius:999px; border:1px solid var(--border);
-      background:var(--surface-2); margin-right:8px; margin-top:6px; flex-wrap:wrap;
-    }
-    .pill strong{ font-weight:750; }
-    .mini-note{ margin-top:10px; line-height:1.6; }
-  </style>
 </head>
 
 <body>
 
   <div class="nav">
-    <div class="nav-left">
-      <img class="brand-mini" src="assets/img/paragua-logo_little.png" alt="Paragua Software">
-      <div class="brand-title">
-        <strong>Paragua Market Signals</strong>
-        <span>Independent research &amp; benchmarks</span>
+    <div class="nav-inner">
+      <div class="nav-left">
+        <img class="brand-mini" src="assets/img/paragua-logo_little.png" alt="Paragua">
+        <div class="brand-title">
+          <strong>SESI · Spain Energy Stress Index</strong>
+          <span>Iberian power market intelligence — by Paragua</span>
+        </div>
       </div>
-    </div>
-    <div class="nav-links">
-      <a class="btn" href="index.html">Home</a>
-      <a class="btn primary" href="dashboard.html">Dashboard</a>
-      <a class="btn" href="methodology.html">Methodology</a>
-      <a class="btn" href="data-access.html">Data access</a>
+      <div class="nav-links">
+        <a class="btn" href="index.html">Overview</a>
+        <a class="btn primary" href="dashboard.html" aria-current="page">Analytics</a>
+        <a class="btn" href="methodology.html">Methodology</a>
+        <a class="btn" href="data-access.html">Data access</a>
+      </div>
     </div>
   </div>
 
+  <div class="wrap">
+
   <div class="hero">
-    <h1>Dashboard</h1>
-    <h2>Canonical views (v0.1, frozen)</h2>
+    <h1>Analytics</h1>
+    <h2>Canonical views — frozen specification</h2>
     <p class="subtitle">
-      SESI is a percentile benchmark (0–100). Think of it as a <strong>ranking</strong>:
-      higher = rarer and more stressed compared to history.
+      SESI is a percentile benchmark (0–100): a <strong>ranking</strong> of how stressed
+      today is compared to history. Higher = rarer and more stressed.
     </p>
-    <div class="pill" id="todayPill">Loading today…</div>
+    <div class="pill num" id="todayPill">Loading today…</div>
     <div class="muted mini-note" id="valPill">Loading validation…</div>
   </div>
 
-  <!-- ── 2-column chart grid ─────────────────────────── -->
   <section>
     <div class="dash-grid">
 
-      <!-- LEFT COLUMN (60%) ────────────────────────── -->
+      <!-- LEFT COLUMN ────────────────────────── -->
       <div class="dash-col">
 
-        <!-- stress -->
         <div class="frame-wrap">
           <iframe class="chart-frame" style="height:560px"
             src="assets/charts/stress.html"
             title="SESI stress chart" loading="lazy"></iframe>
           <div class="chart-caption">
-            <div class="muted"><strong>Stress — realized / structural / expected (180 d)</strong></div>
+            <strong>Stress — realized / structural / expected (180d)</strong>
             <ul>
-              <li><strong>SESI (realized)</strong>: spot-stress rank now.</li>
-              <li><strong>SESI_structural</strong>: background regime tightness vs pre-2022.</li>
-              <li><strong>OMIP expected</strong>: what forward prices imply for the next months (rank vs pre-2022).</li>
+              <li><span style="color: var(--s-sesi);">■</span> <strong>SESI (realized)</strong>: spot-stress rank now.</li>
+              <li><span style="color: var(--s-structural);">■</span> <strong>Structural</strong>: background regime tightness vs pre-2022.</li>
+              <li><span style="color: var(--s-omip);">■</span> <strong>OMIP expected</strong>: what forward prices imply for the next months.</li>
             </ul>
-            <p class="muted" style="margin-top:8px;">Regime bands: cyan 0–40 · green 40–60 · amber 60–80 · orange 80–95 · red 95–100.</p>
+            <p class="muted" style="margin: 8px 0 0;">Bands mark the regime scale: slack · normal · elevated · stressed · critical.</p>
           </div>
         </div>
 
-        <!-- price vs SESI -->
         <div class="frame-wrap">
-          <iframe class="chart-frame" style="height:560px"
+          <iframe class="chart-frame" style="height:600px"
             src="assets/charts/price_sesi.html"
-            title="OMIE price vs SESI" loading="lazy"></iframe>
+            title="OMIE price and SESI" loading="lazy"></iframe>
           <div class="chart-caption">
-            <div class="muted"><strong>Price vs SESI — 365 days</strong></div>
-            <p>Bars = OMIE day-ahead (€/MWh, left axis). Line = SESI percentile (right axis).
-               Shows how price levels correlate with the stress rank over the past year.</p>
+            <strong>Price vs SESI — 365 days</strong>
+            <p style="margin: 6px 0 0;">OMIE day-ahead level (top panel) and the SESI percentile (bottom panel) on a shared timeline —
+               how price levels map to the stress rank over the past year.</p>
           </div>
         </div>
 
-        <!-- feature decomposition -->
         <div class="frame-wrap">
           <iframe class="chart-frame" style="height:520px"
             src="assets/charts/feature_decomposition.html"
             title="Feature decomposition" loading="lazy"></iframe>
           <div class="chart-caption">
-            <div class="muted"><strong>Driver decomposition — 90 days</strong></div>
-            <p>Relative share of each driver in the raw SESI score each day.
-               Answers: <em>"why is stress high today?"</em></p>
+            <strong>Driver decomposition — 90 days</strong>
+            <p style="margin: 6px 0 0;">Signed contribution of each model driver to the raw SESI score. Answers: <em>"why is stress high today?"</em></p>
             <ul>
-              <li><strong>P_short</strong>: spot price signal (short-term).</li>
-              <li><strong>P_long</strong>: structural price level.</li>
-              <li><strong>V</strong>: realised volatility.</li>
-              <li><strong>G_long</strong>: generation / grid long-run indicator.</li>
+              <li><span style="color: var(--s-structural);">■</span> <strong>P_long</strong>: structural price level vs 2018–20 baseline.</li>
+              <li><span style="color: var(--s-sesi);">■</span> <strong>P_short</strong>: short-term spot price signal.</li>
+              <li><span style="color: var(--s-vol);">■</span> <strong>V</strong>: realized volatility.</li>
+              <li><span style="color: var(--s-gas);">■</span> <strong>G_long</strong>: structural gas (TTF) signal.</li>
             </ul>
           </div>
         </div>
 
       </div><!-- /left col -->
 
-      <!-- RIGHT COLUMN (40%) ───────────────────────── -->
+      <!-- RIGHT COLUMN ───────────────────────── -->
       <div class="dash-col">
 
-        <!-- regime heatmap -->
         <div class="frame-wrap">
           <iframe class="chart-frame" style="height:330px"
             src="assets/charts/regime_heatmap.html"
             title="Regime calendar heatmap" loading="lazy"></iframe>
           <div class="chart-caption">
-            <div class="muted"><strong>Calendar heatmap — 2 years</strong></div>
-            <p class="muted">Each cell = one day. Color = SESI regime (cyan low → red crisis).
-               Compact "thermal history" of the market.</p>
+            <strong>Calendar heatmap — 2 years</strong>
+            <p class="muted" style="margin: 6px 0 0;">Each cell = one day, colored by regime severity.
+               Blank cells are missing data. A compact thermal history of the market.</p>
           </div>
         </div>
 
-        <!-- dislocation -->
         <div class="frame-wrap">
           <iframe class="chart-frame" style="height:560px"
             src="assets/charts/dislocation.html"
             title="SESI dislocation chart" loading="lazy"></iframe>
           <div class="chart-caption">
-            <div class="muted"><strong>Dislocation D = Expected − Structural (180 d)</strong></div>
+            <strong>Dislocation D = Expected − Structural (180d)</strong>
             <ul>
-              <li>Green fill (D &gt; 0): forward pricing additional stress — <em>risk bid</em>.</li>
-              <li>Red fill (D &lt; 0): forward pricing normalization — <em>discounting</em>.</li>
+              <li>Green fill (D &gt; 0): forwards pricing additional stress — <em>risk bid</em>.</li>
+              <li>Red fill (D &lt; 0): forwards pricing normalization — <em>discounting</em>.</li>
               <li><strong>|D| ≥ 25</strong>: strongly dislocated.</li>
             </ul>
           </div>
         </div>
 
-        <!-- SESI distribution by year -->
         <div class="frame-wrap">
           <iframe class="chart-frame" style="height:520px"
             src="assets/charts/sesi_distribution.html"
             title="SESI annual distribution" loading="lazy"></iframe>
           <div class="chart-caption">
-            <div class="muted"><strong>Annual distribution (2018–2026)</strong></div>
-            <p>Notched box plot per year. Dashed red line = today's SESI.
-               Shows whether the current year is above or below historical norms.
-               Blue = pre-2022 era · orange = post-2022 structural shift.</p>
+            <strong>Annual distribution</strong>
+            <p style="margin: 6px 0 0;">Box plot of SESI per year. Blue = pre-2022 baseline era · orange = post-2022 structural shift ·
+               dashed line = latest reading. Shows whether the current year sits above or below historical norms.</p>
           </div>
         </div>
 
@@ -186,11 +137,14 @@
     </div><!-- /dash-grid -->
   </section>
 
-  <!-- ── Validation (full width) ─────────────────────── -->
+  <!-- Validation (full width) -->
   <section id="validation">
-    <h3>Validation: "what usually happens next"</h3>
+    <div class="section-head">
+      <h2>Validation: "what usually happens next"</h2>
+      <span class="muted">Historical conditional statistics — descriptive, not forecasts</span>
+    </div>
     <p class="muted">
-      In the past, when SESI regimes looked like this, how much did prices typically move afterwards?
+      When SESI regimes looked like today's in the past, how much did prices typically move afterwards?
       The chart shows the <strong>median 7-day max move</strong> (€/MWh) by regime state (threshold = 80).
     </p>
     <div class="frame-wrap">
@@ -198,14 +152,13 @@
         src="assets/charts/validation.html"
         title="SESI validation chart" loading="lazy"></iframe>
       <div class="chart-caption">
-        <div class="muted"><strong>How to read</strong></div>
+        <strong>How to read</strong>
         <ul>
           <li>Each day is classified into a regime (Calm / Latent risk / Realized stress / Full crisis).</li>
           <li>Then: <strong>what was the biggest move from today's price in the next 7 days?</strong></li>
           <li>The bar shows the <strong>median</strong> of those "biggest moves" across history.</li>
         </ul>
-        <p class="muted" style="margin-top:10px;">Historical conditional statistics — descriptive, not forecasts.</p>
-        <p style="margin-top:10px;">
+        <p style="margin-top: 10px;">
           <a class="btn" href="assets/public/validation_summary.json">Validation summary (JSON)</a>
           <a class="btn" href="data-access.html">What is public?</a>
         </p>
@@ -213,15 +166,20 @@
     </div>
   </section>
 
+  </div><!-- /wrap -->
+
   <footer>
-    <div class="footer-links">
-      <a href="index.html">Home</a>
-      <a href="methodology.html">Methodology</a>
-      <a href="data-access.html">Data access</a>
+    <div class="footer-inner">
+      <div class="footer-links">
+        <a href="index.html">Overview</a>
+        <a href="methodology.html">Methodology</a>
+        <a href="data-access.html">Data access</a>
+      </div>
     </div>
   </footer>
 
   <script>
+    "use strict";
     function fmtNum(x, decimals){
       if (x === null || x === undefined || typeof x !== "number" || Number.isNaN(x)) return "-";
       return x.toFixed(decimals);
@@ -261,6 +219,7 @@
         const label      = (d.OMIP && d.OMIP.decision_label) ? d.OMIP.decision_label : (d.regime || "");
         const flags      = (d.OMIP && Array.isArray(d.OMIP.regime_flags)) ? d.OMIP.regime_flags
                            : (Array.isArray(d.regime_flags) ? d.regime_flags : []);
+        const meta       = d.meta || null;
 
         let txt = `<strong>${date}</strong>` +
           ` · SESI ${fmtNum(sesi,1)}` +
@@ -269,6 +228,10 @@
           ` · D ${disloc===null?"-":(disloc>=0?"+":"")+fmtNum(disloc,1)}`;
         if (label) txt += ` · <strong>${label}</strong>`;
         if (flags.length) txt += ` · ${flags.join(" | ")}`;
+        if (meta && meta.status && meta.status !== "ok") {
+          txt += ` · <span style="color: var(--warn); font-weight: 700;">DATA ${meta.status.toUpperCase()}` +
+                 (meta.asof_age_days ? ` (${meta.asof_age_days}d old)` : "") + `</span>`;
+        }
         document.getElementById("todayPill").innerHTML = txt;
 
         const vres = await fetch("assets/public/validation_summary.json", { cache:"no-store" });
