@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>SESI — Spain Energy Stress Index · Iberian Power Market Intelligence</title>
+  <title>SESI — Spain Energy Stress Index · Market Intelligence</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="SESI is a daily 0–100 stress benchmark for the Spanish electricity market: realized stress, structural regime and forward expectations, built on OMIE, OMIP and TTF public data.">
 
@@ -12,240 +12,332 @@
 
 <body>
 
-  <!-- ═══ Top bar ═══ -->
-  <div class="nav">
+  <!-- Icon sprite (Lucide, stroke 2) -->
+  <svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
+    <symbol id="i-activity" viewBox="0 0 24 24"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2"/></symbol>
+    <symbol id="i-trend-up" viewBox="0 0 24 24"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></symbol>
+    <symbol id="i-trend-down" viewBox="0 0 24 24"><polyline points="22 17 13.5 8.5 8.5 13.5 2 7"/><polyline points="16 17 22 17 22 11"/></symbol>
+    <symbol id="i-minus" viewBox="0 0 24 24"><path d="M5 12h14"/></symbol>
+    <symbol id="i-alert" viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></symbol>
+    <symbol id="i-octagon" viewBox="0 0 24 24"><path d="M12 16h.01"/><path d="M12 8v4"/><path d="M15.312 2a2 2 0 0 1 1.414.586l4.688 4.688A2 2 0 0 1 22 8.688v6.624a2 2 0 0 1-.586 1.414l-4.688 4.688a2 2 0 0 1-1.414.586H8.688a2 2 0 0 1-1.414-.586l-4.688-4.688A2 2 0 0 1 2 15.312V8.688a2 2 0 0 1 .586-1.414l4.688-4.688A2 2 0 0 1 8.688 2z"/></symbol>
+    <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M21.801 10A10 10 0 1 1 17 3.335"/><path d="m9 11 3 3L22 4"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></symbol>
+    <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></symbol>
+    <symbol id="i-download" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></symbol>
+    <symbol id="i-copy" viewBox="0 0 24 24"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></symbol>
+    <symbol id="i-database" viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5V19A9 3 0 0 0 21 19V5"/><path d="M3 12A9 3 0 0 0 21 12"/></symbol>
+    <symbol id="i-arrow-right" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></symbol>
+    <symbol id="i-gauge" viewBox="0 0 24 24"><path d="m12 14 4-4"/><path d="M3.34 19a10 10 0 1 1 17.32 0"/></symbol>
+    <symbol id="i-layers" viewBox="0 0 24 24"><path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z"/><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"/><path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"/></symbol>
+  </svg>
+
+  <!-- ═══ Application shell ═══ -->
+  <header class="nav">
     <div class="nav-inner">
       <div class="nav-left">
         <img class="brand-mini" src="assets/img/paragua-logo_little.png" alt="Paragua">
         <div class="brand-title">
-          <strong>SESI · Spain Energy Stress Index</strong>
-          <span>Iberian power market intelligence — by Paragua</span>
+          <strong>SESI</strong>
+          <span>Spain Energy Stress Index</span>
         </div>
       </div>
-      <div class="nav-links">
-        <a class="btn primary" href="index.html" aria-current="page">Overview</a>
-        <a class="btn" href="dashboard.html">Analytics</a>
-        <a class="btn" href="methodology.html">Methodology</a>
-        <a class="btn" href="data-access.html">Data access</a>
-        <span class="status-chip" id="navStatus" title="Data pipeline status">
+
+      <nav class="nav-links" aria-label="Primary">
+        <a class="nav-link" href="index.html" aria-current="page">Overview</a>
+        <a class="nav-link" href="dashboard.html">Analytics</a>
+        <a class="nav-link" href="methodology.html">Methodology</a>
+        <a class="nav-link" href="data-access.html">Data access</a>
+      </nav>
+
+      <div class="nav-actions">
+        <span class="shell-status" id="navStatus" title="Data pipeline status">
           <span class="dot" id="navStatusDot"></span>
-          <span id="navStatusText">Checking data…</span>
+          <span id="navStatusText">Checking data</span>
         </span>
         <button class="btn" id="refreshBtn" type="button" aria-label="Reload latest data">
-          <span id="refreshIcon">⟳</span> Refresh
+          <svg class="ic" id="refreshIcon" aria-hidden="true"><use href="#i-refresh"/></svg>
+          Refresh
         </button>
+        <a class="btn-primary" href="dashboard.html">
+          Open analytics
+          <svg class="ic" aria-hidden="true"><use href="#i-arrow-right"/></svg>
+        </a>
       </div>
     </div>
-  </div>
+  </header>
 
   <div class="wrap">
 
-    <!-- ═══ Freshness banner (hidden when data is current) ═══ -->
+    <!-- Freshness banner (hidden when data is current) -->
     <div class="banner" id="staleBanner" role="alert">
-      <span class="banner-icon" id="staleBannerIcon">⚠️</span>
+      <svg class="ic ic-lg" aria-hidden="true"><use id="staleBannerIcon" href="#i-alert"/></svg>
       <div id="staleBannerBody"></div>
     </div>
 
-    <!-- ═══ Market pulse ═══ -->
-    <section class="pulse" aria-label="Current market state">
+    <!-- ═══ Page header ═══ -->
+    <div class="page-head">
+      <div>
+        <h1>Spanish power market — stress overview</h1>
+        <p class="sub">Daily 0–100 percentile benchmark of realized stress, structural regime distance and forward expectations, built exclusively on public market data.</p>
+      </div>
+    </div>
 
-      <div class="panel pulse-main">
-        <div class="pulse-eyebrow">Spanish power market · Current regime</div>
+    <!-- ═══ Executive overview ═══ -->
+    <section aria-label="Executive overview" style="margin-top: 8px;">
+      <div class="hero-module">
 
-        <div class="regime-row">
-          <span class="regime-badge" id="regimeBadge" style="color: var(--muted); border-color: var(--border-strong);">
-            <span id="regimeName">Loading…</span>
-          </span>
-          <span id="regimeFlags"></span>
+        <div class="hero-main">
+          <div class="hero-eyebrow">Current stress index</div>
+
+          <div class="hero-value-row">
+            <span class="hero-value num" id="scoreNum" aria-label="SESI stress score">—</span>
+            <span class="hero-scale-max">/ 100</span>
+          </div>
+
+          <div class="regime-line">
+            <span class="regime-tag" id="regimeName" style="color: var(--muted);">LOADING</span>
+            <span class="regime-flags" id="regimeFlags"></span>
+          </div>
+
+          <div class="hero-deltas num" id="heroDeltas" aria-label="Change vs previous periods"></div>
+
+          <div class="scale" aria-hidden="true">
+            <div class="scale-track">
+              <span class="scale-seg s1"></span><span class="scale-seg s2"></span><span class="scale-seg s3"></span><span class="scale-seg s4"></span><span class="scale-seg s5"></span>
+              <span class="scale-marker" id="scaleMarker" style="left: 0%;"></span>
+            </div>
+            <div class="scale-labels">
+              <span>Slack</span><span>Normal</span><span>Elevated</span><span>Stressed</span><span>Crit</span>
+            </div>
+          </div>
+
+          <p class="hero-interpretation" id="headline"></p>
+
+          <div class="hero-foot">
+            <span class="asof">
+              <span class="dot" id="asofDot"></span>
+              <span id="asofText">Loading data</span>
+            </span>
+            <button class="btn-ghost" id="copyBtn" type="button">
+              <svg class="ic" aria-hidden="true"><use href="#i-copy"/></svg>
+              Copy summary
+            </button>
+          </div>
         </div>
 
-        <div class="score-row">
-          <span class="score-num num" id="scoreNum" aria-label="SESI stress score">—</span>
-          <span class="score-max">/100</span>
+        <div class="hero-chart">
+          <iframe class="chart-frame" style="height: 460px"
+            src="assets/charts/stress.html"
+            title="SESI: realized vs structural vs expected stress, last 180 days" loading="eager"></iframe>
+          <div class="hero-chart-caption">
+            <span class="swatch" style="background: var(--s-sesi);"></span> Realized ·
+            <span class="swatch" style="background: var(--s-structural);"></span> Structural (vs pre-2022) ·
+            <span class="swatch" style="background: var(--s-omip);"></span> Forward expected (OMIP) —
+            gaps are shown as breaks, never interpolated.
+          </div>
         </div>
 
+      </div>
+
+      <!-- KPI strip — open, no boxes -->
+      <div class="kpi-strip" role="list" aria-label="Key indicators">
+        <div class="kpi skeleton" id="kpiSesi" role="listitem">
+          <div class="label">Realized
+            <span class="info" tabindex="0" data-tip="Realized stress percentile: how today's spot-market stress ranks against all days since 2018 (expanding window)."><svg class="ic" style="width:13px;height:13px"><use href="#i-info"/></svg></span>
+          </div>
+          <div class="value num"><span data-v>—</span></div>
+          <div class="detail" data-d>vs full history since 2018</div>
+        </div>
+        <div class="kpi skeleton" id="kpiStructural" role="listitem">
+          <div class="label">Structural
+            <span class="info" tabindex="0" data-tip="Structural regime distance: today's conditions ranked against the fixed pre-2022 reference distribution."><svg class="ic" style="width:13px;height:13px"><use href="#i-info"/></svg></span>
+          </div>
+          <div class="value num"><span data-v>—</span></div>
+          <div class="detail" data-d>vs pre-2022 reference</div>
+        </div>
+        <div class="kpi skeleton" id="kpiOmip" role="listitem">
+          <div class="label">Forward
+            <span class="info" tabindex="0" data-tip="Expected stress implied by OMIP 1–3 month futures, ranked against the pre-2022 distribution."><svg class="ic" style="width:13px;height:13px"><use href="#i-info"/></svg></span>
+          </div>
+          <div class="value num"><span data-v>—</span></div>
+          <div class="detail" data-d>OMIP-implied</div>
+        </div>
+        <div class="kpi skeleton" id="kpiPrice" role="listitem">
+          <div class="label">OMIE day-ahead
+            <span class="info" tabindex="0" data-tip="Daily average of the OMIE day-ahead marginal price for Spain."><svg class="ic" style="width:13px;height:13px"><use href="#i-info"/></svg></span>
+          </div>
+          <div class="value num"><span data-v>—</span><span class="unit">€/MWh</span></div>
+          <div class="detail" data-d>vs trailing 30-day average</div>
+        </div>
+        <div class="kpi skeleton" id="kpiOmipAvg" role="listitem">
+          <div class="label">OMIP 1–3M
+            <span class="info" tabindex="0" data-tip="Average settlement of OMIP monthly base contracts, 1 to 3 months ahead, plus near-curve shape."><svg class="ic" style="width:13px;height:13px"><use href="#i-info"/></svg></span>
+          </div>
+          <div class="value num"><span data-v>—</span><span class="unit">€/MWh</span></div>
+          <div class="detail" data-d>near-curve shape</div>
+        </div>
+        <div class="kpi skeleton" id="kpiDisloc" role="listitem">
+          <div class="label">Dislocation
+            <span class="info" tabindex="0" data-tip="Forward expected minus structural, in percentile points. Strongly negative: the market prices normalization. Strongly positive: a forward risk premium."><svg class="ic" style="width:13px;height:13px"><use href="#i-info"/></svg></span>
+          </div>
+          <div class="value num"><span data-v>—</span><span class="unit">pts</span></div>
+          <div class="detail" data-d>expected − structural</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ Stress drivers ═══ -->
+    <section aria-label="Stress drivers" id="driversSection" hidden>
+      <div class="section-head">
         <div>
-          <div class="gauge-track"><div class="gauge-fill" id="gaugeFill"></div></div>
-          <div class="gauge-labels">
-            <span class="lbl-slack">SLACK</span>
-            <span class="lbl-normal">NORMAL</span>
-            <span class="lbl-elevated">ELEVATED</span>
-            <span class="lbl-stressed">STRESSED</span>
-            <span class="lbl-critical">CRITICAL</span>
-          </div>
+          <h2>What is driving the index</h2>
+          <p class="lead">Signed contribution of each model driver to today's raw score — frozen ridge specification, standardized features.</p>
         </div>
-
-        <p class="pulse-headline" id="headline"></p>
-
-        <div class="pulse-asof">
-          <span class="dot" id="asofDot"></span>
-          <span id="asofText">Loading data…</span>
-          <button class="btn" id="copyBtn" type="button" style="padding: 4px 10px; font-size: 0.9em;">Copy summary</button>
-        </div>
+        <a class="btn-ghost" href="dashboard.html">90-day decomposition
+          <svg class="ic" aria-hidden="true"><use href="#i-arrow-right"/></svg>
+        </a>
       </div>
-
-      <div class="panel">
-        <div class="kpi-grid" id="kpiGrid">
-
-          <div class="kpi accent-sesi skeleton" id="kpiSesi">
-            <div class="label">SESI · Realized
-              <i class="info" tabindex="0" data-tip="Realized stress percentile: how today's spot-market stress ranks against all days since 2018 (expanding window). 80 = more stressed than 80% of history."></i>
-            </div>
-            <div class="value num"><span data-v>—</span></div>
-            <div class="delta" data-d>vs full history since 2018</div>
-          </div>
-
-          <div class="kpi accent-structural skeleton" id="kpiStructural">
-            <div class="label">Structural
-              <i class="info" tabindex="0" data-tip="Structural regime distance: today's conditions ranked against the fixed pre-2022 reference distribution. High = the background regime remains tight vs pre-crisis."></i>
-            </div>
-            <div class="value num"><span data-v>—</span></div>
-            <div class="delta" data-d>vs pre-2022 reference</div>
-          </div>
-
-          <div class="kpi accent-omip skeleton" id="kpiOmip">
-            <div class="label">Forward expected
-              <i class="info" tabindex="0" data-tip="Expected stress implied by OMIP 1–3 month futures, ranked against the pre-2022 distribution. What the market is pricing for the months ahead."></i>
-            </div>
-            <div class="value num"><span data-v>—</span></div>
-            <div class="delta" data-d>OMIP 1–3M vs pre-2022</div>
-          </div>
-
-          <div class="kpi accent-price skeleton" id="kpiPrice">
-            <div class="label">OMIE day-ahead
-              <i class="info" tabindex="0" data-tip="Daily average of the OMIE day-ahead marginal price for Spain, in €/MWh."></i>
-            </div>
-            <div class="value num"><span data-v>—</span><span class="unit">€/MWh</span></div>
-            <div class="delta" data-d>vs trailing 30-day average</div>
-          </div>
-
-          <div class="kpi skeleton" id="kpiOmipAvg">
-            <div class="label">OMIP 1–3M avg
-              <i class="info" tabindex="0" data-tip="Average settlement of OMIP monthly base contracts, 1 to 3 months ahead, in €/MWh — plus the shape of the near curve."></i>
-            </div>
-            <div class="value num"><span data-v>—</span><span class="unit">€/MWh</span></div>
-            <div class="delta" data-d>near-curve shape</div>
-          </div>
-
-          <div class="kpi skeleton" id="kpiDisloc">
-            <div class="label">Dislocation
-              <i class="info" tabindex="0" data-tip="D = Forward expected − Structural, in percentile points. Strongly negative: the market prices normalization. Strongly positive: a forward risk premium."></i>
-            </div>
-            <div class="value num"><span data-v>—</span><span class="unit">pts</span></div>
-            <div class="delta" data-d>expected − structural</div>
-          </div>
-
-        </div>
-      </div>
-
+      <div class="drivers" id="driversList"></div>
     </section>
 
-    <!-- ═══ Insights & alerts ═══ -->
-    <section aria-label="Insights and alerts">
+    <!-- ═══ Market trend ═══ -->
+    <section aria-label="Market trend">
       <div class="section-head">
-        <h2>What needs attention</h2>
-        <span class="muted">Derived from the current snapshot — every item traces to a published metric</span>
-      </div>
-      <div class="alert-list" id="alertList">
-        <div class="alert"><div class="alert-icon">⏳</div><div class="alert-body"><strong>Loading insights…</strong></div></div>
-      </div>
-    </section>
-
-    <!-- ═══ Primary chart ═══ -->
-    <section aria-label="Primary market chart">
-      <div class="section-head">
-        <h2>Stress — realized vs structural vs expected</h2>
-        <span class="muted">180 days · gaps in the series are shown as breaks, never interpolated</span>
+        <div>
+          <h2>Price and stress — one year</h2>
+          <p class="lead">OMIE day-ahead level and the SESI percentile on a shared timeline. Missing days appear as breaks.</p>
+        </div>
       </div>
       <div class="frame-wrap">
-        <iframe class="chart-frame" style="height:540px"
-          src="assets/charts/stress.html"
-          title="SESI stress chart: realized vs structural vs expected, last 180 days" loading="eager"></iframe>
-        <div class="chart-caption">
-          <strong>How to read:</strong>
-          <span style="color: var(--s-sesi);">■</span> SESI (realized) ranks today's spot stress vs full history ·
-          <span style="color: var(--s-structural);">■</span> Structural ranks it vs the pre-2022 regime ·
-          <span style="color: var(--s-omip);">■</span> OMIP expected is what forwards price for the next months.
-          Bands mark the regime scale (slack → critical).
-        </div>
+        <iframe class="chart-frame" style="height: 580px"
+          src="assets/charts/price_sesi.html"
+          title="OMIE price and SESI stress percentile, last 365 days" loading="lazy"></iframe>
       </div>
     </section>
 
-    <!-- ═══ Secondary modules ═══ -->
-    <section aria-label="Secondary analytics">
+    <!-- ═══ Forward market & regime history ═══ -->
+    <section aria-label="Forward market and regime history">
       <div class="section-head">
-        <h2>Market drivers</h2>
-        <a class="muted" href="dashboard.html">Full analytics →</a>
+        <div>
+          <h2>Forward market and regime history</h2>
+          <p class="lead">What OMIP futures price relative to the structural backdrop, and two years of daily regimes.</p>
+        </div>
       </div>
       <div class="module-grid">
-
         <div class="frame-wrap">
-          <iframe class="chart-frame" style="height:580px"
-            src="assets/charts/price_sesi.html"
-            title="OMIE price and SESI, last 365 days" loading="lazy"></iframe>
-          <div class="chart-caption">
-            <strong>Price vs stress (365d).</strong>
-            OMIE day-ahead level (top) against the SESI percentile (bottom) on a shared timeline.
-          </div>
-        </div>
-
-        <div class="frame-wrap">
-          <iframe class="chart-frame" style="height:580px"
+          <iframe class="chart-frame" style="height: 560px"
             src="assets/charts/dislocation.html"
-            title="Dislocation: expected vs structural, last 180 days" loading="lazy"></iframe>
+            title="Dislocation: forward expected vs structural, last 180 days" loading="lazy"></iframe>
           <div class="chart-caption">
             <strong>Dislocation (180d).</strong>
-            Green: forwards price additional stress (risk bid). Red: forwards price normalization (discount).
-            |D| ≥ 25 points is strongly dislocated.
+            Above zero: forwards price additional stress (risk bid). Below zero: forwards price normalization (discount).
+            Beyond ±25 points is strongly dislocated.
           </div>
         </div>
-
-        <div class="frame-wrap" style="grid-column: 1 / -1;">
-          <iframe class="chart-frame" style="height:310px"
-            src="assets/charts/regime_heatmap.html"
-            title="SESI stress calendar heatmap, last 2 years" loading="lazy"></iframe>
-          <div class="chart-caption">
-            <strong>Stress calendar (2y).</strong> One cell per day, colored by regime severity.
-            Blank cells are missing data — shown as missing, not filled.
+        <div>
+          <div class="frame-wrap">
+            <iframe class="chart-frame" style="height: 310px"
+              src="assets/charts/regime_heatmap.html"
+              title="SESI stress calendar heatmap, last two years" loading="lazy"></iframe>
+            <div class="chart-caption">
+              <strong>Stress calendar (2y).</strong> One cell per day, colored by regime severity. Blank cells are missing data.
+            </div>
+          </div>
+          <div class="frame-wrap" style="margin-top: 24px;">
+            <iframe class="chart-frame" style="height: 340px"
+              src="assets/charts/validation.html"
+              title="Validation: median 7-day max move by regime quadrant" loading="lazy"></iframe>
+            <div class="chart-caption">
+              <strong>Historical outcomes.</strong> Median 7-day max price move by regime quadrant — descriptive, not a forecast.
+            </div>
           </div>
         </div>
-
       </div>
     </section>
 
-    <!-- ═══ Market note (technical detail) ═══ -->
+    <!-- ═══ Insights ═══ -->
+    <section aria-label="Insights and alerts">
+      <div class="section-head">
+        <div>
+          <h2>What needs attention</h2>
+          <p class="lead">Derived from the current snapshot — every item traces to a published metric.</p>
+        </div>
+      </div>
+      <div class="insight-list" id="alertList">
+        <div class="insight">
+          <div class="insight-icon neutral"><svg class="ic ic-lg"><use href="#i-clock"/></svg></div>
+          <div class="insight-body"><strong>Loading insights</strong></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ Detailed indicators ═══ -->
+    <section aria-label="Detailed indicators">
+      <div class="section-head">
+        <div>
+          <h2>Indicator detail</h2>
+          <p class="lead">Every published metric with its baseline, status and as-of date.</p>
+        </div>
+        <button class="btn" id="exportBtn" type="button">
+          <svg class="ic" aria-hidden="true"><use href="#i-download"/></svg>
+          Export CSV
+        </button>
+      </div>
+      <div class="table-wrap">
+        <table class="data" id="indicatorTable">
+          <thead>
+            <tr>
+              <th>Indicator</th>
+              <th class="r">Value</th>
+              <th>Unit</th>
+              <th class="r">Change</th>
+              <th>Baseline</th>
+              <th>Status</th>
+              <th>As of</th>
+              <th>Source</th>
+            </tr>
+          </thead>
+          <tbody id="indicatorRows">
+            <tr><td colspan="8" class="muted" style="text-align:center; padding: 24px;">Loading indicators…</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ═══ Market note ═══ -->
     <section>
       <details>
-        <summary class="details-summary">Full market note &amp; technical detail ↓</summary>
+        <summary class="details-summary">Full market note and technical detail</summary>
         <div class="card" style="margin-top: 12px;">
-          <div id="noteShort" class="num" style="white-space: pre-wrap; font-size: 0.95em; color: var(--text-2);">—</div>
+          <div id="noteShort" class="num" style="white-space: pre-wrap; font-size: 0.94em; color: var(--ink-2);">—</div>
           <details class="verbose" style="margin-top: 10px;">
             <summary>Extended note</summary>
             <div id="noteVerbose" class="muted" style="margin-top: 10px; line-height: 1.7;">—</div>
           </details>
-          <div class="callout" style="margin-top: 14px;">
-            <p style="margin: 0; font-size: 0.9em;">
-              SESI is a <strong>descriptive benchmark</strong>, not a trading signal.
-              Percentiles are historical rankings, not probabilities.
-            </p>
-          </div>
+          <p class="muted" style="margin: 14px 0 0; font-size: 0.88em;">
+            SESI is a descriptive benchmark, not a trading signal. Percentiles are historical rankings, not probabilities.
+          </p>
         </div>
       </details>
     </section>
 
-    <!-- ═══ Data provenance ═══ -->
+    <!-- ═══ Provenance ═══ -->
     <section aria-label="Data sources and freshness">
       <div class="provenance">
         <div class="prov-row">
-          <strong style="font-size: 0.94em;">Data sources &amp; freshness</strong>
+          <span style="display: inline-flex; align-items: center; gap: 8px; font-weight: 600; font-size: 0.92em;">
+            <svg class="ic" aria-hidden="true"><use href="#i-database"/></svg>
+            Data sources and freshness
+          </span>
           <span class="muted num" id="provRefresh">Last pipeline run: —</span>
         </div>
         <div class="prov-sources" id="provSources">
-          <span class="source-chip"><span class="dot"></span> Loading source status…</span>
+          <span class="source-item"><span class="dot"></span> Loading source status…</span>
         </div>
         <div class="prov-row">
-          <span class="muted" id="provCoverage">Coverage: —</span>
-          <a class="muted" href="data-access.html">What is public? →</a>
+          <span class="muted num" id="provCoverage">Coverage: —</span>
+          <a class="muted" href="data-access.html">What is public?</a>
         </div>
       </div>
     </section>
@@ -255,9 +347,9 @@
   <footer>
     <div class="footer-inner">
       <div>
-        SESI is an independent research benchmark for the Spanish electricity market,
-        built exclusively on publicly available data (OMIE day-ahead prices, OMIP monthly futures, TTF gas futures).
-        No proprietary or confidential sources. Descriptive statistics only — not investment advice.
+        SESI is an independent research benchmark for the Spanish electricity market, built exclusively on publicly
+        available data (OMIE day-ahead prices, OMIP monthly futures, TTF gas futures). No proprietary or confidential
+        sources. Descriptive statistics only — not investment advice.
       </div>
       <div class="footer-links">
         <a href="dashboard.html">Analytics</a>
@@ -276,7 +368,7 @@
   /* ── formatting helpers ─────────────────────────────────────────────── */
   const num = (x, d = 1) =>
     (x === null || x === undefined || typeof x !== "number" || Number.isNaN(x)) ? "—" : x.toFixed(d);
-  const signed = (x, d = 1) => x === null ? "—" : (x >= 0 ? "+" : "") + num(x, d);
+  const signed = (x, d = 1) => (x === null || x === undefined) ? "—" : (x >= 0 ? "+" : "") + num(x, d);
 
   function fmtDate(iso) {
     if (!iso) return "—";
@@ -299,26 +391,21 @@
     if (days < 60) return `${days} days ago`;
     return `${Math.round(days / 30)} months ago`;
   }
+  const esc = s => String(s).replace(/[&<>"']/g, c =>
+    ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 
-  /* ── regime colors (mirror design tokens) ───────────────────────────── */
+  const icon = (id, cls = "ic") => `<svg class="${cls}" aria-hidden="true"><use href="#${id}"/></svg>`;
+  const trendIcon = d => d > 0 ? icon("i-trend-up") : (d < 0 ? icon("i-trend-down") : icon("i-minus"));
+
+  /* ── regime colors (text-grade, mirror tokens) ──────────────────────── */
   const REGIME_COLORS = {
-    SLACK: "#3987e5", NORMAL: "#0ca30c", ELEVATED: "#fab219",
-    STRESSED: "#ec835a", CRITICAL: "#d03b3b", RELIEF_RALLY: "#199e70",
-    FORWARD_ALARM: "#c98500",
+    SLACK: "#1c5cab", NORMAL: "#15803d", ELEVATED: "#b45309",
+    STRESSED: "#c2410c", CRITICAL: "#b91c1c", RELIEF_RALLY: "#0d9488",
+    FORWARD_ALARM: "#b45309",
   };
-  const regimeColor = r => REGIME_COLORS[r] || "#8194ad";
-  function scoreColor(s) {
-    if (s === null || s === undefined) return "#8194ad";
-    if (s >= 95) return REGIME_COLORS.CRITICAL;
-    if (s >= 80) return REGIME_COLORS.STRESSED;
-    if (s >= 60) return REGIME_COLORS.ELEVATED;
-    if (s >= 40) return REGIME_COLORS.NORMAL;
-    return REGIME_COLORS.SLACK;
-  }
-  const rgba = (hex, a) => {
-    const r = parseInt(hex.slice(1, 3), 16), g = parseInt(hex.slice(3, 5), 16), b = parseInt(hex.slice(5, 7), 16);
-    return `rgba(${r},${g},${b},${a})`;
-  };
+  const regimeColor = r => REGIME_COLORS[r] || "#64748b";
+
+  const SERIES = { P_short: "#2a78d6", P_long: "#eb6834", V: "#eda100", G_long: "#e87ba4" };
 
   /* ── data loading ───────────────────────────────────────────────────── */
   async function fetchJSON(url) {
@@ -333,22 +420,20 @@
 
   const el = id => document.getElementById(id);
 
-  function setKpi(id, value, delta, opts = {}) {
+  function setKpi(id, value, detail, opts = {}) {
     const k = el(id);
     if (!k) return;
     k.classList.remove("skeleton");
     const v = k.querySelector("[data-v]");
     const d = k.querySelector("[data-d]");
     if (v) v.textContent = value;
-    if (d && delta !== undefined) {
-      if (opts.html) d.innerHTML = delta; else d.textContent = delta;
+    if (d && detail !== undefined) {
+      if (opts.html) d.innerHTML = detail; else d.textContent = detail;
     }
   }
 
-  /* Client-side staleness guard: even if the pipeline meta claims "ok",
-     an as-of date more than 2 days behind the browser clock is flagged.
-     This is the check that would have exposed the 2026 stale-data incident
-     on day three instead of month five. */
+  /* Client-side staleness guard: an as-of date more than 2 days behind the
+     browser clock is flagged even if the pipeline metadata claims "ok". */
   function clientAgeDays(isoDate) {
     if (!isoDate) return null;
     const asof = new Date(isoDate + "T23:59:59Z");
@@ -360,56 +445,55 @@
   };
 
   function renderStatus(effStatus, asofDate, ageDays, meta, statusJson, failures) {
-    const dot = el("navStatusDot"), txt = el("navStatusText");
-    dot.className = "dot " + effStatus;
+    el("navStatusDot").className = "dot " + effStatus;
     el("asofDot").className = "dot " + effStatus;
 
     const labels = { ok: "Data current", degraded: "Partially delayed", stale: "Data stale", error: "Data unavailable" };
-    txt.textContent = labels[effStatus] || effStatus;
+    el("navStatusText").textContent = labels[effStatus] || effStatus;
 
-    const banner = el("staleBanner"), body = el("staleBannerBody"), icon = el("staleBannerIcon");
+    const banner = el("staleBanner"), body = el("staleBannerBody"), iconUse = el("staleBannerIcon");
     banner.classList.remove("show", "warn", "critical");
 
     if (effStatus === "ok") {
-      el("asofText").innerHTML = `Data as of <strong>${fmtDate(asofDate)}</strong> (${relAge(ageDays)})` +
-        (meta && meta.generated_at ? ` · refreshed ${fmtDateTime(meta.generated_at)}` : "");
+      el("asofText").innerHTML = `Data as of <strong>${esc(fmtDate(asofDate))}</strong> (${relAge(ageDays)})` +
+        (meta && meta.generated_at ? ` · refreshed ${esc(fmtDateTime(meta.generated_at))}` : "");
       return;
     }
 
     const parts = [];
     if (effStatus === "error") {
-      icon.textContent = "🛑";
+      iconUse.setAttribute("href", "#i-octagon");
       parts.push("<strong>Live data could not be loaded.</strong> The values on this page may be unavailable or incomplete.");
-      if (failures && failures.length) parts.push(`<span class="muted">Failed: ${failures.join(", ")}. Use Refresh to retry.</span>`);
+      if (failures && failures.length) parts.push(`<span class="muted">Failed: ${esc(failures.join(", "))}. Use Refresh to retry.</span>`);
     } else {
-      icon.textContent = effStatus === "stale" ? "🛑" : "⚠️";
+      iconUse.setAttribute("href", effStatus === "stale" ? "#i-octagon" : "#i-alert");
       parts.push(
         `<strong>${effStatus === "stale" ? "This data is stale." : "Some sources are delayed."}</strong> ` +
-        `The most recent reliable observation is <strong>${fmtDate(asofDate)}</strong> (${relAge(ageDays)}). ` +
+        `The most recent reliable observation is <strong>${esc(fmtDate(asofDate))}</strong> (${relAge(ageDays)}). ` +
         `Values shown reflect that date — they are <em>not</em> current market conditions.`
       );
       const srcs = statusJson && statusJson.sources;
       if (srcs) {
         const bad = Object.values(srcs).filter(s => s.status !== "ok")
-          .map(s => `${s.label || "source"} (last: ${fmtDate(s.last_date)})`);
+          .map(s => `${esc(s.label || "source")} (last: ${esc(fmtDate(s.last_date))})`);
         if (bad.length) parts.push(`<span class="muted">Affected: ${bad.join(" · ")}</span>`);
       }
     }
     body.innerHTML = parts.join("<br>");
     banner.classList.add("show", effStatus === "degraded" ? "warn" : "critical");
-    el("asofText").innerHTML = `Data as of <strong>${fmtDate(asofDate)}</strong> (${relAge(ageDays)})`;
+    el("asofText").innerHTML = `Data as of <strong>${esc(fmtDate(asofDate))}</strong> (${relAge(ageDays)})`;
   }
 
   function renderProvenance(statusJson, meta) {
     const src = (statusJson && statusJson.sources) || (meta && meta.sources);
     const box = el("provSources");
     if (!src) {
-      box.innerHTML = `<span class="source-chip"><span class="dot missing"></span> Source status unavailable</span>`;
+      box.innerHTML = `<span class="source-item"><span class="dot missing"></span> Source status unavailable</span>`;
     } else {
       box.innerHTML = Object.values(src).map(s =>
-        `<span class="source-chip" title="${s.status}${(s.gaps && s.gaps.length) ? " · " + s.gaps.length + " gap(s) in series" : ""}">` +
-        `<span class="dot ${s.status}"></span> ${s.label || "?"} ` +
-        `<span class="age num">${s.last_date ? fmtDate(s.last_date) : "n/a"}</span></span>`
+        `<span class="source-item" title="${esc(s.status)}${(s.gaps && s.gaps.length) ? " · " + s.gaps.length + " gap(s) in series" : ""}">` +
+        `<span class="dot ${esc(s.status)}"></span> <span class="s-name">${esc(s.label || "?")}</span>` +
+        `<span class="s-date num">${s.last_date ? esc(fmtDate(s.last_date)) : "n/a"}</span></span>`
       ).join("");
     }
     const gen = (statusJson && statusJson.generated_at) || (meta && meta.generated_at);
@@ -418,18 +502,45 @@
     const idx = src && (src.sesi_index || src.omie_spot);
     if (idx && idx.first) {
       el("provCoverage").textContent =
-        `Coverage: daily, ${fmtDate(idx.first)} → ${fmtDate(idx.last)} (${idx.n_obs} obs)`;
+        `Coverage: daily, ${fmtDate(idx.first)} to ${fmtDate(idx.last)} (${idx.n_obs} observations)`;
     }
   }
 
-  /* ── insights & alerts (each item derives from a published field) ───── */
+  /* ── stress drivers ─────────────────────────────────────────────────── */
+  function renderDrivers(drivers) {
+    const section = el("driversSection");
+    if (!drivers || !drivers.length) { section.hidden = true; return; }
+    section.hidden = false;
+    const maxAbs = Math.max(...drivers.map(d => Math.abs(d.contribution))) || 1;
+    el("driversList").innerHTML = drivers.map(d => {
+      const w = Math.abs(d.contribution) / maxAbs * 50;
+      const raising = d.contribution > 0;
+      const color = SERIES[d.feature] || "#64748b";
+      const barStyle = raising
+        ? `left: 50%; width: ${w}%; background: ${color};`
+        : `right: 50%; width: ${w}%; background: ${color};`;
+      return `
+      <div class="driver-row">
+        <div class="driver-name"><span class="sw" style="background:${color}"></span>${esc(d.label)}</div>
+        <div class="driver-bar-cell">
+          <div class="driver-bar-track"><span class="driver-bar" style="${barStyle}"></span></div>
+        </div>
+        <div class="driver-meta">
+          <strong class="num">${signed(d.contribution, 1)}</strong> raw pts ·
+          ${raising ? "raising" : "lowering"} stress${typeof d.share === "number" ? ` · ${Math.round(d.share * 100)}% weight` : ""}
+        </div>
+      </div>`;
+    }).join("");
+  }
+
+  /* ── insights ───────────────────────────────────────────────────────── */
   function buildAlerts(card, today, statusJson, effStatus, asofDate, ageDays) {
     const alerts = [];
     const when = fmtDate(asofDate);
 
     if (effStatus === "stale" || effStatus === "degraded") {
       alerts.push({
-        sev: effStatus === "stale" ? "critical" : "warn", icon: "🕒",
+        sev: effStatus === "stale" ? "critical" : "warn", ic: effStatus === "stale" ? "i-octagon" : "i-alert",
         title: effStatus === "stale" ? "Data pipeline is stale" : "Some data sources are delayed",
         body: `Latest reliable observation is ${when} (${relAge(ageDays)}). Interpret every metric on this page as of that date.`,
         why: "Decisions made on stale data inherit its staleness — verify sources before acting.",
@@ -444,7 +555,7 @@
 
     if (typeof score === "number" && score >= 80) {
       alerts.push({
-        sev: score >= 95 ? "critical" : "warn", icon: "🔥",
+        sev: score >= 95 ? "critical" : "warn", ic: "i-activity",
         title: `Realized stress is ${score >= 95 ? "critical" : "high"}: SESI ${num(score, 0)}/100`,
         body: `Spot-market stress exceeds ${num(score, 0)}% of all days since 2018 in the Spanish day-ahead market.`,
         why: "High-stress regimes historically coincide with larger short-term price moves.",
@@ -454,7 +565,7 @@
 
     if (flags.includes("STRUCTURALLY_TIGHT") && typeof structural === "number") {
       alerts.push({
-        sev: "warn", icon: "🧱",
+        sev: "warn", ic: "i-layers",
         title: `Structural regime remains tight (${num(structural, 0)}/100 vs pre-2022)`,
         body: "Background conditions rank in the tight end of the pre-2022 reference distribution — elevated stress is regime-level, not just a daily spike.",
         why: "Structural tightness changes the baseline: shocks land on an already-stretched system.",
@@ -466,9 +577,9 @@
     const d30 = card ? card.omie_vs_30d : null;
     if (typeof z === "number" && typeof d30 === "number" && Math.abs(z) >= 1) {
       alerts.push({
-        sev: Math.abs(z) >= 2 ? "warn" : "info-level", icon: d30 >= 0 ? "📈" : "📉",
+        sev: Math.abs(z) >= 2 ? "warn" : "neutral", ic: d30 >= 0 ? "i-trend-up" : "i-trend-down",
         title: `Day-ahead price ${d30 >= 0 ? "above" : "below"} its 30-day average by ${num(Math.abs(d30), 1)} €/MWh`,
-        body: `OMIE at ${num(card.omie_price, 1)} €/MWh vs trailing 30-day mean — a ${num(Math.abs(z), 1)}σ move (${card.omie_vs_30d_context || "…"}) relative to this market's own history.`,
+        body: `OMIE at ${num(card.omie_price, 1)} €/MWh vs the trailing 30-day mean — a ${num(Math.abs(z), 1)}-sigma move (${card.omie_vs_30d_context || "…"}) relative to this market's own history.`,
         why: "Sustained dislocations from the trailing mean often precede regime transitions.",
         when,
       });
@@ -477,7 +588,7 @@
     const disc = omip && typeof omip.dislocation_pct_pts === "number" ? omip.dislocation_pct_pts : null;
     if (disc !== null && Math.abs(disc) >= 15) {
       alerts.push({
-        sev: "info-level", icon: "↔️",
+        sev: "neutral", ic: "i-gauge",
         title: `Forward market ${disc < 0 ? "discounts" : "bids up"} stress: D = ${signed(disc, 0)} points`,
         body: `OMIP-implied expected stress vs the structural backdrop is ${Math.abs(disc) >= 25 ? "strongly" : "notably"} ${disc < 0 ? "below" : "above"} alignment (${omip.dislocation_label || ""}).`,
         why: disc < 0 ? "The market is pricing normalization relative to today's regime." : "The market is pricing additional stress on top of today's regime.",
@@ -488,9 +599,9 @@
     const val = today && today.VALIDATION;
     if (val && typeof val.median_7d_max_move_eur_mwh === "number") {
       alerts.push({
-        sev: "good", icon: "📊",
+        sev: "good", ic: "i-info",
         title: `Historical context: "${val.quadrant}" regime`,
-        body: `In comparable ${val.quadrant} regimes (threshold ${Math.round(val.thr)}), the market typically moved ~${num(val.median_7d_max_move_eur_mwh, 0)} €/MWh within 7 days (median over ${val.n_days} historical days).`,
+        body: `In comparable ${val.quadrant} regimes (threshold ${Math.round(val.thr)}), the market typically moved about ${num(val.median_7d_max_move_eur_mwh, 0)} €/MWh within 7 days (median over ${val.n_days} historical days).`,
         why: "Descriptive conditional statistics — a historical base rate, not a forecast.",
         when,
       });
@@ -499,9 +610,9 @@
     const gapWarnings = ((statusJson && statusJson.warnings) || []).filter(w => w.includes("_gap_"));
     if (gapWarnings.length) {
       alerts.push({
-        sev: "warn", icon: "🧩",
+        sev: "warn", ic: "i-database",
         title: `${gapWarnings.length} gap(s) detected in the underlying series`,
-        body: "Some historical windows are incomplete; affected statistics are suppressed rather than estimated. Details in the source-health chips below.",
+        body: "Some historical windows are incomplete; affected statistics are suppressed rather than estimated. Details in the source list below.",
         why: "Metrics computed across data holes are silently wrong — suppression is the honest failure mode.",
         when,
       });
@@ -509,7 +620,7 @@
 
     if (!alerts.length) {
       alerts.push({
-        sev: "good", icon: "✅",
+        sev: "good", ic: "i-check",
         title: "No exceptional conditions",
         body: "No threshold breaches, forward dislocations or data-quality issues in the current snapshot.",
         why: "", when,
@@ -518,23 +629,120 @@
     return alerts;
   }
 
+  const SEV_LABEL = { critical: "Critical", warn: "Watch", neutral: "Note", good: "Context" };
   function renderAlerts(alerts) {
     el("alertList").innerHTML = alerts.map(a => `
-      <div class="alert ${a.sev}">
-        <div class="alert-icon">${a.icon}</div>
-        <div class="alert-body">
-          <strong>${a.title}</strong>
-          ${a.body}
-          ${a.why ? `<div class="muted" style="margin-top:3px;">Why it matters: ${a.why}</div>` : ""}
+      <div class="insight">
+        <div class="insight-icon ${a.sev}">${icon(a.ic, "ic ic-lg")}</div>
+        <div class="insight-body">
+          <strong><span class="sev-label ${a.sev}">${SEV_LABEL[a.sev] || ""}</span>${esc(a.title)}</strong>
+          ${esc(a.body)}
+          ${a.why ? `<div class="why">Why it matters: ${esc(a.why)}</div>` : ""}
         </div>
-        <div class="alert-when">${a.when}</div>
+        <div class="insight-when num">${esc(a.when)}</div>
       </div>`).join("");
   }
 
+  /* ── indicator table ────────────────────────────────────────────────── */
+  let tableRows = [];
+  function buildIndicatorRows(card, today, asofDate) {
+    const omip = today && today.OMIP;
+    const rows = [];
+    const push = (name, sub, value, unit, change, changeDir, baseline, status, statusLabel, asof, source) =>
+      rows.push({ name, sub, value, unit, change, changeDir, baseline, status, statusLabel, asof, source });
+
+    const score = card ? card.score : null;
+    const ch = today && today.change;
+    const d1 = ch && ch.d1 ? ch.d1.delta : null;
+
+    if (score !== null && score !== undefined) {
+      push("SESI — realized stress", "Expanding percentile", num(score, 1), "0–100",
+        d1 !== null ? signed(d1, 1) : "—", d1,
+        "Full history since 2018",
+        score >= 95 ? "critical" : (score >= 80 ? "warn" : "ok"),
+        (today && today.bucket) || "—", asofDate, "OMIE, TTF");
+    }
+    const structural = card ? card.structural : null;
+    if (structural !== null && structural !== undefined) {
+      push("SESI — structural", "Regime distance", num(structural, 1), "0–100", "—", null,
+        "Pre-2022 reference",
+        structural >= 80 ? "warn" : "ok",
+        (today && today.structural_bucket) || "—", asofDate, "OMIE, TTF");
+    }
+    const market = card ? (typeof card.market === "number" ? card.market : card.omip_pct) : null;
+    if (market !== null && market !== undefined) {
+      push("Forward expected stress", "OMIP-implied percentile", num(market, 1), "0–100", "—", null,
+        "Pre-2022 reference",
+        market >= 80 ? "warn" : "ok",
+        (omip && omip.omip_expected_bucket) || "—",
+        (omip && omip.asof) || asofDate, "OMIP");
+    }
+    if (card && typeof card.omie_price === "number") {
+      const d30 = card.omie_vs_30d;
+      push("OMIE day-ahead price", "Daily average, Spain", num(card.omie_price, 2), "€/MWh",
+        d30 !== null && d30 !== undefined ? signed(d30, 1) : "—", d30,
+        "Trailing 30-day mean",
+        card.omie_vs_30d_zscore !== null && Math.abs(card.omie_vs_30d_zscore) >= 2 ? "warn" : "ok",
+        card.omie_vs_30d_context || "—", asofDate, "OMIE");
+    }
+    const omipAvg = omip ? omip.omip_1_3m_avg : (card ? card.omip_avg_eur_mwh : null);
+    if (omipAvg !== null && omipAvg !== undefined) {
+      push("OMIP 1–3M average", "Monthly base contracts", num(omipAvg, 2), "€/MWh", "—", null,
+        "Near curve",
+        "ok", (omip && omip.omip_curve_shape) || (card && card.curve_shape) || "—",
+        (omip && omip.asof) || asofDate, "OMIP");
+    }
+    const disc = omip && typeof omip.dislocation_pct_pts === "number" ? omip.dislocation_pct_pts : null;
+    if (disc !== null) {
+      push("Dislocation", "Expected − structural", signed(disc, 1), "pts", "—", null,
+        "Alignment = 0",
+        Math.abs(disc) >= 25 ? "warn" : "ok",
+        (omip && omip.dislocation_label) || "—",
+        (omip && omip.asof) || asofDate, "OMIP, OMIE");
+    }
+    return rows;
+  }
+
+  function renderTable(rows) {
+    tableRows = rows;
+    const body = el("indicatorRows");
+    if (!rows.length) {
+      body.innerHTML = `<tr><td colspan="8" class="muted" style="text-align:center; padding: 24px;">No indicator data available.</td></tr>`;
+      return;
+    }
+    const statusIcon = { ok: "i-check", warn: "i-alert", critical: "i-octagon" };
+    body.innerHTML = rows.map(r => `
+      <tr>
+        <td><span class="name">${esc(r.name)}</span><span class="sub">${esc(r.sub)}</span></td>
+        <td class="r num">${esc(r.value)}</td>
+        <td class="muted">${esc(r.unit)}</td>
+        <td class="r num">${r.changeDir === null || r.change === "—" ? `<span class="cell-trend flat">${esc(r.change)}</span>` :
+          `<span class="cell-trend ${r.changeDir > 0 ? "up" : (r.changeDir < 0 ? "down" : "flat")}">${trendIcon(r.changeDir)} ${esc(r.change)}</span>`}</td>
+        <td class="muted">${esc(r.baseline)}</td>
+        <td><span class="cell-status ${esc(r.status)}">${icon(statusIcon[r.status] || "i-info")} ${esc(r.statusLabel)}</span></td>
+        <td class="muted num">${esc(fmtDate(r.asof))}</td>
+        <td class="muted">${esc(r.source)}</td>
+      </tr>`).join("");
+  }
+
+  el("exportBtn").addEventListener("click", () => {
+    if (!tableRows.length) return;
+    const head = ["indicator", "detail", "value", "unit", "change", "baseline", "status", "as_of", "source"];
+    const lines = [head.join(",")].concat(tableRows.map(r =>
+      [r.name, r.sub, r.value, r.unit, r.change, r.baseline, r.statusLabel, r.asof, r.source]
+        .map(v => `"${String(v).replace(/"/g, '""')}"`).join(",")));
+    const blob = new Blob([lines.join("\n")], { type: "text/csv" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = `sesi_indicators_${tableRows[0] ? tableRows[0].asof : "latest"}.csv`;
+    a.click();
+    URL.revokeObjectURL(a.href);
+  });
+
   /* ── main render ────────────────────────────────────────────────────── */
   async function loadAll() {
-    const btn = el("refreshBtn"), icon = el("refreshIcon");
-    btn.disabled = true; icon.classList.add("spin");
+    const btn = el("refreshBtn"), ic = el("refreshIcon");
+    btn.disabled = true; ic.classList.add("spin");
 
     const [cardR, todayR, statusR] = await Promise.allSettled([
       fetchJSON("assets/public/sesi_today.json"),
@@ -550,7 +758,7 @@
       statusR.status === "rejected" ? "source status" : null,
     ].filter(Boolean);
 
-    btn.disabled = false; icon.classList.remove("spin");
+    btn.disabled = false; ic.classList.remove("spin");
 
     if (!card && !today) {
       renderStatus("error", null, null, null, statusJson, failures);
@@ -558,11 +766,12 @@
       el("headline").textContent = "Live market data could not be loaded. This page never substitutes placeholder values — please retry.";
       document.querySelectorAll(".kpi").forEach(k => k.classList.remove("skeleton"));
       renderAlerts([{
-        sev: "critical", icon: "🛑", title: "Data feed unreachable",
+        sev: "critical", ic: "i-octagon", title: "Data feed unreachable",
         body: "None of the published data files could be fetched. If this persists, the publishing pipeline may be down.",
         why: "", when: "now",
       }]);
       renderProvenance(statusJson, null);
+      renderTable([]);
       return;
     }
 
@@ -571,7 +780,6 @@
     const ageDays = meta && meta.asof_age_days !== undefined && meta.asof_age_days !== null
       ? meta.asof_age_days : clientAgeDays(asofDate);
 
-    // effective status = worst of pipeline-reported and client-observed age
     const clientStatus = ageDays === null ? "ok" : (ageDays > 7 ? "stale" : (ageDays > 2 ? "degraded" : "ok"));
     const effStatus = worst(meta ? meta.status : null, statusJson ? statusJson.status : null, clientStatus,
       failures.length ? "degraded" : "ok");
@@ -582,25 +790,28 @@
     /* regime + score */
     const regime = (card && card.regime) || (card && card.label_technical) || (today && today.regime) || "—";
     const color = regimeColor(regime);
-    const badge = el("regimeBadge");
-    badge.style.color = color;
-    badge.style.borderColor = rgba(color, 0.5);
-    badge.style.background = rgba(color, 0.1);
-    el("regimeName").textContent = regime;
+    const regimeEl = el("regimeName");
+    regimeEl.textContent = regime;
+    regimeEl.style.color = color;
 
     const flags = (today && today.regime_flags) || [];
-    el("regimeFlags").innerHTML = flags.map(f => `<span class="flag-chip">${f.replace(/_/g, " ")}</span>`).join(" ");
+    el("regimeFlags").textContent = flags.length ? flags.map(f => f.replace(/_/g, " ").toLowerCase()).join(" · ") : "";
 
     const score = card && typeof card.score === "number" ? card.score : null;
-    const sEl = el("scoreNum");
-    sEl.textContent = num(score, 1);
-    sEl.style.color = scoreColor(score);
+    el("scoreNum").textContent = num(score, 1);
     if (score !== null) {
-      const fill = el("gaugeFill");
-      fill.style.width = Math.min(100, Math.max(0, score)) + "%";
-      fill.style.background = scoreColor(score);
+      el("scaleMarker").style.left = Math.min(100, Math.max(0, score)) + "%";
     }
     el("headline").textContent = (card && card.headline) || "";
+
+    /* change vs previous periods */
+    const ch = today && today.change;
+    const deltas = [];
+    if (ch && ch.d1) deltas.push(
+      `<span class="${ch.d1.delta > 0 ? "delta-up" : (ch.d1.delta < 0 ? "delta-down" : "")}">${trendIcon(ch.d1.delta)} ${signed(ch.d1.delta, 1)}</span> vs previous day`);
+    if (ch && ch.d7) deltas.push(
+      `<span class="${ch.d7.delta > 0 ? "delta-up" : (ch.d7.delta < 0 ? "delta-down" : "")}">${trendIcon(ch.d7.delta)} ${signed(ch.d7.delta, 1)}</span> vs 7 days ago`);
+    el("heroDeltas").innerHTML = deltas.join('<span style="color: var(--border-2);">|</span>');
 
     /* KPIs */
     const structural = card && typeof card.structural === "number" ? card.structural : null;
@@ -608,17 +819,19 @@
     const bucket = (today && today.bucket) || "";
     const sbucket = (today && today.structural_bucket) || "";
 
-    setKpi("kpiSesi", num(score, 1), bucket ? `“${bucket}” vs full history since 2018` : undefined);
+    setKpi("kpiSesi", num(score, 1),
+      (ch && ch.d1 ? `<span class="${ch.d1.delta > 0 ? "up" : (ch.d1.delta < 0 ? "down" : "")}">${signed(ch.d1.delta, 1)}</span> d/d · ` : "") +
+      (bucket ? `"${esc(bucket)}" vs history` : "vs full history since 2018"), { html: true });
     setKpi("kpiStructural", num(structural, 1),
-      (sbucket ? `“${sbucket}” vs pre-2022` : "vs pre-2022") + (structural >= 80 ? " · ▲ TIGHT" : ""));
+      (sbucket ? `"${sbucket}" vs pre-2022` : "vs pre-2022") + (structural >= 80 ? " · tight" : ""));
     setKpi("kpiOmip", num(market, 1),
-      (today && today.OMIP && today.OMIP.omip_expected_bucket) ? `“${today.OMIP.omip_expected_bucket}” · OMIP-implied` : "OMIP-implied vs pre-2022");
+      (today && today.OMIP && today.OMIP.omip_expected_bucket) ? `"${today.OMIP.omip_expected_bucket}" · OMIP-implied` : "OMIP-implied vs pre-2022");
 
     const d30 = card ? card.omie_vs_30d : null;
     const ctx = (card && card.omie_vs_30d_context) || (today && today.omie_vs_30d_context) || null;
     setKpi("kpiPrice", num(card ? card.omie_price : null, 1),
       d30 !== null && d30 !== undefined
-        ? `<span class="${d30 >= 0 ? "up" : "down"}">${signed(d30, 1)} €/MWh</span> vs 30d avg${ctx ? " · " + ctx : ""}`
+        ? `<span class="${d30 >= 0 ? "up" : "down"}">${signed(d30, 1)} €/MWh</span> vs 30d avg${ctx ? " · " + esc(ctx) : ""}`
         : `30-day comparison unavailable${effStatus !== "ok" ? " (insufficient window coverage)" : ""}`,
       { html: true });
 
@@ -637,39 +850,44 @@
        typeof discSelf === "number" ? (discSelf < 50 ? `bottom ${Math.round(discSelf)}% historically` : `top ${Math.round(100 - discSelf)}% historically`) : null]
         .filter(Boolean).join(" · ") || "expected − structural");
 
+    /* drivers */
+    renderDrivers(today && today.drivers);
+
     /* notes */
     if (today && typeof today.note_short === "string") el("noteShort").textContent = today.note_short;
     const nv = el("noteVerbose");
     if (today && typeof today.note_verbose_html === "string") nv.innerHTML = today.note_verbose_html;
     else if (today && typeof today.note_verbose_md === "string") { nv.textContent = today.note_verbose_md; nv.style.whiteSpace = "pre-wrap"; }
 
-    /* alerts */
+    /* insights + table */
     renderAlerts(buildAlerts(card, today, statusJson, effStatus, asofDate, ageDays));
+    renderTable(buildIndicatorRows(card, today, asofDate));
 
     /* clipboard summary */
     el("_cardText").value = [
       "SESI — Spain Energy Stress Index",
-      "─────────────────────────────────",
+      "---------------------------------",
       `Data as of: ${asofDate || "—"}${effStatus !== "ok" ? `  (${effStatus.toUpperCase()} — ${relAge(ageDays)})` : ""}`,
       `Regime:     ${regime}`,
-      `SESI:       ${num(score, 1)} / 100`,
-      `Structural: ${num(structural, 1)} / 100${structural >= 80 ? "  ▲ TIGHT" : ""}`,
+      `SESI:       ${num(score, 1)} / 100${ch && ch.d1 ? `  (${signed(ch.d1.delta, 1)} d/d)` : ""}`,
+      `Structural: ${num(structural, 1)} / 100${structural >= 80 ? "  TIGHT" : ""}`,
       market !== null && market !== undefined ? `Forward:    ${num(market, 1)} / 100` : "",
       card && card.omie_price !== null && card.omie_price !== undefined
         ? `OMIE:       ${num(card.omie_price, 1)} €/MWh${d30 !== null && d30 !== undefined ? ` (${signed(d30, 1)} vs 30d avg)` : ""}` : "",
       card && card.headline ? `\n${card.headline}` : "",
       "",
-      "→ paragua.io/sesi",
+      "paragua.io/sesi",
     ].filter(Boolean).join("\n");
   }
 
   el("copyBtn").addEventListener("click", () => {
     const text = el("_cardText").value;
     if (!text) return;
-    const btn = el("copyBtn"), orig = btn.textContent;
-    navigator.clipboard.writeText(text)
-      .then(() => { btn.textContent = "✓ Copied"; setTimeout(() => btn.textContent = orig, 2000); })
-      .catch(() => { el("_cardText").select(); document.execCommand("copy"); btn.textContent = "✓ Copied"; setTimeout(() => btn.textContent = orig, 2000); });
+    const btn = el("copyBtn"), orig = btn.innerHTML;
+    const done = () => { btn.innerHTML = `${icon("i-check")} Copied`; setTimeout(() => btn.innerHTML = orig, 2000); };
+    navigator.clipboard.writeText(text).then(done).catch(() => {
+      el("_cardText").select(); document.execCommand("copy"); done();
+    });
   });
   el("refreshBtn").addEventListener("click", loadAll);
 
