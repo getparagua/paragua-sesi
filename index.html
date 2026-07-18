@@ -245,11 +245,15 @@
             </div>
           </div>
           <div class="frame-wrap" style="margin-top: 24px;">
-            <iframe class="chart-frame" style="height: 340px"
-              src="assets/charts/validation.html"
-              title="Validation: median 7-day max move by regime quadrant" loading="lazy"></iframe>
+            <div style="padding: 16px 20px 0;">
+              <strong style="font-size: 0.95em;">Historical outcomes by regime</strong>
+              <div class="muted" style="font-size: 0.84em;">Median 7-day max price move (€/MWh) when the market was in each regime quadrant</div>
+            </div>
+            <div class="vbar-grid" id="valBars" aria-label="Median 7-day max move by regime quadrant">
+              <div class="muted" style="grid-column: 1 / -1; text-align: center; padding: 30px 0;">Loading…</div>
+            </div>
             <div class="chart-caption">
-              <strong>Historical outcomes.</strong> Median 7-day max price move by regime quadrant — descriptive, not a forecast.
+              Descriptive conditional statistics over the full history — a base rate, not a forecast.
             </div>
           </div>
         </div>
@@ -517,8 +521,8 @@
       const raising = d.contribution > 0;
       const color = SERIES[d.feature] || "#64748b";
       const barStyle = raising
-        ? `left: 50%; width: ${w}%; background: ${color};`
-        : `right: 50%; width: ${w}%; background: ${color};`;
+        ? `left: 50%; width: ${w}%; background: linear-gradient(90deg, ${color} 0%, ${color}66 100%);`
+        : `right: 50%; width: ${w}%; background: linear-gradient(270deg, ${color} 0%, ${color}66 100%);`;
       return `
       <div class="driver-row">
         <div class="driver-name"><span class="sw" style="background:${color}"></span>${esc(d.label)}</div>
@@ -531,6 +535,52 @@
         </div>
       </div>`;
     }).join("");
+  }
+
+  /* ── historical outcomes — gradient bar module ──────────────────────── */
+  const QUAD_GRADIENTS = {
+    "Calm":            "linear-gradient(180deg, #38bdf8 0%, #1d4ed8 100%)",
+    "Latent risk":     "linear-gradient(180deg, #fbbf24 0%, #d97706 100%)",
+    "Realized stress": "linear-gradient(180deg, #fb923c 0%, #ea580c 100%)",
+    "Full crisis":     "linear-gradient(180deg, #f87171 0%, #b91c1c 100%)",
+  };
+  function classifyQuadrant(sesi, structural, thr) {
+    if (sesi === null || structural === null) return null;
+    const xH = structural >= thr, yH = sesi >= thr;
+    if (!yH && !xH) return "Calm";
+    if (!yH && xH) return "Latent risk";
+    if (yH && !xH) return "Realized stress";
+    return "Full crisis";
+  }
+  function renderValBars(v, sesi, structural) {
+    const box = el("valBars");
+    if (!box) return;
+    const rows = v && Array.isArray(v.rows) ? v.rows : null;
+    if (!rows || !rows.length) {
+      box.innerHTML = `<div class="muted" style="grid-column: 1 / -1; text-align: center; padding: 30px 0;">Historical outcome data unavailable.</div>`;
+      return;
+    }
+    const thr = typeof v.thr === "number" ? v.thr : 80;
+    const current = classifyQuadrant(sesi, structural, thr);
+    const order = ["Calm", "Latent risk", "Realized stress", "Full crisis"];
+    const data = order.map(q => {
+      const r = rows.find(x => x["Quadrant"] === q) || {};
+      return { q, mv: r["Median 7D max move (€/MWh)"], n: r["Days (N)"] };
+    }).filter(d => typeof d.mv === "number");
+    if (!data.length) {
+      box.innerHTML = `<div class="muted" style="grid-column: 1 / -1; text-align: center; padding: 30px 0;">Historical outcome data unavailable.</div>`;
+      return;
+    }
+    const maxMv = Math.max(...data.map(d => d.mv)) || 1;
+    box.innerHTML = data.map(d => `
+      <div class="vbar" title="${esc(d.q)}: median 7-day max move ${num(d.mv, 1)} €/MWh over ${d.n} historical days">
+        <span class="vbar-val num">${num(d.mv, 0)}<span class="u"> €/MWh</span></span>
+        <div class="vbar-col">
+          <div class="vbar-fill" style="height: ${Math.max(5, d.mv / maxMv * 100)}%; background: ${QUAD_GRADIENTS[d.q]};"></div>
+        </div>
+        <span class="vbar-name">${esc(d.q)}</span>
+        ${d.q === current ? `<span class="vbar-current">Current</span>` : `<span class="vbar-n">N=${d.n}</span>`}
+      </div>`).join("");
   }
 
   /* ── insights ───────────────────────────────────────────────────────── */
@@ -744,10 +794,11 @@
     const btn = el("refreshBtn"), ic = el("refreshIcon");
     btn.disabled = true; ic.classList.add("spin");
 
-    const [cardR, todayR, statusR] = await Promise.allSettled([
+    const [cardR, todayR, statusR, valR] = await Promise.allSettled([
       fetchJSON("assets/public/sesi_today.json"),
       fetchJSON("assets/public/today.json"),
       fetchJSON("assets/public/status.json"),
+      fetchJSON("assets/public/validation_summary.json"),
     ]);
     const card = cardR.status === "fulfilled" ? cardR.value : null;
     const today = todayR.status === "fulfilled" ? todayR.value : null;
@@ -852,6 +903,9 @@
 
     /* drivers */
     renderDrivers(today && today.drivers);
+
+    /* historical outcomes (gradient bars) */
+    renderValBars(valR.status === "fulfilled" ? valR.value : null, score, structural);
 
     /* notes */
     if (today && typeof today.note_short === "string") el("noteShort").textContent = today.note_short;

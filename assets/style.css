@@ -383,25 +383,23 @@ code{
 .scale{ margin-top: 2px; }
 .scale-track{
   position: relative;
-  display: flex;
-  height: 8px;
-  border-radius: 5px;
+  height: 10px;
+  border-radius: 6px;
   overflow: visible;
+  background: linear-gradient(90deg,
+    #3b82f6 0%, #22b8cf 25%, #10b981 42%,
+    #f5b80b 60%, #f97316 80%, #dc2626 100%);
+  box-shadow: inset 0 1px 2px rgba(14,23,38,0.12);
 }
-.scale-seg{ height: 100%; opacity: 0.28; }
-.scale-seg:first-child{ border-radius: 5px 0 0 5px; }
-.scale-seg:last-child{ border-radius: 0 5px 5px 0; }
-.scale-seg.s1{ width: 40%; background: var(--regime-slack); }
-.scale-seg.s2{ width: 20%; background: var(--regime-normal); }
-.scale-seg.s3{ width: 20%; background: var(--regime-elevated); }
-.scale-seg.s4{ width: 15%; background: var(--regime-stressed); }
-.scale-seg.s5{ width: 5%;  background: var(--regime-critical); }
+.scale-seg{ display: none; }
 .scale-marker{
   position: absolute;
-  top: -4px;
-  width: 3px; height: 16px;
-  border-radius: 2px;
+  top: -5px;
+  width: 4px; height: 20px;
+  border-radius: 3px;
   background: var(--ink);
+  border: 1px solid #fff;
+  box-shadow: 0 1px 4px rgba(14,23,38,0.35);
   transform: translateX(-50%);
   transition: left var(--t-slow) var(--ease);
 }
@@ -649,9 +647,10 @@ section{ margin: 34px 0; }
 .driver-bar{
   position: absolute;
   top: 0; bottom: 0;
-  border-radius: 3px;
-  transition: width var(--t-slow) var(--ease);
+  border-radius: 4px;
+  transition: width var(--t-slow) var(--ease), filter var(--t-fast) var(--ease);
 }
+.driver-row:hover .driver-bar{ filter: saturate(1.25) brightness(1.05); }
 .driver-meta{
   text-align: right;
   font-size: 0.85em;
@@ -757,6 +756,67 @@ table.data td .sub{ font-size: 0.84em; color: var(--muted); display: block; }
 .cell-trend.up{ color: var(--serious); }
 .cell-trend.down{ color: var(--ok); }
 .cell-trend.flat{ color: var(--muted); }
+
+/* ═══ Historical outcomes — gradient bar module ═══ */
+.vbar-grid{
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 20px;
+  align-items: end;
+  padding: 26px 26px 10px;
+}
+@media (max-width: 640px){ .vbar-grid{ gap: 10px; padding: 20px 14px 8px; } }
+.vbar{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+.vbar-val{
+  font-weight: 700;
+  font-size: 0.98em;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+}
+.vbar-val .u{ font-size: 0.72em; font-weight: 500; color: var(--muted); }
+.vbar-col{
+  width: 100%;
+  max-width: 92px;
+  height: 170px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+.vbar-fill{
+  width: 100%;
+  min-height: 8px;
+  border-radius: 9px 9px 5px 5px;
+  transition: transform var(--t-med) var(--ease), box-shadow var(--t-med) var(--ease),
+              height var(--t-slow) var(--ease);
+}
+.vbar:hover .vbar-fill{
+  transform: translateY(-4px) scaleY(1.015);
+  box-shadow: 0 10px 22px rgba(14,23,38,0.20);
+}
+.vbar-name{
+  font-size: 0.8em;
+  font-weight: 600;
+  color: var(--ink-2);
+  text-align: center;
+  line-height: 1.3;
+}
+.vbar-n{ font-size: 0.74em; color: var(--muted); font-variant-numeric: tabular-nums; }
+.vbar-current{
+  font-size: 0.68em;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: var(--grad-primary);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
 
 /* ═══ Provenance — open footer strip ═══ */
 .provenance{
