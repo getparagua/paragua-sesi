@@ -9,8 +9,8 @@
     },
     {
       "Quadrant": "Latent risk",
-      "Days (N)": 1167,
-      "Median 7D max move (\u20ac/MWh)": 40.06625000000001,
+      "Days (N)": 1166,
+      "Median 7D max move (\u20ac/MWh)": 40.06479166666668,
       "Median 30D spike freq (|\u0394P|>20\u20ac/MWh)": 0.2666666666666666
     },
     {
@@ -21,8 +21,8 @@
     },
     {
       "Quadrant": "Full crisis",
-      "Days (N)": 649,
-      "Median 7D max move (\u20ac/MWh)": 41.390000000000015,
+      "Days (N)": 650,
+      "Median 7D max move (\u20ac/MWh)": 41.416875000000005,
       "Median 30D spike freq (|\u0394P|>20\u20ac/MWh)": 0.3
     }
   ],
