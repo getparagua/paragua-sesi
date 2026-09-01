@@ -1,6 +1,6 @@
 {
   "date": "2026-09-01",
-  "score": 84.1,
+  "score": 84.2,
   "regime": "STRESSED",
   "structural": 93.3,
   "market": 91.5,
@@ -12,18 +12,18 @@
   "label_vivid": "HOT",
   "emoji": "\ud83d\udd25",
   "color": "#FF7043",
-  "thermometer_bar": "|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2591\u2591\u2591\u2591\u2591|  84.1",
+  "thermometer_bar": "|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2591\u2591\u2591\u2591\u2591|  84.2",
   "headline": "The Iberian electricity market is under significant stress. SESI prints at 84/100 \u2014 a reading that has been exceeded on fewer than 16% of trading days since 2018 \u2014 driven by elevated spot prices and compressed system margins. Short-term price volatility remains above its 30-day baseline.",
   "subline": "Conditions: Stressed. Demand-response and storage drawdown likely active.",
   "omip_pct": 91.5,
-  "omip_avg_eur_mwh": 122.74,
-  "curve_slope_1v3": -1.78,
+  "omip_avg_eur_mwh": 127.27,
+  "curve_slope_1v3": 2.15,
   "curve_shape": "flat",
   "dislocation_pct_self": 58.6,
   "meta": {
-    "generated_at": "2026-08-31T14:17:03+00:00",
+    "generated_at": "2026-09-01T11:54:48+00:00",
     "asof": "2026-09-01",
-    "asof_age_days": -1,
+    "asof_age_days": 0,
     "status": "ok",
     "warnings": [],
     "sources": {
@@ -34,7 +34,7 @@
         "n_obs": 3162,
         "gaps": [],
         "last_date": "2026-09-01",
-        "age_days": -1,
+        "age_days": 0,
         "status": "ok"
       },
       "ttf_gas": {
@@ -44,16 +44,16 @@
         "n_obs": 3161,
         "gaps": [],
         "last_date": "2026-09-01",
-        "age_days": -1,
+        "age_days": 0,
         "status": "ok"
       },
       "omip_futures": {
         "label": "OMIP monthly futures",
         "first": "2018-01-01",
-        "last": "2026-08-31",
-        "n_obs": 2265,
+        "last": "2026-09-01",
+        "n_obs": 2266,
         "gaps": [],
-        "last_date": "2026-08-31",
+        "last_date": "2026-09-01",
         "age_days": 0,
         "status": "ok"
       },
@@ -64,7 +64,7 @@
         "n_obs": 2769,
         "gaps": [],
         "last_date": "2026-09-01",
-        "age_days": -1,
+        "age_days": 0,
         "status": "ok"
       }
     }
