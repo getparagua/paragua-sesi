@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-17T11:58:20+00:00",
+  "generated_at": "2026-09-18T11:38:21+00:00",
   "status": "ok",
   "sources": {
     "omie_spot": {
@@ -9,7 +9,7 @@
       "n_obs": 3179,
       "gaps": [],
       "last_date": "2026-09-18",
-      "age_days": -1,
+      "age_days": 0,
       "status": "ok"
     },
     "ttf_gas": {
@@ -19,16 +19,16 @@
       "n_obs": 3178,
       "gaps": [],
       "last_date": "2026-09-18",
-      "age_days": -1,
+      "age_days": 0,
       "status": "ok"
     },
     "omip_futures": {
       "label": "OMIP monthly futures",
       "first": "2018-01-01",
-      "last": "2026-09-17",
-      "n_obs": 2278,
+      "last": "2026-09-18",
+      "n_obs": 2279,
       "gaps": [],
-      "last_date": "2026-09-17",
+      "last_date": "2026-09-18",
       "age_days": 0,
       "status": "ok"
     },
@@ -39,7 +39,7 @@
       "n_obs": 2786,
       "gaps": [],
       "last_date": "2026-09-18",
-      "age_days": -1,
+      "age_days": 0,
       "status": "ok"
     }
   },
