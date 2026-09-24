@@ -1,13 +1,13 @@
 {
-  "date": "2026-09-23",
-  "SESI": 83.8,
-  "SESI_structural": 93.4,
-  "score": 83.8,
-  "structural": 93.4,
-  "market": 92.3,
-  "omie_price": 160.28,
-  "omie_vs_30d": 26.65,
-  "omie_vs_30d_zscore": 0.99,
+  "date": "2026-09-25",
+  "SESI": 84.3,
+  "SESI_structural": 93.5,
+  "score": 84.3,
+  "structural": 93.5,
+  "market": 92.2,
+  "omie_price": 161.38,
+  "omie_vs_30d": 24.72,
+  "omie_vs_30d_zscore": 0.91,
   "omie_vs_30d_context": "slightly outside normal",
   "bucket": "stressed",
   "structural_bucket": "very tight",
@@ -17,119 +17,119 @@
   "regime_flags": [
     "STRUCTURALLY_TIGHT"
   ],
-  "note_short": "2026-09-23 \u00b7 SESI 84 \u00b7 Structural 93 \u00b7 OMIP 92 \u00b7 D -1",
-  "note_verbose_md": "**2026-09-23 \u2014 SESI Market Note**\n\n**What SESI is**\nSESI is a **0\u2013100 historical ranking**. Higher = rarer and more stressed compared to history.\n\n**1) Realized stress (spot)**\n- **SESI**: **84** (*stressed*).\n- **Structural context** (vs pre-2022): **93** (*very tight*).\n- **Regime label:** STRESSED | STRUCTURALLY_TIGHT.\n\n**How to read (super simple)**\n- Percentile **84** means: compared to the **full history (expanding)** reference set, today is in the **top 84% most stressed** days.\n- SESI tells you what\u2019s happening **now** in spot.\n- SESI_structural tells you if the **background regime** is still tight vs pre-2022.\n\n\n**3) Expected stress (OMIP, forward 1\u20133M)**\n- OMIP 1\u20133M average is **138.1 \u20ac/MWh** (as of **2026-09-23**).\n- Expected stress percentile (vs pre-2022): **92** (*very high*).\n- Dislocation **D = Expected \u2212 Structural** = **-1** percentile points \u2192 **Aligned**.\n\n**Plain meaning**\nOMIP is what\u2019s priced for the next months. If expected is much lower than structural, the market is pricing normalization.\n\n\n**Important**\n- These are **descriptive** statistics. They do not imply a forecast or trading signal.\n",
-  "note_verbose_html": "<strong>2026-09-23 \u2014 SESI Market Note</strong><br><br><strong>What SESI is</strong><br>SESI is a <strong>0\u2013100 historical ranking</strong>. Higher = rarer and more stressed compared to history.<br><br><strong>1) Realized stress (spot)</strong><br>- <strong>SESI</strong>: <strong>84</strong> (*stressed*).<br>- <strong>Structural context</strong> (vs pre-2022): <strong>93</strong> (*very tight*).<br>- <strong>Regime label:</strong> STRESSED | STRUCTURALLY_TIGHT.<br><br><strong>How to read (super simple)</strong><br>- Percentile <strong>84</strong> means: compared to the <strong>full history (expanding)</strong> reference set, today is in the <strong>top 84% most stressed</strong> days.<br>- SESI tells you what\u2019s happening <strong>now</strong> in spot.<br>- SESI_structural tells you if the <strong>background regime</strong> is still tight vs pre-2022.<br><br><br><strong>3) Expected stress (OMIP, forward 1\u20133M)</strong><br>- OMIP 1\u20133M average is <strong>138.1 \u20ac/MWh</strong> (as of <strong>2026-09-23</strong>).<br>- Expected stress percentile (vs pre-2022): <strong>92</strong> (*very high*).<br>- Dislocation <strong>D = Expected \u2212 Structural</strong> = <strong>-1</strong> percentile points \u2192 <strong>Aligned</strong>.<br><br><strong>Plain meaning</strong><br>OMIP is what\u2019s priced for the next months. If expected is much lower than structural, the market is pricing normalization.<br><br><br><strong>Important</strong><br>- These are <strong>descriptive</strong> statistics. They do not imply a forecast or trading signal.<br>",
+  "note_short": "2026-09-25 \u00b7 SESI 84 \u00b7 Structural 94 \u00b7 OMIP 92 \u00b7 D -1",
+  "note_verbose_md": "**2026-09-25 \u2014 SESI Market Note**\n\n**What SESI is**\nSESI is a **0\u2013100 historical ranking**. Higher = rarer and more stressed compared to history.\n\n**1) Realized stress (spot)**\n- **SESI**: **84** (*stressed*).\n- **Structural context** (vs pre-2022): **94** (*very tight*).\n- **Regime label:** STRESSED | STRUCTURALLY_TIGHT.\n\n**How to read (super simple)**\n- Percentile **84** means: compared to the **full history (expanding)** reference set, today is in the **top 84% most stressed** days.\n- SESI tells you what\u2019s happening **now** in spot.\n- SESI_structural tells you if the **background regime** is still tight vs pre-2022.\n\n\n**3) Expected stress (OMIP, forward 1\u20133M)**\n- OMIP 1\u20133M average is **136.9 \u20ac/MWh** (as of **2026-09-25**).\n- Expected stress percentile (vs pre-2022): **92** (*very high*).\n- Dislocation **D = Expected \u2212 Structural** = **-1** percentile points \u2192 **Aligned**.\n\n**Plain meaning**\nOMIP is what\u2019s priced for the next months. If expected is much lower than structural, the market is pricing normalization.\n\n\n**Important**\n- These are **descriptive** statistics. They do not imply a forecast or trading signal.\n",
+  "note_verbose_html": "<strong>2026-09-25 \u2014 SESI Market Note</strong><br><br><strong>What SESI is</strong><br>SESI is a <strong>0\u2013100 historical ranking</strong>. Higher = rarer and more stressed compared to history.<br><br><strong>1) Realized stress (spot)</strong><br>- <strong>SESI</strong>: <strong>84</strong> (*stressed*).<br>- <strong>Structural context</strong> (vs pre-2022): <strong>94</strong> (*very tight*).<br>- <strong>Regime label:</strong> STRESSED | STRUCTURALLY_TIGHT.<br><br><strong>How to read (super simple)</strong><br>- Percentile <strong>84</strong> means: compared to the <strong>full history (expanding)</strong> reference set, today is in the <strong>top 84% most stressed</strong> days.<br>- SESI tells you what\u2019s happening <strong>now</strong> in spot.<br>- SESI_structural tells you if the <strong>background regime</strong> is still tight vs pre-2022.<br><br><br><strong>3) Expected stress (OMIP, forward 1\u20133M)</strong><br>- OMIP 1\u20133M average is <strong>136.9 \u20ac/MWh</strong> (as of <strong>2026-09-25</strong>).<br>- Expected stress percentile (vs pre-2022): <strong>92</strong> (*very high*).<br>- Dislocation <strong>D = Expected \u2212 Structural</strong> = <strong>-1</strong> percentile points \u2192 <strong>Aligned</strong>.<br><br><strong>Plain meaning</strong><br>OMIP is what\u2019s priced for the next months. If expected is much lower than structural, the market is pricing normalization.<br><br><br><strong>Important</strong><br>- These are <strong>descriptive</strong> statistics. They do not imply a forecast or trading signal.<br>",
   "OMIP": {
-    "asof": "2026-09-23",
-    "omip_1_3m_avg": 138.083,
-    "omip_exp_pct_pre2022": 92.255,
+    "asof": "2026-09-25",
+    "omip_1_3m_avg": 136.877,
+    "omip_exp_pct_pre2022": 92.186,
     "omip_expected_bucket": "very high",
-    "dislocation_pct_pts": -1.106,
-    "dislocation_pct_self": 62.3,
+    "dislocation_pct_pts": -1.315,
+    "dislocation_pct_self": 61.2,
     "dislocation_label": "Aligned",
     "decision_label": "STRESSED",
     "regime_flags": [
       "STRUCTURALLY_TIGHT"
     ],
-    "omip_curve_slope_1v3": 5.85,
+    "omip_curve_slope_1v3": 8.35,
     "omip_curve_shape": "contango"
   },
   "change": {
     "d1": {
-      "vs_date": "2026-09-22",
-      "ref_value": 84.5,
-      "delta": -0.7
+      "vs_date": "2026-09-24",
+      "ref_value": 84.3,
+      "delta": 0.0
     },
     "d7": {
-      "vs_date": "2026-09-16",
-      "ref_value": 89.1,
-      "delta": -5.3
+      "vs_date": "2026-09-18",
+      "ref_value": 88.5,
+      "delta": -4.2
     }
   },
   "drivers": [
     {
       "feature": "G_long",
       "label": "Gas (TTF) structural",
-      "value": 9.268,
-      "z": 2.199,
-      "contribution": 49.19,
+      "value": 9.496,
+      "z": 2.262,
+      "contribution": 50.6,
       "direction": "raising",
-      "share": 0.82
+      "share": 0.823
     },
     {
       "feature": "P_long",
       "label": "Structural price level",
-      "value": 8.191,
-      "z": 2.02,
-      "contribution": -8.854,
+      "value": 8.269,
+      "z": 2.043,
+      "contribution": -8.954,
       "direction": "lowering",
-      "share": 0.148
+      "share": 0.146
     },
     {
       "feature": "P_short",
       "label": "Short-term price signal",
-      "value": 1.126,
-      "z": 0.861,
-      "contribution": -1.134,
+      "value": 1.028,
+      "z": 0.777,
+      "contribution": -1.024,
       "direction": "lowering",
-      "share": 0.019
+      "share": 0.017
     },
     {
       "feature": "V",
       "label": "Realized volatility",
-      "value": -1.098,
-      "z": -0.911,
-      "contribution": -0.805,
+      "value": -1.283,
+      "z": -1.055,
+      "contribution": -0.933,
       "direction": "lowering",
-      "share": 0.013
+      "share": 0.015
     }
   ],
   "meta": {
-    "generated_at": "2026-09-23T11:57:33+00:00",
-    "asof": "2026-09-23",
-    "asof_age_days": 0,
+    "generated_at": "2026-09-24T12:04:37+00:00",
+    "asof": "2026-09-25",
+    "asof_age_days": -1,
     "status": "ok",
     "warnings": [],
     "sources": {
       "omie_spot": {
         "label": "OMIE day-ahead price",
         "first": "2018-01-01",
-        "last": "2026-09-23",
-        "n_obs": 3184,
+        "last": "2026-09-25",
+        "n_obs": 3186,
         "gaps": [],
-        "last_date": "2026-09-23",
-        "age_days": 0,
+        "last_date": "2026-09-25",
+        "age_days": -1,
         "status": "ok"
       },
       "ttf_gas": {
         "label": "TTF gas futures (Yahoo)",
         "first": "2018-01-02",
-        "last": "2026-09-23",
-        "n_obs": 3183,
+        "last": "2026-09-25",
+        "n_obs": 3185,
         "gaps": [],
-        "last_date": "2026-09-23",
-        "age_days": 0,
+        "last_date": "2026-09-25",
+        "age_days": -1,
         "status": "ok"
       },
       "omip_futures": {
         "label": "OMIP monthly futures",
         "first": "2018-01-01",
-        "last": "2026-09-23",
-        "n_obs": 2282,
+        "last": "2026-09-24",
+        "n_obs": 2283,
         "gaps": [],
-        "last_date": "2026-09-23",
+        "last_date": "2026-09-24",
         "age_days": 0,
         "status": "ok"
       },
       "sesi_index": {
         "label": "SESI computed index",
         "first": "2019-01-29",
-        "last": "2026-09-23",
-        "n_obs": 2791,
+        "last": "2026-09-25",
+        "n_obs": 2793,
         "gaps": [],
-        "last_date": "2026-09-23",
-        "age_days": 0,
+        "last_date": "2026-09-25",
+        "age_days": -1,
         "status": "ok"
       }
     }
