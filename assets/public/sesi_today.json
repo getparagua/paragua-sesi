@@ -1,6 +1,6 @@
 {
   "date": "2026-10-17",
-  "score": 90.8,
+  "score": 90.9,
   "regime": "STRESSED",
   "structural": 98.0,
   "market": 93.0,
@@ -12,7 +12,7 @@
   "label_vivid": "HOT",
   "emoji": "\ud83d\udd25",
   "color": "#FF7043",
-  "thermometer_bar": "|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2591\u2591\u2591|  90.8",
+  "thermometer_bar": "|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2591\u2591\u2591|  90.9",
   "headline": "The Iberian electricity market is under significant stress. SESI prints at 91/100 \u2014 a reading that has been exceeded on fewer than 9% of trading days since 2018 \u2014 driven by elevated spot prices and compressed system margins. Short-term price volatility remains above its 30-day baseline.",
   "subline": "Conditions: Stressed. Demand-response and storage drawdown likely active.",
   "omip_pct": 93.0,
@@ -21,9 +21,9 @@
   "curve_shape": "flat",
   "dislocation_pct_self": 41.9,
   "meta": {
-    "generated_at": "2026-10-16T11:46:10+00:00",
+    "generated_at": "2026-10-17T11:03:00+00:00",
     "asof": "2026-10-17",
-    "asof_age_days": -1,
+    "asof_age_days": 0,
     "status": "ok",
     "warnings": [],
     "sources": {
@@ -34,7 +34,7 @@
         "n_obs": 3208,
         "gaps": [],
         "last_date": "2026-10-17",
-        "age_days": -1,
+        "age_days": 0,
         "status": "ok"
       },
       "ttf_gas": {
@@ -44,7 +44,7 @@
         "n_obs": 3207,
         "gaps": [],
         "last_date": "2026-10-17",
-        "age_days": -1,
+        "age_days": 0,
         "status": "ok"
       },
       "omip_futures": {
@@ -54,7 +54,7 @@
         "n_obs": 2299,
         "gaps": [],
         "last_date": "2026-10-16",
-        "age_days": 0,
+        "age_days": 1,
         "status": "ok"
       },
       "sesi_index": {
@@ -64,7 +64,7 @@
         "n_obs": 2815,
         "gaps": [],
         "last_date": "2026-10-17",
-        "age_days": -1,
+        "age_days": 0,
         "status": "ok"
       }
     }
