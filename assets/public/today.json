@@ -1,13 +1,13 @@
 {
   "date": "2026-10-31",
-  "SESI": 91.6,
+  "SESI": 91.8,
   "SESI_structural": 98.4,
-  "score": 91.6,
+  "score": 91.8,
   "structural": 98.4,
   "market": 94.8,
   "omie_price": 208.98,
-  "omie_vs_30d": 39.65,
-  "omie_vs_30d_zscore": 1.45,
+  "omie_vs_30d": 38.53,
+  "omie_vs_30d_zscore": 1.41,
   "omie_vs_30d_context": "notable move",
   "bucket": "stressed",
   "structural_bucket": "very tight",
@@ -38,24 +38,24 @@
   "change": {
     "d1": {
       "vs_date": "2026-10-30",
-      "ref_value": 90.6,
-      "delta": 1.0
+      "ref_value": 90.7,
+      "delta": 1.1
     },
     "d7": {
       "vs_date": "2026-10-24",
       "ref_value": 91.5,
-      "delta": 0.1
+      "delta": 0.3
     }
   },
   "drivers": [
     {
       "feature": "G_long",
       "label": "Gas (TTF) structural",
-      "value": 14.276,
-      "z": 3.58,
-      "contribution": 80.086,
+      "value": 14.283,
+      "z": 3.582,
+      "contribution": 80.13,
       "direction": "raising",
-      "share": 0.848
+      "share": 0.849
     },
     {
       "feature": "P_long",
@@ -69,26 +69,26 @@
     {
       "feature": "P_short",
       "label": "Short-term price signal",
-      "value": 0.926,
-      "z": 0.689,
-      "contribution": -0.908,
+      "value": 0.876,
+      "z": 0.647,
+      "contribution": -0.852,
       "direction": "lowering",
-      "share": 0.01
+      "share": 0.009
     },
     {
       "feature": "V",
       "label": "Realized volatility",
-      "value": -0.118,
-      "z": -0.149,
-      "contribution": -0.131,
-      "direction": "lowering",
-      "share": 0.001
+      "value": 0.298,
+      "z": 0.175,
+      "contribution": 0.155,
+      "direction": "raising",
+      "share": 0.002
     }
   ],
   "meta": {
-    "generated_at": "2026-10-30T13:20:01+00:00",
+    "generated_at": "2026-10-31T12:56:36+00:00",
     "asof": "2026-10-31",
-    "asof_age_days": -1,
+    "asof_age_days": 0,
     "status": "ok",
     "warnings": [],
     "sources": {
@@ -99,7 +99,7 @@
         "n_obs": 3222,
         "gaps": [],
         "last_date": "2026-10-31",
-        "age_days": -1,
+        "age_days": 0,
         "status": "ok"
       },
       "ttf_gas": {
@@ -109,7 +109,7 @@
         "n_obs": 3221,
         "gaps": [],
         "last_date": "2026-10-31",
-        "age_days": -1,
+        "age_days": 0,
         "status": "ok"
       },
       "omip_futures": {
@@ -119,7 +119,7 @@
         "n_obs": 2309,
         "gaps": [],
         "last_date": "2026-10-30",
-        "age_days": 0,
+        "age_days": 1,
         "status": "ok"
       },
       "sesi_index": {
@@ -129,7 +129,7 @@
         "n_obs": 2829,
         "gaps": [],
         "last_date": "2026-10-31",
-        "age_days": -1,
+        "age_days": 0,
         "status": "ok"
       }
     }

@@ -1,18 +1,18 @@
 {
   "date": "2026-10-31",
-  "score": 91.6,
+  "score": 91.8,
   "regime": "STRESSED",
   "structural": 98.4,
   "market": 94.8,
   "omie_price": 208.98,
-  "omie_vs_30d": 39.6,
-  "omie_vs_30d_zscore": 1.45,
+  "omie_vs_30d": 38.5,
+  "omie_vs_30d_zscore": 1.41,
   "omie_vs_30d_context": "notable move",
   "label_technical": "STRESSED",
   "label_vivid": "HOT",
   "emoji": "\ud83d\udd25",
   "color": "#FF7043",
-  "thermometer_bar": "|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2591\u2591\u2591|  91.6",
+  "thermometer_bar": "|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2591\u2591\u2591|  91.8",
   "headline": "The Iberian electricity market is under significant stress. SESI prints at 92/100 \u2014 a reading that has been exceeded on fewer than 8% of trading days since 2018 \u2014 driven by elevated spot prices and compressed system margins. Short-term price volatility remains above its 30-day baseline.",
   "subline": "Conditions: Stressed. Demand-response and storage drawdown likely active.",
   "omip_pct": 94.8,
@@ -21,9 +21,9 @@
   "curve_shape": "contango",
   "dislocation_pct_self": 48.2,
   "meta": {
-    "generated_at": "2026-10-30T13:20:01+00:00",
+    "generated_at": "2026-10-31T12:56:36+00:00",
     "asof": "2026-10-31",
-    "asof_age_days": -1,
+    "asof_age_days": 0,
     "status": "ok",
     "warnings": [],
     "sources": {
@@ -34,7 +34,7 @@
         "n_obs": 3222,
         "gaps": [],
         "last_date": "2026-10-31",
-        "age_days": -1,
+        "age_days": 0,
         "status": "ok"
       },
       "ttf_gas": {
@@ -44,7 +44,7 @@
         "n_obs": 3221,
         "gaps": [],
         "last_date": "2026-10-31",
-        "age_days": -1,
+        "age_days": 0,
         "status": "ok"
       },
       "omip_futures": {
@@ -54,7 +54,7 @@
         "n_obs": 2309,
         "gaps": [],
         "last_date": "2026-10-30",
-        "age_days": 0,
+        "age_days": 1,
         "status": "ok"
       },
       "sesi_index": {
@@ -64,7 +64,7 @@
         "n_obs": 2829,
         "gaps": [],
         "last_date": "2026-10-31",
-        "age_days": -1,
+        "age_days": 0,
         "status": "ok"
       }
     }
