@@ -1,44 +1,44 @@
 {
-  "generated_at": "2026-11-10T15:07:48+00:00",
+  "generated_at": "2026-11-11T14:38:56+00:00",
   "status": "ok",
   "sources": {
     "omie_spot": {
       "label": "OMIE day-ahead price",
       "first": "2018-01-01",
-      "last": "2026-11-11",
-      "n_obs": 3233,
+      "last": "2026-11-12",
+      "n_obs": 3234,
       "gaps": [],
-      "last_date": "2026-11-11",
+      "last_date": "2026-11-12",
       "age_days": -1,
       "status": "ok"
     },
     "ttf_gas": {
       "label": "TTF gas futures (Yahoo)",
       "first": "2018-01-02",
-      "last": "2026-11-11",
-      "n_obs": 3232,
+      "last": "2026-11-12",
+      "n_obs": 3233,
       "gaps": [],
-      "last_date": "2026-11-11",
+      "last_date": "2026-11-12",
       "age_days": -1,
       "status": "ok"
     },
     "omip_futures": {
       "label": "OMIP monthly futures",
       "first": "2018-01-01",
-      "last": "2026-11-10",
-      "n_obs": 2316,
+      "last": "2026-11-11",
+      "n_obs": 2317,
       "gaps": [],
-      "last_date": "2026-11-10",
+      "last_date": "2026-11-11",
       "age_days": 0,
       "status": "ok"
     },
     "sesi_index": {
       "label": "SESI computed index",
       "first": "2019-01-29",
-      "last": "2026-11-11",
-      "n_obs": 2840,
+      "last": "2026-11-12",
+      "n_obs": 2841,
       "gaps": [],
-      "last_date": "2026-11-11",
+      "last_date": "2026-11-12",
       "age_days": -1,
       "status": "ok"
     }
